@@ -20,8 +20,15 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			controller: 'ChangePwdCtrl'
 		}).otherwise({redirectTo: '/login'});
 	}]);
-	app.controller("IndexCtrl",["$scope","$http",function($scope, $http){
-		$http.get("/user").success(function(response){
+	app.controller("IndexCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
+		var email = $cookies.get("email");
+		var token = $cookies.get("token");
+		$http.get("/user/",{
+			params:{
+				email: email,
+				token: token
+			}
+		}).success(function(response){
 			if(response.status == "success"){
 				$scope.email = response.data.email;
 				$scope.username = response.data.username;
@@ -35,11 +42,13 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			alert("服务器错误,请联系系统管理员")
 		})
 		$scope.submit = function(){
-			$http.put("/user", {
+			$http.put("/user/", {
 				username: $scope.username,
 				qq: $scope.qq,
 				display: $scope.display,
-				content: $scope.content
+				content: $scope.content,
+				email: email,
+				token: token
 			}).success(function(response){
 				if(response.status == "success"){
 					alert("更新成功");
@@ -55,7 +64,11 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 	.controller("ListCtrl",["$scope","$http",function($scope, $http){
 		var list = {};
 		$scope.submit = function(){
-			$http.get("/user/list?code="+ $scope.code).success(function(response){
+			$http.get("/user/list/",{
+				params:{
+					code: $scope.code
+				}
+			}).success(function(response){
 				if (response.status == "success") {
 					$scope.items = []
 					try{
@@ -78,7 +91,12 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			$scope.name = "loading...";
 			$scope.qq = "loading...";
 			$scope.content = list[key].content;
-			$http.get("/user/profile?email="+key).success(function(response){
+			$http.get("/user/profile/",{
+				params:{
+					email: key,
+					code: $scope.code
+				}
+			}).success(function(response){
 				if(response.status == "success"){
 					$scope.name = response.data.username;
 					$scope.qq = response.data.qq;
@@ -106,11 +124,17 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			return;
 		}
 		$scope.submit = function(){
-			$http.post("/user/login", {
+			$http.post("/user/login/", {
 				email: $scope.email,
 				password: $scope.password
 			}).success(function(response){
 				if(response.status == "success"){
+					try{
+						for(key in response.cookies){
+							var d = new Date(response.cookies[key].opt.expires * 1000);
+							$cookies.put(key,response.cookies[key].value, {expires: d})
+						}
+					}catch(e){console.log(e)}
 					location.href = "#/index"
 				}else{
 					alert(response.msg);
@@ -128,7 +152,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			return;
 		}
 		$scope.submit = function(){
-			$http.post("/user/reg",{
+			$http.post("/user/reg/",{
 				email:$scope.email,
 				username:$scope.username,
 				qq:$scope.qq,
@@ -145,10 +169,20 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 
 		}
 	}])
-	.controller("ChangePwdCtrl",["$scope","$http",function($scope, $http){
+	.controller("ChangePwdCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
+		var email = $cookies.get("email");
+		var token = $cookies.get("token");
+		if(email &&　token){
+			location.href = "#/index";
+			return;
+		}
 		$scope.submit = function(){
-			$http.put("/user/change_pwd", {
-				password: $scope.password
+			var email = $cookies.get("email");
+			var token = $cookies.get("token");
+			$http.put("/user/change_pwd/", {
+				password: $scope.password,
+				email: email,
+				token: token
 			}).success(function(response){
 				if(response.status == "success"){
 					alert("密码已修改,请重新登录");
