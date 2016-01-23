@@ -1,3 +1,17 @@
+$T = {}
+$T.toast = function(txt,t){
+	if(t == undefined){
+		t = 3
+	}
+	if(txt == undefined){
+		return
+	}
+	document.querySelector(".rz_toast_txt").innerHTML = txt;
+	document.querySelector(".rz_toast_ctn").style.display = "block";
+	setTimeout(function(){
+		document.querySelector(".rz_toast_ctn").style.display = "";
+	},t*1000)
+}
 var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 	app.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.when('/login', {
@@ -36,10 +50,10 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 				$scope.display = response.data.display;
 				$scope.content = response.data.content;
 			}else{
-				alert(response.msg)
+				$T.toast(response.msg)
 			}
 		}).error(function(){
-			alert("服务器错误,请联系系统管理员")
+			$T.toast("服务器错误,请联系系统管理员")
 		})
 		$scope.submit = function(){
 			$http.put("/user/", {
@@ -51,13 +65,13 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 				token: token
 			}).success(function(response){
 				if(response.status == "success"){
-					alert("更新成功");
+					$T.toast("更新成功");
 					location.reload();
 				}else{
-					alert(response.msg)
+					$T.toast(response.msg)
 				}
 			}).error(function(){
-				alert("服务器错误,请联系系统管理员")
+				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
 	}])
@@ -79,10 +93,10 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 					}catch(e){}
 					$scope.show = true;
 				}else{
-					alert(response.msg);
+					$T.toast(response.msg);
 				};
 			}).error(function(){
-				alert("服务器错误,请联系系统管理员")
+				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
 		$scope.getInfo = function(key){
@@ -101,7 +115,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 					$scope.name = response.data.username;
 					$scope.qq = response.data.qq;
 				}else{
-					alert(response.msg)
+					$T.toast(response.msg)
 				}
 			}).error(function(){
 				$scope.class = "red";
@@ -137,10 +151,10 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 					}catch(e){console.log(e)}
 					location.href = "#/index"
 				}else{
-					alert(response.msg);
+					$T.toast(response.msg);
 				}
 			}).error(function(){
-				alert("服务器错误,请联系系统管理员")
+				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
 	}])
@@ -161,10 +175,10 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 				if(response.status == "success"){
 					location.href="#/login"
 				}else{
-					alert(response.msg)
+					$T.toast(response.msg)
 				}
 			}).error(function(){
-				alert("服务器错误,请联系系统管理员")
+				$T.toast("服务器错误,请联系系统管理员")
 			})
 
 		}
@@ -185,13 +199,13 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 				token: token
 			}).success(function(response){
 				if(response.status == "success"){
-					alert("密码已修改,请重新登录");
+					$T.toast("密码已修改,请重新登录");
 					location.href = "#/logout"
 				}else{
-					alert(response.msg);
+					$T.toast(response.msg);
 				}
 			}).error(function(){
-				alert("服务器错误,请联系系统管理员")
+				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
 	}])

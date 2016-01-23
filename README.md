@@ -5,9 +5,13 @@
 ##具体思路:
 - 由群管理员维护一个应用入口(应用地址),引导普通用户与HR两类人前往应用.
 - 普通用户拥有,注册,登录,及更新个人简历的功能
-- HR可以查看用户的个人简历
-- 管理员可以对普通用户进行技能评级(暂未实现)
+- HR可以根据群及群主授权码查看用户的个人简历
+- 群主入驻平台，并管理及对成员评分
 
 ##所用框架:
 - 后端:Django
 - 前端:AngularJS
+
+##当前待办工作:
+- 需要设计及美工提供漂亮的界面, 设计可参考[原型](https://docs.google.com/drawings/d/10Y1sTzfVEU-A_wRa3Bp_HGQGFi0PzNSiOnC2WMmTiC4/edit?usp=sharing)
+- 群主入驻及相关功能，详见[原型](https://docs.google.com/drawings/d/10Y1sTzfVEU-A_wRa3Bp_HGQGFi0PzNSiOnC2WMmTiC4/edit?usp=sharing)
