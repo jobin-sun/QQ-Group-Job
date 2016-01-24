@@ -1,18 +1,16 @@
-from django.http import HttpResponse
 import json
 from user.models import User
 from user.models import Resume
 from user.models import AuthCode
 from django import forms
-from django.http import QueryDict
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse
 import base64
 import random
 import string
 import hashlib
 import time
 
-keyPwd = "defkjhsddfnnd#$%didfnDs"
+keyPwd = "aad3338()(*23ddDGKLhhdaf@3fasdfd-ddd"
 keyToken = "defkjhsddfnnd#$%didfnDs"
 
 class UserForm(forms.Form):
