@@ -4,6 +4,7 @@ from user.models import Resume
 from user.models import AuthCode
 from django import forms
 from django.http import HttpResponse
+from django.core.validators import RegexValidator
 import base64
 import random
 import string
@@ -20,6 +21,12 @@ class UserForm(forms.Form):
     email = forms.EmailField(label='电子邮件：')
 
 class UpdateUserForm(forms.Form):
+    email = forms.EmailField(label='电子邮件：')
+    token = forms.CharField(label='Token: ', validators=[
+        RegexValidator(
+            regex='^[a-zA-Z0-9]+$',
+        )
+    ])
     username = forms.CharField(label='用户名：', max_length=50)
     qq = forms.CharField(label='QQ：', max_length=15)
     display = forms.BooleanField(required=False,initial=False)
@@ -30,99 +37,90 @@ class LoginForm(forms.Form):
     email = forms.EmailField(label='电子邮件：')
 
 class PwdForm(forms.Form):
+    email = forms.EmailField(label='电子邮件：')
+    token = forms.CharField(label='Token: ', validators=[
+        RegexValidator(
+            regex='^[a-zA-Z0-9]+$',
+        )
+    ])
     password = forms.CharField(label='密码：', widget=forms.PasswordInput())
+#首页Get请求表单验证
+class IndexGetForm(forms.Form):
+    email = forms.EmailField(label='电子邮件：')
+    token = forms.CharField(label='Token: ', validators=[
+        RegexValidator(
+            regex='^[a-zA-Z0-9]+$',
+        )
+    ])
 
 class AuthCodeForm(forms.Form):
     code = forms.IntegerField(min_value=100000, max_value=999999)
 
-def changePwd(request):
-    email = request.COOKIES.get('email','')
-    email = base64.b64decode(email)
-    token = request.COOKIES.get('token')
-    user = User.objects.filter(email__exact = email).first()
+class GetUserInfoForm(forms.Form):
+    email = forms.EmailField(label='电子邮件：')
+    code = forms.IntegerField(min_value=100000, max_value=999999)
+
+def checkLogin(email, token):
+    #检测用户登录
+    uf = IndexGetForm({
+        "email":email,
+        "token":token
+    })
+    if uf.is_valid():
+        email = uf.cleaned_data['email']
+        token = uf.cleaned_data['token']
+        user = User.objects.filter(email__exact = email).first()
+    else:
+        return False
     if not user:
-        data = {}
-        data["status"] = 'error'
-        data['msg'] = 'User not found'
-        return HttpResponse(json.dumps(data), content_type="application/json")
+        return  False
     dbToken = hashlib.sha1((user.random + keyToken + str(int(time.time() / (24 * 3600)))).encode("utf-8")).hexdigest()
     if token != dbToken:
-        data = {}
-        data["status"] = 'error'
-        data['msg'] = 'Token error'
-        return HttpResponse(json.dumps(data), content_type="application/json")
-    if request.method == 'PUT':
-        rst = json.loads(request.body.decode("utf-8"))
-        uf = PwdForm(rst)
-        if uf.is_valid():
-            pwd = (uf.cleaned_data['password'] + keyPwd).encode("utf-8")
-            user.password = hashlib.sha1(pwd).hexdigest()
-            user.save()
-            data = {}
-            data["status"] = 'success'
-            data['msg'] = ''
-            return HttpResponse(json.dumps(data), content_type="application/json")
-        else:
+        return False
+    return user
+
+
+#用户首页
+def index(request):
+    if request.method == 'GET':
+        email = base64.b64decode(request.GET['email'])
+        token = request.GET['token']
+        #检测用户登录
+        user = checkLogin(email,token)
+        if not user:
             data = {}
             data["status"] = 'error '
-            data['msg'] = 'Form error'
+            data['msg'] = 'User not login'
             return HttpResponse(json.dumps(data), content_type="application/json")
-
-def getUserInfo(request):
-    if request.method == 'GET':
-        code = request.COOKIES.get('auth_code','')
-        codeDb = AuthCode.objects.filter(code = code).first()
-        if codeDb:
-            email = request.GET['email']
-            if not email:
-                data = {}
-                data["status"] = 'error'
-                data['msg'] = 'Email can not empty'
-            user = User.objects.filter(email__exact = email).values('email', 'qq', 'username').first()
-            if user:
-                data = {}
-                data["status"] = 'success'
-                data['msg'] = ''
-                data['data'] = {}
-                data['data']['email'] = user['email']
-                data['data']['username'] = user['username']
-                data['data']['qq'] = user['qq']
-                return HttpResponse(json.dumps(data), content_type="application/json")
-            else:
-                data = {}
-                data["status"] = 'error'
-                data['msg'] = 'User not found'
-        else:
-            data = {}
-            data["status"] = 'error'
-            data['msg'] = 'AuthCode is illegal'
-        return HttpResponse(json.dumps(data), content_type="application/json")
-    else:
         data = {}
-        data["status"] = 'error'
-        data['msg'] = 'Only GET method'
+        data["status"] = 'success'
+        data['msg'] = ''
+        data['data'] = {}
+        data['data']['email'] = user.email
+        data['data']['username'] = user.username
+        data['data']['qq'] = user.qq
+        data['data']['addDate'] = user.addDate.strftime('%Y-%m-%d')
+        resume = Resume.objects.filter(userEmail__exact = email).first()
+        if resume:
+            data['data']['content'] = resume.content
+            data['data']['display'] = resume.display
+            data['data']['contentDate'] = resume.addDate.strftime('%Y-%m-%d %H:%m')
         return HttpResponse(json.dumps(data), content_type="application/json")
 
-def index(request):
-    email = request.COOKIES.get('email','')
-    email = base64.b64decode(email)
-    token = request.COOKIES.get('token')
-    user = User.objects.filter(email__exact = email).first()
-    if not user:
-        data = {}
-        data["status"] = 'error'
-        data['msg'] = 'User not found'
-        return HttpResponse(json.dumps(data), content_type="application/json")
-    dbToken = hashlib.sha1((user.random + keyToken + str(int(time.time() / (24 * 3600)))).encode("utf-8")).hexdigest()
-    if token != dbToken:
-        data = {}
-        data["status"] = 'error'
-        data['msg'] = 'Token error'
-        return HttpResponse(json.dumps(data), content_type="application/json")
-    if request.method == 'PUT':
+    elif request.method == 'PUT':
         rst = json.loads(request.body.decode("utf-8"))
+        rst['email'] = base64.b64decode(rst['email'])
         uf = UpdateUserForm(rst)
         if uf.is_valid():
+            email = uf.cleaned_data['email']
+            token = uf.cleaned_data['token']
+            #检测用户登录
+            user = checkLogin(email,token)
+            if not user:
+                data = {}
+                data["status"] = 'error '
+                data['msg'] = 'User not login'
+                return HttpResponse(json.dumps(data), content_type="application/json")
             user.username = uf.cleaned_data['username']
             user.qq = uf.cleaned_data['qq']
             user.save()
@@ -147,24 +145,74 @@ def index(request):
             data['msg'] = 'Form error'
             return HttpResponse(json.dumps(data), content_type="application/json")
 
-    elif request.method == 'GET':
+def changePwd(request):
+    if request.method == 'PUT':
+        rst = json.loads(request.body.decode("utf-8"))
+        rst['email'] = base64.b64decode(rst['email'])
+        uf = PwdForm(rst)
+        if uf.is_valid():
+            email = uf.cleaned_data['email']
+            token = uf.cleaned_data['token']
+            #检测用户登录
+            user = checkLogin(email,token)
+            if not user:
+                data = {}
+                data["status"] = 'error '
+                data['msg'] = 'User not login'
+                return HttpResponse(json.dumps(data), content_type="application/json")
+            pwd = (uf.cleaned_data['password'] + keyPwd).encode("utf-8")
+            user.password = hashlib.sha1(pwd).hexdigest()
+            user.save()
+            data = {}
+            data["status"] = 'success'
+            data['msg'] = ''
+            return HttpResponse(json.dumps(data), content_type="application/json")
+        else:
+            data = {}
+            data["status"] = 'error '
+            data['msg'] = 'Form error'
+            return HttpResponse(json.dumps(data), content_type="application/json")
+
+#HR根据授权码及邮件地址查看用户资料
+def getUserInfo(request):
+    if request.method == 'GET':
+        uf = GetUserInfoForm(request.GET)
+        if uf.is_valid():
+            code = uf.cleaned_data['code']
+            email = uf.cleaned_data['email']
+            codeDb = AuthCode.objects.filter(code = code).first()
+            if codeDb:
+                user = User.objects.filter(email__exact = email).values('email', 'qq', 'username').first()
+                if user:
+                    data = {}
+                    data["status"] = 'success'
+                    data['msg'] = ''
+                    data['data'] = {}
+                    data['data']['email'] = user['email']
+                    data['data']['username'] = user['username']
+                    data['data']['qq'] = user['qq']
+                    return HttpResponse(json.dumps(data), content_type="application/json")
+                else:
+                    data = {}
+                    data["status"] = 'error'
+                    data['msg'] = 'User not found'
+            else:
+                data = {}
+                data["status"] = 'error'
+                data['msg'] = 'AuthCode is illegal'
+            return HttpResponse(json.dumps(data), content_type="application/json")
+        else:
+            data = {}
+            data["status"] = 'error '
+            data['msg'] = 'Form error'
+            return HttpResponse(json.dumps(data), content_type="application/json")
+    else:
         data = {}
-        data["status"] = 'success'
-        data['msg'] = ''
-        data['data'] = {}
-        data['data']['email'] = user.email
-        data['data']['username'] = user.username
-        data['data']['qq'] = user.qq
-        data['data']['addDate'] = user.addDate.strftime('%Y-%m-%d')
-        resume = Resume.objects.filter(userEmail__exact = email).first()
-        if resume:
-            data['data']['content'] = resume.content
-            data['data']['display'] = resume.display
-            data['data']['contentDate'] = resume.addDate.strftime('%Y-%m-%d %H:%m')
+        data["status"] = 'error'
+        data['msg'] = 'Only GET method'
         return HttpResponse(json.dumps(data), content_type="application/json")
 
-
-
+#简历页面
 def list(request):
     if request.method == "GET":
         uf = AuthCodeForm(request.GET)
@@ -183,7 +231,6 @@ def list(request):
                     item['addDate'] = item['addDate'].strftime('%Y-%m-%d')
                     data['data'].append(item)
                 response = HttpResponse(json.dumps(data), content_type="application/json")
-                response.set_cookie('auth_code', code, 3600)
                 return response
             else:
                 data = {}
@@ -203,7 +250,7 @@ def list(request):
         data['msg'] = "Only get method"
         return HttpResponse(json.dumps(data), content_type="application/json")
 
-
+#注册
 def register(request):
     if request.method == "POST":
         rst = json.loads(request.body.decode("utf-8"))
@@ -241,21 +288,9 @@ def register(request):
 
         return HttpResponse(json.dumps(data), content_type="application/json")
 
+#登录
 def login(request):
     if request.method == 'POST':
-        email = request.COOKIES.get('email','')
-        email = base64.b64decode(email)
-        token = request.COOKIES.get('token')
-        if email and token:
-            user = User.objects.filter(email__exact = email).first()
-            if user:
-                dbToken = hashlib.sha1((user.random + keyToken + str(int(time.time() / (24 * 3600)))).encode("utf-8")).hexdigest()
-                if token == dbToken:
-                    data = {}
-                    data["status"] = 'success'
-                    data['msg'] = 'User logined'
-                    return HttpResponse(json.dumps(data), content_type="application/json")
-
         rst = json.loads(request.body.decode("utf-8"))
         uf = LoginForm(rst)
         if uf.is_valid():
@@ -268,12 +303,21 @@ def login(request):
                 data = {}
                 data["status"] = 'success'
                 data['msg'] = "Login success"
-                response = HttpResponse(json.dumps(data), content_type="application/json")
+
                 #将username写入浏览器cookie,失效时间为3600 * 24 * 30
 
                 token = hashlib.sha1((user.random + keyToken + str(int(time.time() / (24 * 3600)))).encode("utf-8")).hexdigest()
-                response.set_cookie('email',base64.b64encode(email.encode('utf-8')),3600 * 24 * 30)
-                response.set_cookie('token',token,3600 * 24 * 30)
+                cookieOpt = {}
+                cookieOpt['expires'] = int(time.time()) + 3600 * 24 * 30
+                data['cookies'] = {}
+                data['cookies']['email'] = {}
+                data['cookies']['email']['value'] = base64.b64encode(email.encode('utf-8')).decode("utf-8")
+                data['cookies']['email']['opt'] = cookieOpt
+
+                data['cookies']['token'] = {}
+                data['cookies']['token']['value'] = token
+                data['cookies']['token']['opt'] = cookieOpt
+                response = HttpResponse(json.dumps(data), content_type="application/json")
                 return response
             else:
                 #比较失败，还在login
