@@ -13,4 +13,4 @@
 - 前端:AngularJS
 
 ##当前急需工作:
-- 需要设计及美工提供漂亮的界面, 设计可参考[原型](https://drive.google.com/open?id=10Y1sTzfVEU-A_wRa3Bp_HGQGFi0PzNSiOnC2WMmTiC4)
+- 需要设计及美工提供漂亮的界面, 设计可参考[原型](https://docs.google.com/drawings/d/10Y1sTzfVEU-A_wRa3Bp_HGQGFi0PzNSiOnC2WMmTiC4/edit?usp=sharing)
