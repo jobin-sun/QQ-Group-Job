@@ -1,0 +1,27 @@
+<div class="container">
+      <form class="form-index" name="indexForm">
+        <h2 class="form-signin-heading">个人信息 <a href="#/change_pwd" class="small">修改密码</a> <a href="#/logout" class="small">退出登录</a></h2>
+        <div class="login_txt edit_btn"><a href="javascript:void(0)"><label>我要编辑 <input type="checkbox" ng-model="canEdit" ng-init="canEdit=false"></label></a></div>
+        <div class="flex_box login_line">
+        	<label for="inputEmail" class="inline_block login_txt">Email*</label>
+        	<input type="email" id="inputEmail" class="form-control flex1" ng-model="email" ng-disabled="true" placeholder="Email地址" required="" autofocus="">
+        </div>
+        <div class="flex_box login_line">
+        	<label for="inputEmail" class="inline_block login_txt">姓名*</label>
+        	<input type="text" id="inputEmail" class="form-control flex1" ng-model='username' ng-disabled="!canEdit"  placeholder="姓名" required="" autofocus="">
+        </div>
+        <div class="flex_box login_line">
+        	<label for="inputPassword" class="inline_block login_txt">qq* </label>
+        	<input type="number" id="inputPassword" class="form-control flex1" ng-model="qq" ng-disabled="!canEdit"  placeholder="qq" required="">
+        </div>
+        <div class="flex_box login_line">
+        	<label for="inputPassword" class="inline_block login_txt">可用</label>
+        	<input type="checkbox" class="usable_btn" ng-model="display" ng-disabled="!canEdit" >
+        </div>
+        <div class="flex_box login_line">
+        	<label class="inline_block login_txt">简介 </label>
+        	<textarea class="form-control" rows="16" ng-model="content" ng-disabled="!canEdit" ></textarea>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="indexForm.$invalid || !canEdit" >提交</button>
+      </form>
+</div>

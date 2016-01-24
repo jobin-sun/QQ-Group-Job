@@ -1,0 +1,51 @@
+<div class="container" ng-init="show=false">
+    <h2 class="form-signin-heading">查看简历 <a href="#/login" class="small">返回登录</a></h2>
+        <div ng-hide="show">
+            <form name="codeForm">
+                <div class="flex_box login_line">
+                    <label for="inputEmail" class="inline_block login_txt">授权码</label>
+                    <input type="number" id="inputEmail" ng-model="code" ng-max="999999" ng-min="100000" class="form-control flex1" placeholder="请输入6位授权码" required="" autofocus="">
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" ng-click="submit()" ng-disabled="codeForm.$invalid" type="submit">确定</button>
+            </form>
+        </div>
+        <div ng-show="show" class="list">
+        	<div class="flex_box">
+        		<div class="left">
+        			<ul class="list-unstyled">
+        				<li ng-repeat="item in items"><a href="javascript:void(0)" ng-click="getInfo(item)" ng-bind="item"></a></li>
+        			</ul>
+        		</div>
+        		<div class="right flex1" style="padding-left:0.5em;">
+        			<div class="flex_box">
+        				<div class="title">姓名</div>
+        				<div class="flex1 {{ class }}" ng-bind="name"></div>
+        			</div>
+                    <div class="flex_box">
+                        <div class="title">QQ</div>
+                        <div class="flex1 {{ class }}" ng-bind='qq'></div>
+                    </div>
+        			<div class="flex_box">
+        				<div class="title">Email</div>
+        				<div class="flex1" ng-bind="email"></div>
+        			</div>
+        			<div class="flex_box">
+                        <div class="title">最后编辑时间</div>
+                        <div class="flex1" ng-bind="editDate"></div>
+                    </div>
+        			<div class="flex_box">
+        				<div class="title">简介</div>
+        				<div class="flex1">
+        					<div ng-bind='content' class="content"></div>
+        					<div class="red">
+        						<br>
+        						<br>
+        						联系时请说明,联系信息来自QQ群: Coursera-Python交流(ID:371145284),谢谢
+        					</div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+
+        </div>
+</div>

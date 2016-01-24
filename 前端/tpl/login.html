@@ -1,0 +1,15 @@
+<div class="container">
+      <form class="form-signin" name="loginForm">
+        <h2 class="form-signin-heading">请登录 <a href="#/reg" class="small">注册</a></h2>
+        <div class="flex_box login_line">
+        	<label for="inputEmail" class="inline_block login_txt">Email*</label>
+        	<input type="email" id="inputEmail" class="form-control flex1" ng-model="email" placeholder="Email地址" required="" autofocus="">
+        </div>
+        <div class="flex_box login_line">
+        	<label for="inputPassword" class="inline_block login_txt">密码* </label>
+        	<input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
+      </form>
+      <div class="text_center"><a href="#/list">我是HR,我想查看简历</a></div>
+</div>
