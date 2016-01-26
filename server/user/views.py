@@ -1,10 +1,10 @@
-import json
-from user.models import User
-from user.models import Resume
-from user.models import AuthCode
-from django import forms
+from user.models import User, Resume, AuthCode
+from user.forms import (
+        UserForm, UpdateUserForm, LoginForm,
+        PwdForm, IndexGetForm, AuthCodeForm,
+        GetUserInfoForm)
 from django.http import HttpResponse
-from django.core.validators import RegexValidator
+import json
 import base64
 import random
 import string
@@ -13,52 +13,6 @@ import time
 
 keyPwd = "aad3338()(*23ddDGKLhhdaf@3fasdfd-ddd"
 keyToken = "defkjhsddfnnd#$%didfnDs"
-
-class UserForm(forms.Form):
-    username = forms.CharField(label='用户名：', max_length=50)
-    password = forms.CharField(label='密码：', widget=forms.PasswordInput())
-    qq = forms.CharField(label='QQ：', max_length=15)
-    email = forms.EmailField(label='电子邮件：')
-
-class UpdateUserForm(forms.Form):
-    email = forms.EmailField(label='电子邮件：')
-    token = forms.CharField(label='Token: ', validators=[
-        RegexValidator(
-            regex='^[a-zA-Z0-9]+$',
-        )
-    ])
-    username = forms.CharField(label='用户名：', max_length=50)
-    qq = forms.CharField(label='QQ：', max_length=15)
-    display = forms.BooleanField(required=False,initial=False)
-    content = forms.CharField(label='详情',required=False,widget=forms.Textarea)
-
-class LoginForm(forms.Form):
-    password = forms.CharField(label='密码：', widget=forms.PasswordInput())
-    email = forms.EmailField(label='电子邮件：')
-
-class PwdForm(forms.Form):
-    email = forms.EmailField(label='电子邮件：')
-    token = forms.CharField(label='Token: ', validators=[
-        RegexValidator(
-            regex='^[a-zA-Z0-9]+$',
-        )
-    ])
-    password = forms.CharField(label='密码：', widget=forms.PasswordInput())
-#首页Get请求表单验证
-class IndexGetForm(forms.Form):
-    email = forms.EmailField(label='电子邮件：')
-    token = forms.CharField(label='Token: ', validators=[
-        RegexValidator(
-            regex='^[a-zA-Z0-9]+$',
-        )
-    ])
-
-class AuthCodeForm(forms.Form):
-    code = forms.IntegerField(min_value=100000, max_value=999999)
-
-class GetUserInfoForm(forms.Form):
-    email = forms.EmailField(label='电子邮件：')
-    code = forms.IntegerField(min_value=100000, max_value=999999)
 
 def checkLogin(email, token):
     #检测用户登录
@@ -74,7 +28,11 @@ def checkLogin(email, token):
         return False
     if not user:
         return  False
-    dbToken = hashlib.sha1((user.random + keyToken + str(int(time.time() / (24 * 3600)))).encode("utf-8")).hexdigest()
+    dbToken = hashlib.sha1(
+            (
+                user.random + keyToken + str(int(time.time() / (24 * 3600)))
+                ).encode("utf-8")
+            ).hexdigest()
     if token != dbToken:
         return False
     return user
