@@ -1,5 +1,5 @@
-from user.models import User, Resume, AuthCode
-from user.forms import (
+from .models import User, Resume, AuthCode
+from .forms import (
         UserForm, UpdateUserForm, LoginForm,
         PwdForm, IndexGetForm, AuthCodeForm,
         GetUserInfoForm)

@@ -1,7 +1,9 @@
 __author__ = 'jobin'
 
 from django.conf.urls import url
-from . import views
+
+from . import views, controller
+
 
 urlpatterns = [
     url(r'^$', views.index),
@@ -11,4 +13,5 @@ urlpatterns = [
     url(r'^login/', views.login),
     url(r'^profile/', views.getUserInfo),
     url(r'^change_pwd/', views.changePwd),
+    url(r'^group/reg', controller.group.reg.index),
 ]
