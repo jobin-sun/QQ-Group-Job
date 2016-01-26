@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 import json
 from user.models import User, Resume, AuthCode
 from user.forms import (
@@ -5,7 +7,7 @@ from user.forms import (
         PwdForm, IndexGetForm, AuthCodeForm,
         GetUserInfoForm)
 from django.http import HttpResponse
-import json
+from django.core.validators import RegexValidator
 import base64
 import random
 import string
@@ -219,15 +221,9 @@ def register(request):
             #检测用户是否存在
             checkUser = User.objects.filter(email__exact = uf.cleaned_data['email']).first()
             if checkUser:
-<<<<<<< HEAD
-                data = {}
-                data["status"] = 'error'
-                data['msg'] = u"此Email账户已存在"
-=======
                 data = {"status" : 'error',
                         'msg' : "此Email账户已存在"
                         }
->>>>>>> 7e50f78ec22e7342f2ae4913e6a6301d3217bd6e
                 return HttpResponse(json.dumps(data), content_type="application/json")
             user = User()
             user.username = uf.cleaned_data['username']
