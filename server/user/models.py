@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 from django.db import models
 
 class IntegerRangeField(models.IntegerField):
@@ -31,3 +32,10 @@ class Resume(models.Model):
 class AuthCode(models.Model):
     code = IntegerRangeField(min_value = 100000, max_value = 999999)
     times = models.IntegerField(default=0)
+
+class Group(models.Model):
+    '''群主用户表'''
+    groupID = models.CharField(max_length=15) #群号
+    ownerQQ = models.CharField(max_length=15) #群主QQ
+    password = models.CharField(max_length=40)
+    authCode = IntegerRangeField(min_value = 100000, max_value = 999999)

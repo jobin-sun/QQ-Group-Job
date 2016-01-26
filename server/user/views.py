@@ -1,10 +1,13 @@
+#-*- coding:utf-8 -*-
+
+import json
 from user.models import User, Resume, AuthCode
 from user.forms import (
         UserForm, UpdateUserForm, LoginForm,
         PwdForm, IndexGetForm, AuthCodeForm,
         GetUserInfoForm)
 from django.http import HttpResponse
-import json
+from django.core.validators import RegexValidator
 import base64
 import random
 import string
