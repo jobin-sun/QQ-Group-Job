@@ -32,12 +32,18 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 		}).when('/change_pwd', {
 			templateUrl: 'tpl/change_pwd.html',
 			controller: 'ChangePwdCtrl'
+		}).when('/group/list', {
+			templateUrl: 'tpl/group_list.html',
+			controller: 'GroupListCtrl'
+		}).when('/group/change_pwd', {
+			templateUrl: 'tpl/change_pwd.html',
+			controller: 'ChangePwdCtrl'
 		}).otherwise({redirectTo: '/login'});
 	}]);
 	app.controller("IndexCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
 		var email = $cookies.get("email");
 		var token = $cookies.get("token");
-		$http.get("/user/",{
+		$http.get("/api/",{
 			params:{
 				email: email,
 				token: token
@@ -56,7 +62,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			$T.toast("服务器错误,请联系系统管理员")
 		})
 		$scope.submit = function(){
-			$http.put("/user/", {
+			$http.put("/api/", {
 				username: $scope.username,
 				qq: $scope.qq,
 				display: $scope.display,
@@ -78,7 +84,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 	.controller("ListCtrl",["$scope","$http",function($scope, $http){
 		var list = {};
 		$scope.submit = function(){
-			$http.get("/user/list/",{
+			$http.get("/api/list/",{
 				params:{
 					code: $scope.code
 				}
@@ -105,7 +111,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			$scope.name = "loading...";
 			$scope.qq = "loading...";
 			$scope.content = list[key].content;
-			$http.get("/user/profile/",{
+			$http.get("/api/profile/",{
 				params:{
 					email: key,
 					code: $scope.code
@@ -138,7 +144,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			return;
 		}
 		$scope.submit = function(){
-			$http.post("/user/login/", {
+			$http.post("/api/login/", {
 				email: $scope.email,
 				password: $scope.password
 			}).success(function(response){
@@ -166,7 +172,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			return;
 		}
 		$scope.submit = function(){
-			$http.post("/user/reg/",{
+			$http.post("/api/reg/",{
 				email:$scope.email,
 				username:$scope.username,
 				qq:$scope.qq,
@@ -193,7 +199,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 		$scope.submit = function(){
 			var email = $cookies.get("email");
 			var token = $cookies.get("token");
-			$http.put("/user/change_pwd/", {
+			$http.put("/api/change_pwd/", {
 				password: $scope.password,
 				email: email,
 				token: token
@@ -207,5 +213,51 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
 			})
+		}
+	}])
+	.controller("GroupListCtrl",["$scope","$http",function($scope, $http){
+		var list = {};
+		$http.get("/api/group/list/",{
+			params:{
+				code: $scope.code
+			}
+		}).success(function(response){
+			if (response.status == "success") {
+				$scope.items = []
+				try{
+					for(var i = 0; i < response.data.length; i++){
+						list[response.data[i].userEmail] = response.data[i];
+						$scope.items.push(response.data[i].userEmail);
+					}
+				}catch(e){}
+				$scope.show = true;
+			}else{
+				$T.toast(response.msg);
+			};
+		}).error(function(){
+			$T.toast("服务器错误,请联系系统管理员")
+		})
+		$scope.getInfo = function(key){
+			$scope.name = "loading...";
+			$scope.qq = "loading...";
+			$scope.content = list[key].content;
+			//现在没有authcode传入，所以暂时注释掉方便测试
+			// $http.get("/api/profile/",{
+			// 	params:{
+			// 		email: key,
+			// 		code: $scope.code
+			// 	}
+			// }).success(function(response){
+			// 	if(response.status == "success"){
+			// 		$scope.name = response.data.username;
+			// 		$scope.qq = response.data.qq;
+			// 	}else{
+			// 		$T.toast(response.msg)
+			// 	}
+			// }).error(function(){
+			// 	$scope.class = "red";
+			// 	$scope.name = "加载失败";
+			// 	$scope.qq = "加载失败";
+			// });
 		}
 	}])

@@ -64,7 +64,7 @@ def index(request):
             data['data'].update({
                 "content" : resume.content,
                 "display" : resume.display,
-                "contentDate" : resume.addDate.strftime('%Y-%m-%d %H:%m')
+                "contentDate" : resume.lastDate.strftime('%Y-%m-%d %H:%m')
                 })
         return HttpResponse(json.dumps(data), content_type="application/json")
 

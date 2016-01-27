@@ -13,5 +13,7 @@ urlpatterns = [
     url(r'^login/', views.login),
     url(r'^profile/', views.getUserInfo),
     url(r'^change_pwd/', views.changePwd),
-    url(r'^group/reg', controller.group.reg.index),
+    url(r'^group/reg/', controller.group.reg.index),
+    url(r'^group/list/', controller.group.cvList.index),
+    url(r'^group/change_pwd/', views.changePwd),
 ]
