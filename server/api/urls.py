@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^group/reg/', controller.group.reg.index),
     url(r'^group/list/', controller.group.cvList.index),
     url(r'^group/change_pwd/', views.changePwd),
+    url(r'^group/admin/',controller.group.admin.index),
 ]

@@ -1,1 +1,1 @@
-from . import reg, cvList
+from . import reg, cvList, admin

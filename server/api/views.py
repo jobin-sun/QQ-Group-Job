@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 from .models import User, Resume, AuthCode
 from .forms import (
         UserForm, UpdateUserForm, LoginForm,
