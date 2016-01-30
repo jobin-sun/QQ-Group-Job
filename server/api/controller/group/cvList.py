@@ -15,7 +15,6 @@ def index(request):
             dic_item = item
             dic_item['lastDate'] = item['lastDate'].strftime('%Y-%m-%d')
             data['data'].append(dic_item)
-        print data
         return HttpResponse(json.dumps(data), content_type="application/json")
     else:
         data = {"status" : 'error',
