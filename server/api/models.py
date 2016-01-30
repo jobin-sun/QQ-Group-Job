@@ -21,16 +21,29 @@ class User(models.Model):
 
 
 class Resume(models.Model):
-    userEmail = models.EmailField()
+    statusChoices = (
+        (0,u'申请中'),
+        (1,u'允许的'),
+        (2,u'拒绝的'),
+        (3,u'拉黑的'),
+    )
+    userEmail = models.EmailField(max_length=15)
     groupID = models.CharField(max_length=15) #所属群
     qq = models.CharField(max_length=15)
     lastDate = models.DateTimeField(auto_now = True)
     content = models.TextField(blank = True, null = True)
-    rank = models.CommaSeparatedIntegerField(blank=True, max_length=50) #逗号分隔的整数值
     display = models.BooleanField(default=True)
+    status = models.IntegerField(choices=statusChoices, default=0) # 简历在群中的状态,0:申请中, 1:允许的, 2:拒绝的, 3:拉黑的
 
     class Meta:
         ordering = ['-lastDate']
+
+class Rank(models.Model):
+    resumeId = models.IntegerField();
+    groupId = models.CharField(max_length=15) #所属群
+    adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
+    rank = models.IntegerField(default=0)
+    comment = models.TextField(blank = True, null = True) #管理员评价, 下期做
 
 class AuthCode(models.Model):
     groupID = models.CharField(max_length=15) #所属群
@@ -40,11 +53,7 @@ class AuthCode(models.Model):
     lastDate = models.DateTimeField(auto_now = True)
 
 class Group(models.Model):
-    '''群主用户表'''
-    typeChoices = (
-         (0, u'管理员'),
-         (1, u'群主')
-    )
+    '''群列表'''
     statusChoices = (
         (0,u'未验证'),
         (1,u'验证通过'),
@@ -52,22 +61,17 @@ class Group(models.Model):
     )
     groupID = models.CharField(max_length=15,unique=True) #群号
     groupName = models.CharField(max_length=15) #群名称
-    adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
-    password = models.CharField(max_length=40)
-    userType = models.IntegerField(choices=typeChoices, default=0) # 0:普通管理员, 1:群主
     addDate = models.DateTimeField(auto_now_add = True)
     requestMsg = models.CharField(max_length=50) # 审核群入驻时,需要加入到群里验证
     status = models.IntegerField(choices=statusChoices, default=0) # 群入驻状态,0:未验证, 1:验证通过, 2:验证不通过
-
-#群成员表
-class GroupMember(models.Model):
-    statusChoices = (
-        (0,u'申请中'),
-        (1,u'允许的'),
-        (2,u'拒绝的'),
-        (3,u'拉黑的'),
+class GroupAdmin(models.Model):
+    #群管理员列表
+    typeChoices = (
+         (0, u'管理员'),
+         (1, u'群主')
     )
-    userEmail = models.EmailField()
-    groupID = models.CharField(max_length=15)
-    status = models.IntegerField(choices=statusChoices, default=0) # 简历在群中的状态,0:申请中, 1:允许的, 2:拒绝的, 3:拉黑的
-    addDate = models.DateTimeField(auto_now_add = True)
+    groupID = models.CharField(max_length=15,unique=True) #群号
+    adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
+    password = models.CharField(max_length=40)
+    random = models.CharField(max_length=10)
+    userType = models.IntegerField(choices=typeChoices, default=0) # 0:普通管理员, 1:群主

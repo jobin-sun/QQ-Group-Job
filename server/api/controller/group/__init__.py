@@ -1,1 +1,3 @@
-from . import reg, cvList, admin
+from . import (resume_list,
+    change_pwd,
+    admin)

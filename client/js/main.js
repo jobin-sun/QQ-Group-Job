@@ -44,14 +44,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 		}).otherwise({redirectTo: '/login'});
 	}]);
 	app.controller("IndexCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		var email = $cookies.get("email");
-		var token = $cookies.get("token");
-		$http.get("/api/",{
-			params:{
-				email: email,
-				token: token
-			}
-		}).success(function(response){
+		$http.get("/api/").success(function(response){
 			if(response.status == "success"){
 				$scope.email = response.data.email;
 				$scope.username = response.data.username;
@@ -69,9 +62,7 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 				username: $scope.username,
 				qq: $scope.qq,
 				display: $scope.display,
-				content: $scope.content,
-				email: email,
-				token: token
+				content: $scope.content
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功");
@@ -135,29 +126,27 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 		
 	}])
 	.controller("LogoutCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		$cookies.remove("email");
-		$cookies.remove("token");
-		location.href = "#/login";
+		$http.get("/api/logout/").success(function(response){
+			if(response.status == "success"){
+				location.href = "#/login";
+			}else{
+				$T.toast("退出失败")
+			}
+		})
+		
 	}])
 	.controller("LoginCtrl",["$scope","$http", "$cookies",function($scope, $http, $cookies){
-		var email = $cookies.get("email");
-		var token = $cookies.get("token");
-		if(email &&　token){
-			location.href = "#/index";
-			return;
-		}
+		$http.get("/api/check_login/").success(function(response){
+			if(response.status == "success"){
+				location.href = "#/index";
+			}
+		})
 		$scope.submit = function(){
 			$http.post("/api/login/", {
 				email: $scope.email,
 				password: $scope.password
 			}).success(function(response){
 				if(response.status == "success"){
-					try{
-						for(key in response.cookies){
-							var d = new Date(response.cookies[key].opt.expires * 1000);
-							$cookies.put(key,response.cookies[key].value, {expires: d})
-						}
-					}catch(e){console.log(e)}
 					location.href = "#/index"
 				}else{
 					$T.toast(response.msg);
@@ -168,12 +157,11 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 		}
 	}])
 	.controller("RegCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		var email = $cookies.get("email");
-		var token = $cookies.get("token");
-		if(email &&　token){
-			location.href = "#/index";
-			return;
-		}
+		$http.get("/api/check_login/").success(function(response){
+			if(response.status == "success"){
+				location.href = "#/index";
+			}
+		})
 		$scope.submit = function(){
 			$http.post("/api/reg/",{
 				email:$scope.email,
@@ -193,19 +181,14 @@ var app = angular.module('myApp', ["ngRoute", "ngCookies"]);
 		}
 	}])
 	.controller("ChangePwdCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		var email = $cookies.get("email");
-		var token = $cookies.get("token");
-		if(email &&　token){
-			location.href = "#/index";
-			return;
-		}
+		$http.get("/api/check_login/").success(function(response){
+			if(response.status != "success"){
+				location.href = "#/login";
+			}
+		})
 		$scope.submit = function(){
-			var email = $cookies.get("email");
-			var token = $cookies.get("token");
 			$http.put("/api/change_pwd/", {
-				password: $scope.password,
-				email: email,
-				token: token
+				password: $scope.password
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("密码已修改,请重新登录");
