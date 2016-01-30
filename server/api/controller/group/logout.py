@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.generic import View
 
 
-class Logout(View):
+class Index(View):
     def get(self, request):
 
         response = JsonResponse({"status":"success",

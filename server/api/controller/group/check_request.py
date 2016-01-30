@@ -8,6 +8,13 @@ from api import config
 from api.models import GroupAdmin
 
 #解析请求中参数,检查用户登录
+'''
+传入request对象
+不管哪种方法,请求参数将被放到self.jsonForm里
+管理员token信息保存在admin_token里,格式及方法基本与普通用户的相同,格式见下面代码里的pattern正则
+self.admin保存里权限验证通过的admin信息, 如果self.admin为None,则是没有登录的用户,
+
+'''
 class CheckRequest():
     def __init__(self, request):
         self.msg = "" #用户状态或,错误信息

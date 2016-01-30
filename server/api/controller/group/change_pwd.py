@@ -20,3 +20,21 @@ put:
 
 
 """
+
+from django.http import JsonResponse
+from django.views.generic import View
+
+class Index(View):
+    def get(self, request):
+        return JsonResponse({"status":"success",
+                             "msg":""})
+    def post(self, request):
+        return JsonResponse({"status":"success",
+                             "msg":""})
+
+    def put(self, request):
+        return JsonResponse({"status":"success",
+                             "msg":""})
+    def delete(self, request):
+        return JsonResponse({"status":"success",
+                             "msg":""})

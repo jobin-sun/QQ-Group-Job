@@ -4,10 +4,10 @@ __author__ = 'jobin'
 from django.http import JsonResponse
 from django.views.generic import View
 
-from check_request import CheckRequest
+from .check_request import CheckRequest
 
 
-class CheckLogin(View):
+class Index(View):
     def get(self, request):
         check = CheckRequest(request)
         if check.user:
