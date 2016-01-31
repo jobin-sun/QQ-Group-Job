@@ -2,26 +2,40 @@ var gulp = require("gulp");
 var uglify = require('gulp-uglify');
 var csso = require('gulp-csso');
 var concat = require('gulp-concat');
-var clean = require('gulp-clean');
 var templateCache = require('gulp-angular-templatecache');
+var inject = require('gulp-inject');
+var series = require('stream-series');
 
 var src = ".";
 var dst = "./build";
 gulp.task('default', function () {
+    var app = gulp.src([
+            src + '/js/common.js',
+            src + '/js/route.js',
+            src + '/js/ctrl/*.js'
+        ])
+        .pipe(concat("app.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest(dst + '/js'));
+    var tpl = gulp.src(src + '/tpl/*.html')
+                    .pipe(templateCache("tpl.js",{
+                        module:"myApp",
+                        root:"tpl/"
+                    }))
+                    .pipe(uglify())
+                    .pipe(gulp.dest(dst + '/js'));
     gulp.src(src + '/*.html')
+        .pipe(
+            inject(
+                series(app, tpl),
+                {relative: true, ignorePath: "build"}
+            )
+        )
         .pipe(gulp.dest(dst + '/'));
 
-	gulp.src(src + '/tpl/*.html')
-    	.pipe(templateCache("tpl.js",{
-    		module:"myApp",
-    		root:"tpl/"
-    	}))
+    gulp.src(src + '/js_lib/*.js')
         .pipe(uglify())
-    	.pipe(gulp.dest(dst + '/js'));
-
-    gulp.src(src + '/js/*.js')
-    	.pipe(uglify())
-    	.pipe(gulp.dest( dst + '/js'));
+        .pipe(gulp.dest(dst + '/js_lib'));
 
     gulp.src(src + '/css/*.css')
         .pipe(csso())
