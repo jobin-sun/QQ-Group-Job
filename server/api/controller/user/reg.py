@@ -15,7 +15,7 @@ from api import config
 
 class UserForm(Form):
     username = CharField(label=u'用户名：', max_length=50)
-    password = CharField(label=u'密码：', widget=PasswordInput())
+    password = CharField(label=u'密码：', widget=PasswordInput(), max_length=40)
     qq = CharField(label='QQ：', max_length=15)
     email = EmailField(label=u'电子邮件：')
 

@@ -3,7 +3,7 @@
 """
 输入:
     {
-        "groupId":"xxxx",
+        "groupID":"xxxx",
         "adminName":"xxxx",
         "password":"xxxx"
     }
@@ -22,17 +22,63 @@
 from django.http import JsonResponse
 from django.views.generic import View
 
-class Index(View):
-    def get(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-    def post(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+from django.forms import (Form, PasswordInput, CharField )
 
-    def put(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-    def delete(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+from .check_request import CheckRequest
+from api.models import GroupAdmin
+from api import config
+import hashlib
+import time
+
+class LoginForm(Form):
+    groupID = CharField(label=u'群ID：', max_length=15)
+    adminName = CharField(label=u'群主QQ：', max_length=15)
+    password = CharField(label=u'密码：', widget=PasswordInput())
+
+
+
+class Index(View):
+    def post(self, request):
+        check = CheckRequest(request);
+        if check.admin:
+            return JsonResponse({"status": 'error',
+                        'msg': "User logined"
+            })
+        uf = LoginForm(check.jsonForm)
+        if uf.is_valid():
+            groupID = uf.cleaned_data['groupID']
+            adminName = uf.cleaned_data['adminName']
+            pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
+            password = hashlib.sha1(pwd).hexdigest()
+            # 获取的表单数据与数据库进行比较
+            admin = GroupAdmin.objects.filter(groupID__exact=groupID, adminName__exact=adminName, password__exact=password).first()
+            if admin:
+                data = {"status": 'success',
+                        'msg': "Login success"
+                        }
+
+                # 将username写入浏览器cookie,失效时间为3600 * 24 * 30
+                now = int(time.time())
+
+                sha1 = hashlib.sha1((admin.random + config.keyToken + str(now)).encode("utf-8")).hexdigest()
+                cookieOpt = {'expires': now + config.expiration}
+                token = groupID + "-"+ adminName +"-" + str(now) + "-" + sha1
+
+                data['cookies'] = {
+                    'token': {
+                        'value': token,
+                        'opt': cookieOpt
+                    }
+                }
+                response = JsonResponse(data)
+                response.set_cookie("token",value=token, max_age=config.expiration, httponly=True)
+                return response
+            else:
+                # 用户名或密码错误
+                return JsonResponse({"status": 'error',
+                                     'msg': "GroupID or adminName or password is error"
+                                     })
+        else:
+            return JsonResponse({"status": 'error',
+                                 'msg': "login form is error"
+                                 })

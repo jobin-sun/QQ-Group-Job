@@ -40,7 +40,7 @@ class Resume(models.Model):
 
 class Rank(models.Model):
     resumeId = models.IntegerField();
-    groupId = models.CharField(max_length=15) #所属群
+    groupID = models.CharField(max_length=15) #所属群
     adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
     rank = models.IntegerField(default=0)
     comment = models.TextField(blank = True, null = True) #管理员评价, 下期做
@@ -60,7 +60,7 @@ class Group(models.Model):
         (2,u'验证不通过'),
     )
     groupID = models.CharField(max_length=15,unique=True) #群号
-    groupName = models.CharField(max_length=15) #群名称
+    groupName = models.CharField(max_length=30) #群名称
     addDate = models.DateTimeField(auto_now_add = True)
     requestMsg = models.CharField(max_length=50) # 审核群入驻时,需要加入到群里验证
     status = models.IntegerField(choices=statusChoices, default=0) # 群入驻状态,0:未验证, 1:验证通过, 2:验证不通过

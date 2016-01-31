@@ -22,6 +22,10 @@ class LoginForm(Form):
 class Login(View):
     def post(self, request):
         check = CheckRequest(request);
+        if check.user:
+            return JsonResponse({"status": 'error',
+                        'msg': "User logined"
+                        })
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
             email = uf.cleaned_data['email']
@@ -50,7 +54,7 @@ class Login(View):
                 response.set_cookie("token",value=token, max_age=config.expiration, httponly=True)
                 return response
             else:
-                # 比较失败，还在login
+                # 用户名或密码错误
                 return JsonResponse({"status": 'error',
                                      'msg': "email or password is error"
                                      })

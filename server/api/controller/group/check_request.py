@@ -36,7 +36,7 @@ class CheckRequest():
         if not match:
             self.msg = "Format of token is not correct, Check your token(%s)" % token
             return
-        groupId = match.group(1)
+        groupID = match.group(1)
         adminName = match.group(2)
         t = int(match.group(3))
         sha1 = match.group(4)
@@ -49,9 +49,9 @@ class CheckRequest():
 
             return
 
-        admin = GroupAdmin.objects.filter(groupId__exact = groupId, adminName_exact = adminName).first()
+        admin = GroupAdmin.objects.filter(groupID__exact = groupID, adminName_exact = adminName).first()
         if not admin:
-            self.msg = "Admin not found, groupId:%s; adminName." % groupId, adminName
+            self.msg = "Admin not found, groupId:%s; adminName." % groupID, adminName
             return
 
         dbToken = hashlib.sha1(

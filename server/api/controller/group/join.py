@@ -3,7 +3,7 @@
 """
 输入:
     {
-        "groupId":"xxxx",
+        "groupID":"xxxx",
         "groupName":"xxxx",
         "adminName":"xxxx",
         "password":"xxxx",
@@ -24,17 +24,72 @@
 from django.http import JsonResponse
 from django.views.generic import View
 
-class Index(View):
-    def get(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-    def post(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+from django.forms import (Form, PasswordInput, CharField, EmailField )
 
-    def put(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-    def delete(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+from .check_request import CheckRequest
+from api.models import Group, GroupAdmin
+from api import config
+import string
+import random
+import hashlib
+
+
+class JoinForm(Form):
+    groupID = CharField(label=u'群ID：', max_length=15)
+    groupName = CharField(label=u'群名称：', max_length=30)
+    adminName = CharField(label=u'群主QQ：', max_length=15)
+    password = CharField(label=u'密码：', widget=PasswordInput(), max_length=40)
+    requestMsg = CharField(label=u'加群验证信息：', max_length=50)
+
+class Index(View):
+    def post(self, request):
+        check = CheckRequest(request);
+        if check.admin:
+            return JsonResponse({
+                "status": "error",
+                "msg": "User logined"
+            })
+        uf = JoinForm(check.jsonForm)
+        if uf.is_valid():
+            #检测群是否存在
+            checkGroup = Group.objects.filter(groupID__exact = uf.cleaned_data['groupID']).first()
+            if checkGroup:
+                return JsonResponse({
+                    "status" : 'error',
+                    'msg' : "此群已在,群ID:%s" % uf.cleaned_data['groupID']
+                })
+            group = Group()
+            group.groupID = uf.cleaned_data['groupID']
+            group.groupName = uf.cleaned_data['groupName']
+            group.requestMsg = uf.cleaned_data['requestMsg']
+            group.save()
+            if not group.id:
+                return JsonResponse({
+                    "status" : 'error',
+                    'msg' : "Save group error, GroupID:%s" % uf.cleaned_data['groupID']
+                })
+
+            admin = GroupAdmin()
+            admin.groupID = uf.cleaned_data['groupID']
+            admin.adminName = uf.cleaned_data['adminName']
+            pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
+            admin.password = hashlib.sha1(pwd).hexdigest()
+            admin.random = ''.join(random.sample(string.ascii_letters + string.digits, 10))
+            admin.userType = 1
+            admin.save()
+            if admin.id:
+                return JsonResponse({
+                    "status" : 'success',
+                    'msg' : ""
+                    })
+            else:
+                return JsonResponse({
+                    "status" : 'error',
+                    'msg' : "Save group admin error, GroupID:%s; Admin:%s" % (uf.cleaned_data['groupID'], uf.cleaned_data['adminName'])
+                    })
+
+        else:
+            return JsonResponse({
+                "status" : 'error',
+                'msg' : "Illegal post"
+            })
