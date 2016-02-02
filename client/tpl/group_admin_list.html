@@ -1,0 +1,50 @@
+<head>
+    <style type="text/css"> 
+        .adm-box {
+            width: 100%; 
+        }
+        .group-cvlist-table {
+            margin 0;
+            padding: 0px;
+        }
+        .group-mnglist{
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<div class="container" ng-init="show=false">
+    <h2 class="form-signin-heading">权限管理 <a href="#/index/" class="small">返回首页</a></h2>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="list-group">
+                <a href="/group/resume_list/" class="list-group-item">简历列表</a>
+                <a href="/group/admin_list/" class="list-group-item active">管理员列表</a>
+                <a href="" class="list-group-item">授权码</a>
+                <a href="" class="list-group-item">修改密码</a>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            <div ng-show="show" class="list">
+                <div ng-repeat="item in items" >
+                    <div class="adm-box panel panel-default">
+                        <div class="panel-heading">
+                            群QQ:<span ng-bind="item.groupID"></span>
+                            群名:<span ng-bind="item.groupName"></span>
+                            群主:<span ng-bind="item.adminName"></span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="group-admin-table">
+                                <tr ng-repeat="admin in item.admins">
+                                    <td class="group-mnglist">QQ:<span ng-bind="admin.adminName"></span></td>
+                                    <td class="group-mnglist"><a href="" class="red">删除</a></td>
+                                    <td class="group-mnglist"><a href="" class="red">更改权限</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>   
+</div>

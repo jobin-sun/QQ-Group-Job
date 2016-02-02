@@ -71,25 +71,11 @@ delete:
 from django.http import JsonResponse
 from django.views.generic import View
 from django.db.models import Avg
-from django.forms import (Form, CharField, IntegerField, ChoiceField)
 
 from .check_request import CheckRequest
 from api.models import Resume, Rank, User
+from .form import (MngResumeForm, DelResumeForm)
 
-
-class putForm(Form):
-    STATUS_CHOICES = (
-        (0,u'申请中'),
-        (1,u'允许的'),
-        (2,u'拒绝的'),
-        (3,u'拉黑的'),
-    )
-    resumeId = IntegerField()
-    status = ChoiceField(choices=STATUS_CHOICES, required=False)
-    rank = IntegerField(required=False)
-
-class DelForm(Form):
-    resumeId = IntegerField()
 
 class Index(View):
     def get(self, request):
@@ -103,7 +89,6 @@ class Index(View):
                 }
         resumes = Resume.objects.filter(groupID = check.admin.groupID)
         for item in resumes:
-            print('item', item)
             user = User.objects.filter(email = item.userEmail).first()
             allRank = Rank.objects.filter(resumeId = item.id)
             rank = allRank.filter(adminName = check.admin.adminName).first()
@@ -138,7 +123,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status": "error",
                                 "msg": "Only admin permitted"})
-        uf = DelForm(check.jsonForm)
+        uf = MngResumeForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status": "error",
                                 "msg": "resumeId is invalid."})
@@ -157,7 +142,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status": "error",
                                 "msg": "Only admin permitted"})
-        uf = DelForm(check.jsonForm)
+        uf = DelResumeForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status": "error",
                                 "msg": "resumeId is invalid."})
