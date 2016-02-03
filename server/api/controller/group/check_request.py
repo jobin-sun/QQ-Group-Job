@@ -27,7 +27,7 @@ class CheckRequest():
         if "admin_token" in self.jsonForm:
             token = self.jsonForm["admin_token"]
         else:
-            token = request.COOKIES.get('token')
+            token = request.COOKIES.get('admin_token')
         if not token:
             self.msg = "Token not found"
             return
