@@ -21,20 +21,30 @@ put:
 
 """
 
+import hashlib
+
 from django.http import JsonResponse
 from django.views.generic import View
 
+from .check_request import CheckRequest
+from .form import PwdForm
+from api.models import GroupAdmin
+
+
 class Index(View):
-    def get(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-    def post(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
 
     def put(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-    def delete(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+        check = CheckRequest(request)
+        if not check.admin:
+            return JsonResponse({"status" : "error",
+                                "msg" : "User not logined"})
+        uf = PwdForm(check.jsonForm)
+        if not uf.is_valid():
+            return JsonResponse({"status" : "error",
+                                "msg" : "Password is invalid."})
+        pwd = (uf.cleaned_data['password']).encode("utf-8")
+        check.admin.password = hashlib.sha1(pwd).hexdigest()
+        check.admin.save()
+        return JsonResponse({"status" : "success",
+                             "msg" : ""})
+

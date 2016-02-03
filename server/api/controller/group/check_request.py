@@ -27,7 +27,7 @@ class CheckRequest():
         if "admin_token" in self.jsonForm:
             token = self.jsonForm["admin_token"]
         else:
-            token = request.COOKIES.get('admin_token')
+            token = request.COOKIES.get('token')
         if not token:
             self.msg = "Token not found"
             return
@@ -49,7 +49,7 @@ class CheckRequest():
 
             return
 
-        admin = GroupAdmin.objects.filter(groupID__exact = groupID, adminName_exact = adminName).first()
+        admin = GroupAdmin.objects.filter(groupID__exact = groupID, adminName__exact = adminName).first()
         if not admin:
             self.msg = "Admin not found, groupId:%s; adminName." % groupID, adminName
             return

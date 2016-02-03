@@ -18,14 +18,14 @@ angular.module('myApp', ["ngRoute", "ngCookies"])
 		}).when('/change_pwd', {
 			templateUrl: 'tpl/change_pwd.html',
 			controller: 'ChangePwdCtrl'
-		}).when('/group/list', {
-			templateUrl: 'tpl/group_list.html',
-			controller: 'GroupListCtrl'
+		}).when('/group/resume_list/', {
+			templateUrl: 'tpl/group_resume_list.html',
+			controller: 'GroupResumeListCtrl'
 		}).when('/group/change_pwd', {
 			templateUrl: 'tpl/change_pwd.html',
 			controller: 'ChangePwdCtrl'
-		}).when('/group/admin', {
-			templateUrl: 'tpl/group_admin.html',
-			controller: 'GroupAdminCtrl'
+		}).when('/group/admin_list/', {
+			templateUrl: 'tpl/group_admin_list.html',
+			controller: 'GroupAdminListCtrl'
 		}).otherwise({redirectTo: '/login'});
 	}]);
