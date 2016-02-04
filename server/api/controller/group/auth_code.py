@@ -65,17 +65,64 @@ delete:
 from django.http import JsonResponse
 from django.views.generic import View
 
+import time
+
+from .check_request import CheckRequest
+from .form import AuthCodeForm, DelAuthCodeForm
+from api.models import AuthCode
+
 class Index(View):
     def get(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+        check = CheckRequest(request)
+        if not check.admin:
+            return JsonResponse({"status" : "error",
+                                "msg" : "Only admin permitted"})
+        codes = AuthCode.objects.filter(groupID = check.admin.groupID).values('id', 'adminName', 'code', 'times')
+        data = {"status" : "success",
+                "msg":"",
+                "data": [] }
+        for item in codes:
+            data["data"].append(item)
+        return JsonResponse(data)
+
     def post(self, request):
+        check = CheckRequest(request)
+        if not check.admin:
+            return JsonResponse({"status" : "error",
+                                "msg" : "Only admin permitted"})
+        uf = AuthCodeForm(check.jsonForm)
+        if not uf.is_valid():
+            return JsonResponse({"status" : "error",
+                                "msg" : "Illegal AuthCode."})
+        codeDB = AuthCode.objects.filter(groupID = check.admin.groupID, adminName = check.admin.adminName).first()
+        if not codeDB:
+            code = AuthCode.objects.create(check.admin.groupID, check.admin.adminName,
+                                            uf.cleaned_data['code'], 0, time.time())
+            code.save()
+        else:
+            codeDB.code = uf.cleaned_data['code']
+            lastDate = time.time()
+            codeDB.save()
         return JsonResponse({"status":"success",
-                             "msg":""})
+                             "msg":"Update Success."})
 
     def put(self, request):
         return JsonResponse({"status":"success",
                              "msg":""})
+
     def delete(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
+        check = CheckRequest(request)
+        if not check.admin:
+            return JsonResponse({"status" : "error",
+                                "msg" : "Only admin permitted"})
+        uf = DelAuthCodeForm(check.jsonForm)
+        if not uf.is_valid():
+            return JsonResponse({"status" : "error",
+                                "msg" : "AuthCodeId is invalid."})
+        code = AuthCode.objects.filter(id = uf.cleaned_data['Id']).first()
+        if not code:
+            return JsonResponse({"status" : "error",
+                                "msg" : "No such code."})
+        AuthCode.objects.filter(id = uf.cleaned_data['Id']).delete()
+        return JsonResponse({"status" : "success",
+                             "msg" : "Delete success."})
