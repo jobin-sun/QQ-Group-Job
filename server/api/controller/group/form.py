@@ -21,3 +21,16 @@ class MngResumeForm(Form):
 
 class DelResumeForm(Form):
     resumeId = IntegerField()
+
+class CheckAdminForm(Form):
+    adminName = CharField(max_length=15) 
+    password = CharField(widget=PasswordInput())
+
+class DelAdminForm(Form):
+    Id = IntegerField()
+
+class AuthCodeForm(Form):
+    code = IntegerField(min_value=100000, max_value=999999)
+
+class DelAuthCodeForm(Form):
+    Id = IntegerField()

@@ -52,6 +52,17 @@ class AuthCode(models.Model):
     times = models.IntegerField(default=0)
     lastDate = models.DateTimeField(auto_now = True)
 
+    @classmethod
+    def create():
+        return
+
+    @classmethod
+    def create(cls, groupID, adminName, code, times, lastDate):
+        code = cls(groupID = groupID, adminName = adminName,
+                    code = code, times = times, lastDate = lastDate)
+        return code
+    
+
 class Group(models.Model):
     '''群列表'''
     statusChoices = (
@@ -71,7 +82,7 @@ class GroupAdmin(models.Model):
          (0, u'管理员'),
          (1, u'群主')
     )
-    groupID = models.CharField(max_length=15,unique=True) #群号
+    groupID = models.CharField(max_length=15) #群号
     adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
     password = models.CharField(max_length=40)
     random = models.CharField(max_length=10)
