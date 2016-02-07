@@ -47,6 +47,7 @@ put:
         {
             "adminName":'xxx',//必需
             "password":'xxx'//必需
+            "ResumeId" : //必需，管理管理员简历
         }
 
     验证管理员权限:
@@ -81,10 +82,10 @@ delete:
 from django.http import JsonResponse
 from django.views.generic import View
 
-import hashlib
+import hashlib, random, string
 
 from .check_request import CheckRequest
-from .form import CheckAdminForm, DelAdminForm
+from .form import CheckAdminForm, DelAdminForm, MngResumeForm
 from api.models import GroupAdmin, Resume, User
 from api import config
 
@@ -109,7 +110,7 @@ class Index(View):
         return JsonResponse(data)
 
     def post(self, request):
-        #POST和PUT请求的内容分别是要管理什么？
+        ''' 群主添加新管理员 '''
         check = CheckRequest(request)
         if not check.admin:
             return JsonResponse({"status" : "error",
@@ -121,14 +122,16 @@ class Index(View):
         pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
         password = hashlib.sha1(pwd).hexdigest()
         admin = GroupAdmin.objects.filter(groupID = check.admin.groupID, adminName = uf.cleaned_data['adminName'], password = password).first()
-        if not admin:
+        if admin:
             return JsonResponse({"status": 'error',
-                                'msg': "GroupID or adminName or password is error"})
+                                'msg': "Admin exist."})
+        rdm = ''.join(random.sample(string.ascii_letters + string.digits, 10))
+        admin = GroupAdmin.create(check.admin.groupID, uf.cleaned_data['adminName'], password, rdm, 0)
+        admin.save()
         return JsonResponse({"status" : "success",
                              "msg" : "Update success."})
 
     def put(self, request):
-        #PUT请求的内容什么？
         check = CheckRequest(request)
         if not check.admin:
             return JsonResponse({"status" : "error",
@@ -143,6 +146,16 @@ class Index(View):
         if not admin:
             return JsonResponse({"status": 'error',
                                 'msg': "GroupID or adminName or password is error"})
+        uf = MngResumeForm(check.jsonForm)
+        if not uf.is_valid():
+            return JsonResponse({"status": "error",
+                                "msg": "resumeId is invalid."})
+        resume = Resume.objects.filter(id = uf.cleaned_data['resumeId']).first()
+        if uf.cleaned_data['status']:
+            resume.status = uf.cleaned_data['status']
+        if uf.cleaned_data['rank']:
+            resume.rank = uf.cleaned_data['rank']
+        resume.save()
         return JsonResponse({"status" : "success",
                              "msg" : "Update success."})
 
