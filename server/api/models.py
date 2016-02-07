@@ -85,10 +85,6 @@ class GroupAdmin(models.Model):
     userType = models.IntegerField(choices=typeChoices, default=0) # 0:普通管理员, 1:群主
 
     @classmethod
-    def create():
-        return
-
-    @classmethod
     def create(cls, groupID, adminName, password, random, userType):
         admin = cls(groupID = groupID, adminName = adminName,
                     password = password, random = random, userType = userType)
