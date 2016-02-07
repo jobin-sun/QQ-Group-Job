@@ -96,7 +96,7 @@ class Index(View):
                                 "msg" : "Illegal AuthCode."})
         codeDB = AuthCode.objects.filter(groupID = check.admin.groupID, adminName = check.admin.adminName).first()
         if not codeDB:
-            code = AuthCode.objects.create(check.admin.groupID, check.admin.adminName,
+            code = AuthCode.create(check.admin.groupID, check.admin.adminName,
                                             uf.cleaned_data['code'], 0, time.time())
             code.save()
         else:

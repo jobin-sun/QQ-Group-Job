@@ -83,3 +83,13 @@ class GroupAdmin(models.Model):
     password = models.CharField(max_length=40)
     random = models.CharField(max_length=10)
     userType = models.IntegerField(choices=typeChoices, default=0) # 0:普通管理员, 1:群主
+
+    @classmethod
+    def create():
+        return
+
+    @classmethod
+    def create(cls, groupID, adminName, password, random, userType):
+        admin = cls(groupID = groupID, adminName = adminName,
+                    password = password, random = random, userType = userType)
+        return admin

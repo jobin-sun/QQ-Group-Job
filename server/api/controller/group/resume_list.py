@@ -109,7 +109,6 @@ class Index(View):
                 resume['myRank'] = u'尚未评分'
             else:
                 resume['myRank'] = rank.rank
-            #不知这个是用户的averageRank还是简历的averageRank?现在是简历的averageRank
             resume['averageRank'] = avgRank['rank__avg']
             data['data'].append(resume)
         return JsonResponse(data)
@@ -137,7 +136,6 @@ class Index(View):
                              "msg":""})
 
     def delete(self, request):
-        #删除部分是不是有二次确认比较好？
         check = CheckRequest(request)
         if not check.admin:
             return JsonResponse({"status": "error",
