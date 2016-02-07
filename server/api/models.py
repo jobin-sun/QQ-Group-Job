@@ -53,15 +53,11 @@ class AuthCode(models.Model):
     lastDate = models.DateTimeField(auto_now = True)
 
     @classmethod
-    def create():
-        return
-
-    @classmethod
     def create(cls, groupID, adminName, code, times, lastDate):
         code = cls(groupID = groupID, adminName = adminName,
                     code = code, times = times, lastDate = lastDate)
         return code
-    
+
 
 class Group(models.Model):
     '''群列表'''
@@ -75,7 +71,7 @@ class Group(models.Model):
     addDate = models.DateTimeField(auto_now_add = True)
     requestMsg = models.CharField(max_length=50) # 审核群入驻时,需要加入到群里验证
     status = models.IntegerField(choices=statusChoices, default=0) # 群入驻状态,0:未验证, 1:验证通过, 2:验证不通过
-    
+
 class GroupAdmin(models.Model):
     #群管理员列表
     typeChoices = (
@@ -87,10 +83,6 @@ class GroupAdmin(models.Model):
     password = models.CharField(max_length=40)
     random = models.CharField(max_length=10)
     userType = models.IntegerField(choices=typeChoices, default=0) # 0:普通管理员, 1:群主
-
-    @classmethod
-    def create():
-        return
 
     @classmethod
     def create(cls, groupID, adminName, password, random, userType):
