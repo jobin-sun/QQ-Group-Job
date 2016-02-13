@@ -3,7 +3,7 @@
 """
 输入:
     {
-        "groupID":"xxxx",
+        "groupId":"xxxx",
         "groupName":"xxxx",
         "adminName":"xxxx",
         "password":"xxxx",
@@ -35,7 +35,7 @@ import hashlib
 
 
 class JoinForm(Form):
-    groupID = CharField(label=u'群ID：', max_length=15)
+    groupId = CharField(label=u'群ID：', max_length=15)
     groupName = CharField(label=u'群名称：', max_length=30)
     adminName = CharField(label=u'群主QQ：', max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput(), max_length=40)
@@ -52,25 +52,25 @@ class Index(View):
         uf = JoinForm(check.jsonForm)
         if uf.is_valid():
             #检测群是否存在
-            checkGroup = Group.objects.filter(groupID__exact = uf.cleaned_data['groupID']).first()
+            checkGroup = Group.objects.filter(groupId__exact = uf.cleaned_data['groupId']).first()
             if checkGroup:
                 return JsonResponse({
                     "status" : 'error',
-                    'msg' : "此群已在,群ID:%s" % uf.cleaned_data['groupID']
+                    'msg' : "此群已在,群ID:%s" % uf.cleaned_data['groupId']
                 })
             group = Group()
-            group.groupID = uf.cleaned_data['groupID']
+            group.groupId = uf.cleaned_data['groupId']
             group.groupName = uf.cleaned_data['groupName']
             group.requestMsg = uf.cleaned_data['requestMsg']
             group.save()
             if not group.id:
                 return JsonResponse({
                     "status" : 'error',
-                    'msg' : "Save group error, GroupID:%s" % uf.cleaned_data['groupID']
+                    'msg' : "Save group error, GroupID:%s" % uf.cleaned_data['groupId']
                 })
 
             admin = GroupAdmin()
-            admin.groupID = uf.cleaned_data['groupID']
+            admin.groupId = uf.cleaned_data['groupId']
             admin.adminName = uf.cleaned_data['adminName']
             pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
             admin.password = hashlib.sha1(pwd).hexdigest()
@@ -85,7 +85,7 @@ class Index(View):
             else:
                 return JsonResponse({
                     "status" : 'error',
-                    'msg' : "Save group admin error, GroupID:%s; Admin:%s" % (uf.cleaned_data['groupID'], uf.cleaned_data['adminName'])
+                    'msg' : "Save group admin error, GroupID:%s; Admin:%s" % (uf.cleaned_data['groupId'], uf.cleaned_data['adminName'])
                     })
 
         else:

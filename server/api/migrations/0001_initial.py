@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='AuthCode',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('groupID', models.CharField(max_length=15)),
+                ('groupId', models.CharField(max_length=15)),
                 ('adminName', models.CharField(max_length=15)),
                 ('code', api.models.IntegerRangeField()),
                 ('times', models.IntegerField(default=0)),
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             name='Group',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('groupID', models.CharField(max_length=15, unique=True)),
+                ('groupId', models.CharField(max_length=15, unique=True)),
                 ('groupName', models.CharField(max_length=15)),
                 ('adminName', models.CharField(max_length=15)),
                 ('password', models.CharField(max_length=40)),
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('userEmail', models.EmailField(max_length=254)),
-                ('groupID', models.CharField(max_length=15)),
+                ('groupId', models.CharField(max_length=15)),
                 ('status', models.IntegerField(choices=[(0, '申请中'), (1, '允许的'), (2, '拒绝的'), (3, '拉黑的')], default=0)),
                 ('addDate', models.DateTimeField(auto_now_add=True)),
             ],
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('userEmail', models.EmailField(max_length=254)),
-                ('groupID', models.CharField(max_length=15)),
+                ('groupId', models.CharField(max_length=15)),
                 ('qq', models.CharField(max_length=15)),
                 ('lastDate', models.DateTimeField(auto_now=True)),
                 ('content', models.TextField(blank=True, null=True)),

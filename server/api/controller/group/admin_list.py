@@ -95,13 +95,13 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
-        admins = GroupAdmin.objects.filter(groupID = check.admin.groupID, userType = 0).values('id','groupID','adminName')
+        admins = GroupAdmin.objects.filter(groupId = check.admin.groupId, userType = 0).values('id','groupId','adminName')
         data = {"status" : "success",
                 "msg":"",
                 "data": [] }
         for item in admins:
             admin = User.objects.filter(username = item['adminName']).first()
-            resume = Resume.objects.filter(groupID = check.admin.groupID, userEmail = admin.email).first()
+            resume = Resume.objects.filter(groupId = check.admin.groupId, userEmail = admin.email).first()
             if resume:
                 item['status'] = resume.status
             else:
@@ -121,12 +121,12 @@ class Index(View):
                                 "msg" : "Admin is invalid."})
         pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
         password = hashlib.sha1(pwd).hexdigest()
-        admin = GroupAdmin.objects.filter(groupID = check.admin.groupID, adminName = uf.cleaned_data['adminName'], password = password).first()
+        admin = GroupAdmin.objects.filter(groupId = check.admin.groupId, adminName = uf.cleaned_data['adminName'], password = password).first()
         if admin:
             return JsonResponse({"status": 'error',
                                 'msg': "Admin exist."})
         rdm = ''.join(random.sample(string.ascii_letters + string.digits, 10))
-        admin = GroupAdmin.create(check.admin.groupID, uf.cleaned_data['adminName'], password, rdm, 0)
+        admin = GroupAdmin.create(check.admin.groupId, uf.cleaned_data['adminName'], password, rdm, 0)
         admin.save()
         return JsonResponse({"status" : "success",
                              "msg" : "Update success."})
@@ -142,7 +142,7 @@ class Index(View):
                                 "msg" : "Admin is invalid."})
         pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
         password = hashlib.sha1(pwd).hexdigest()
-        admin = GroupAdmin.objects.filter(groupID = check.admin.groupID, adminName = uf.cleaned_data['adminName'], password = password).first()
+        admin = GroupAdmin.objects.filter(groupId = check.admin.groupId, adminName = uf.cleaned_data['adminName'], password = password).first()
         if not admin:
             return JsonResponse({"status": 'error',
                                 'msg': "GroupID or adminName or password is error"})

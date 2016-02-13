@@ -3,4 +3,6 @@ from . import (index,
     login,
     logout,
     check_login,
+    resumes_list,
+    groups_list,
     reg)

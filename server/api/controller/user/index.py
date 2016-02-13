@@ -35,6 +35,11 @@ class Index(View):
                     "email" : check.user.email,
                     "username" :  check.user.username,
                     "qq" : check.user.qq,
+                    'sex' : check.user.sex,
+                    'age' : check.user.age,
+                    'yearsOfWorking' : check.user.yearsOfWorking,
+                    'school' : check.user.school,
+                    'education' : check.user.education,
                     "addDate" :  check.user.addDate.strftime('%Y-%m-%d')
                     }
                 }

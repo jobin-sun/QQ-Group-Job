@@ -17,10 +17,13 @@ gulp.task('default', function () {
         .pipe(concat("app.js"))
         .pipe(uglify())
         .pipe(gulp.dest(dst + '/js'));
-    var tpl = gulp.src(src + '/tpl/*.html')
+    var tpl = gulp.src(src + '/tpl/**/*.html')
                     .pipe(templateCache("tpl.js",{
                         module:"myApp",
-                        root:"tpl/"
+                        base:"/",
+                        transformUrl: function(url) {
+                            return url.replace(/.+?[\/\\]client[\\\/]/, '')
+                        }
                     }))
                     .pipe(uglify())
                     .pipe(gulp.dest(dst + '/js'));

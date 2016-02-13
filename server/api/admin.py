@@ -5,22 +5,22 @@ from django.contrib import admin
 from .models import User, Resume, AuthCode, Group, GroupAdmin
 
 class AuthCodeAdmin(admin.ModelAdmin):
-    list_display = ('groupID','adminName', 'code', 'times')
+    list_display = ('groupId','adminName', 'code', 'times')
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('email', 'username','qq')
     search_fields = ('email', 'username', 'qq')
 
 class ResumeAdmin(admin.ModelAdmin):
-    list_display = ('userEmail','groupID','qq','display')
-    search_fields = ('userEmail','groupID','qq','content')
+    list_display = ('userEmail','groupId','qq','display')
+    search_fields = ('userEmail','groupId','qq','content')
 
 class GroupList(admin.ModelAdmin):
-    list_display = ('groupName','groupID','requestMsg', 'status')
-    search_fields = ('groupName','groupID', 'requestMsg')
+    list_display = ('groupName','groupId','requestMsg', 'status')
+    search_fields = ('groupName','groupId', 'requestMsg')
 
 class GroupAdminAdmin(admin.ModelAdmin):
-    list_display = ('groupID', 'password', 'userType')
+    list_display = ('groupId', 'password', 'userType')
 
 
 admin.site.register(User, UserAdmin)

@@ -12,10 +12,29 @@ class IntegerRangeField(models.IntegerField):
 # Create your models here.
 
 class User(models.Model):
+    sexChoices = (
+        (0,u'保密'),
+        (1,u'男'),
+        (2,u'女')
+    )
+    eduChoices = (
+        (0,u'大专以下'),
+        (1,u'大专'),
+        (2,u'本科'),
+        (3,u'硕士'),
+        (4,u'硕士以上')
+    )
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=40)
     username = models.CharField(max_length=50)
     qq = models.CharField(max_length=15)
+
+    sex = models.IntegerField(default=0, choices=sexChoices)
+    age = IntegerRangeField(default=20, min_value=15, max_value=100)
+    yearsOfWorking = IntegerRangeField(default=0, min_value=0, max_value=60)
+    school = models.CharField(max_length=40)
+    education = models.IntegerField(default=2, choices=eduChoices)
+
     random = models.CharField(max_length=10)
     addDate = models.DateTimeField(auto_now_add = True)
 
@@ -27,9 +46,29 @@ class Resume(models.Model):
         (2,u'拒绝的'),
         (3,u'拉黑的'),
     )
+    sexChoices = (
+        (0,u'保密'),
+        (1,u'男'),
+        (2,u'女')
+    )
+    eduChoices = (
+        (0,u'大专以下'),
+        (1,u'大专'),
+        (2,u'本科'),
+        (2,u'硕士'),
+        (2,u'硕士以上')
+    )
     userEmail = models.EmailField(max_length=15)
-    groupID = models.CharField(max_length=15) #所属群
+    groupId = models.CharField(max_length=15) #所属群
     qq = models.CharField(max_length=15)
+    username = models.CharField(max_length=50)
+
+    sex = models.IntegerField(default=0, choices=sexChoices)
+    age = IntegerRangeField(default=20, min_value=15, max_value=100)
+    yearsOfWorking = IntegerRangeField(default=0, min_value=0, max_value=60)
+    school = models.CharField(max_length=40)
+    education = models.IntegerField(default=2, choices=eduChoices)
+
     lastDate = models.DateTimeField(auto_now = True)
     content = models.TextField(blank = True, null = True)
     display = models.BooleanField(default=True)
@@ -40,21 +79,21 @@ class Resume(models.Model):
 
 class Rank(models.Model):
     resumeId = models.IntegerField();
-    groupID = models.CharField(max_length=15) #所属群
+    groupId = models.CharField(max_length=15) #所属群
     adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
     rank = models.IntegerField(default=0)
     comment = models.TextField(blank = True, null = True) #管理员评价, 下期做
 
 class AuthCode(models.Model):
-    groupID = models.CharField(max_length=15) #所属群
+    groupId = models.CharField(max_length=15) #所属群
     adminName = models.CharField(max_length=15) #创建者用户名,或群主QQ号
     code = IntegerRangeField(min_value = 100000, max_value = 999999)
     times = models.IntegerField(default=0)
     lastDate = models.DateTimeField(auto_now = True)
 
     @classmethod
-    def create(cls, groupID, adminName, code, times, lastDate):
-        code = cls(groupID = groupID, adminName = adminName,
+    def create(cls, groupId, adminName, code, times, lastDate):
+        code = cls(groupId = groupId, adminName = adminName,
                     code = code, times = times, lastDate = lastDate)
         return code
 
@@ -66,7 +105,7 @@ class Group(models.Model):
         (1,u'验证通过'),
         (2,u'验证不通过'),
     )
-    groupID = models.CharField(max_length=15,unique=True) #群号
+    groupId = models.CharField(max_length=15,unique=True) #群号
     groupName = models.CharField(max_length=30) #群名称
     addDate = models.DateTimeField(auto_now_add = True)
     requestMsg = models.CharField(max_length=50) # 审核群入驻时,需要加入到群里验证
@@ -78,14 +117,14 @@ class GroupAdmin(models.Model):
          (0, u'管理员'),
          (1, u'群主')
     )
-    groupID = models.CharField(max_length=15) #群号
+    groupId = models.CharField(max_length=15) #群号
     adminName = models.CharField(max_length=15) #群主QQ号或管理员用户名
     password = models.CharField(max_length=40)
     random = models.CharField(max_length=10)
     userType = models.IntegerField(choices=typeChoices, default=0) # 0:普通管理员, 1:群主
 
     @classmethod
-    def create(cls, groupID, adminName, password, random, userType):
-        admin = cls(groupID = groupID, adminName = adminName,
+    def create(cls, groupId, adminName, password, random, userType):
+        admin = cls(groupId = groupId, adminName = adminName,
                     password = password, random = random, userType = userType)
         return admin

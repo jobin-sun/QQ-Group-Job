@@ -3,7 +3,7 @@
 """
 输入:
     {
-        "groupID":"xxxx",
+        "groupId":"xxxx",
         "adminName":"xxxx",
         "password":"xxxx"
     }
@@ -31,7 +31,7 @@ import hashlib
 import time
 
 class LoginForm(Form):
-    groupID = CharField(label=u'群ID：', max_length=15)
+    groupId = CharField(label=u'群ID：', max_length=15)
     adminName = CharField(label=u'群主QQ：', max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput())
 
@@ -46,12 +46,12 @@ class Index(View):
             })
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
-            groupID = uf.cleaned_data['groupID']
+            groupId = uf.cleaned_data['groupId']
             adminName = uf.cleaned_data['adminName']
             pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
             password = hashlib.sha1(pwd).hexdigest()
             # 获取的表单数据与数据库进行比较
-            admin = GroupAdmin.objects.filter(groupID__exact=groupID, adminName__exact=adminName, password__exact=password).first()
+            admin = GroupAdmin.objects.filter(groupId__exact=groupId, adminName__exact=adminName, password__exact=password).first()
             if admin:
                 data = {"status": 'success',
                         'msg': "Login success"
@@ -62,7 +62,7 @@ class Index(View):
 
                 sha1 = hashlib.sha1((admin.random + config.keyToken + str(now)).encode("utf-8")).hexdigest()
                 cookieOpt = {'expires': now + config.expiration}
-                token = groupID + "-"+ adminName +"-" + str(now) + "-" + sha1
+                token = groupId + "-"+ adminName +"-" + str(now) + "-" + sha1
 
                 data['cookies'] = {
                     'token': {

@@ -1,9 +1,11 @@
 angular.module('myApp')
-	.controller("ListCtrl",["$scope","$http",function($scope, $http){
+	.controller("ListCtrl",["$scope","$http", '$routeParams',function($scope, $http, $routeParams){
 		var list = {};
+		$scope.groupId = parseInt($routeParams.groupId);
 		$scope.submit = function(){
 			$http.get("/api/list/",{
 				params:{
+					groupId: $scope.groupId,
 					code: $scope.code
 				}
 			}).success(function(response){

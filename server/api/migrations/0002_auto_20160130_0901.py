@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='GroupAdmin2',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('groupID', models.CharField(max_length=15, unique=True)),
+                ('groupId', models.CharField(max_length=15, unique=True)),
                 ('adminName', models.CharField(max_length=15)),
                 ('password', models.CharField(max_length=40)),
                 ('random', models.CharField(max_length=10)),

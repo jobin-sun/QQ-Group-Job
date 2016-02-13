@@ -87,7 +87,7 @@ class Index(View):
                 "msg" :  '',
                 "data" : []
                 }
-        resumes = Resume.objects.filter(groupID = check.admin.groupID)
+        resumes = Resume.objects.filter(groupId = check.admin.groupId)
         for item in resumes:
             user = User.objects.filter(email = item.userEmail).first()
             allRank = Rank.objects.filter(resumeId = item.id)
@@ -98,7 +98,7 @@ class Index(View):
                                     "msg": "Resume without valid user"})
             resume = {
                 "resumeId": item.id,
-                "groupId": item.groupID,
+                "groupId": item.groupId,
                 "username": user.username,
                 "qq": item.qq,
                 "lastDate": item.lastDate.strftime('%Y-%m-%d'),

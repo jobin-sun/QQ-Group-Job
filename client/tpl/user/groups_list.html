@@ -1,0 +1,15 @@
+<div class="container flex_box user">
+    <div ng-include="'tpl/user/left.html'"></div>
+    <div class="right flex1">
+    	<div class='title' style="background-color: #ccc">
+    		<div class="inline_block">群号码</div>
+    		<div class="inline_block">状态</div>
+    		<div class="inline_block">删除</div>
+    	</div>
+    	<div ng-repeat='item in items'>
+    		<div class="inline_block" ng-bind='item.groupId'></div>
+    		<div class='inline_block' ng-bind='item.status'></div>
+    		<div class="inline_block">删除</div>
+    	</div>
+    </div>
+</div>

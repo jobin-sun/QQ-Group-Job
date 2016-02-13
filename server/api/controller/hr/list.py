@@ -2,14 +2,15 @@ __author__ = 'jobin'
 
 from django.http import JsonResponse
 from django.views.generic import View
-from api.models import AuthCode, Resume
+from api.models import AuthCode, Resume, Rank
 
 
 
-from django.forms import (Form, IntegerField)
+from django.forms import (Form, IntegerField, CharField)
 
 
 class AuthCodeForm(Form):
+    groupId = CharField(label=u'群ID：', max_length=15)
     code = IntegerField(min_value=100000, max_value=999999)
 
 class List(View):
@@ -17,7 +18,8 @@ class List(View):
         uf = AuthCodeForm(request.GET)
         if uf.is_valid():
             code = uf.cleaned_data['code']
-            codeDb = AuthCode.objects.filter(code = code).first()
+            groupId = uf.cleaned_data['groupId']
+            codeDb = AuthCode.objects.filter(display__code = code, display__groupId = groupId).first()
             if codeDb:
                 codeDb.times += 1
                 codeDb.save()
@@ -25,9 +27,15 @@ class List(View):
                         'msg' : '',
                         'data' : []
                         }
-                rst = Resume.objects.filter(display__exact = True).values('userEmail', 'addDate', 'content', 'rank')
+                rst = Resume.objects.filter(display__exact = True).values('id', 'userEmail','groupId','username', 'qq', 'addDate', 'content')
                 for item in rst:
                     item['addDate'] = item['addDate'].strftime('%Y-%m-%d')
+                    rank = Rank.objects.filter(resumeId__exact = item['id'])
+                    if rank:
+                        item['rank'] = 0
+                        for rankItem in rank:
+                            item['rank'] += rankItem['rank']
+                        item['rank'] /= len(rank)
                     data['data'].append(item)
                 return JsonResponse(data)
             else:
