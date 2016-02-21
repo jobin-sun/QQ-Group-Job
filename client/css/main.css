@@ -59,3 +59,4 @@ input.ng-invalid{border: 1px solid red;}
 .list .left{ text-align: right;}
 .list .content{white-space: pre;}
 .user .left{ width: 200px; padding-top: 2em;}
+.user.apply .title{ width: 4em; }

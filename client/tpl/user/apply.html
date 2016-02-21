@@ -1,0 +1,50 @@
+<div class="container flex_box user apply">
+    <div ng-include="'tpl/user/left.html'"></div>
+    <div class="right flex1">
+        <div class="line line1">
+            <div class="inline_block title">Email</div>
+            <div class="inline_block value"><input type='text' ng-model='email'></div>
+        </div>
+        <div class="line line2">
+            <div class="inline_block title">群Id</div>
+            <div class="inline_block value"><input type='text' ng-model='groupId'></div>
+        </div>
+        <div class="line line3">
+            <div class="inline_block title">qq</div>
+            <div class="inline_block value"><input type='text' ng-model='qq'></div>
+        </div>
+        <div class="line line4">
+            <div class="inline_block title">姓名</div>
+            <div class="inline_block value"><input type='text' ng-model='username'></div>
+        </div>
+        <div class="line line5">
+            <div class="inline_block title">性别</div>
+            <div class="inline_block value"><input type='text' ng-model='sex'></div>
+        </div>
+        <div class="line line6">
+            <div class="inline_block title">年龄</div>
+            <div class="inline_block value"><input type='text' ng-model='age'></div>
+        </div>
+        <div class="line line7">
+            <div class="inline_block title">工作年限</div>
+            <div class="inline_block value"><input type='text' ng-model='yearsOfWorking'></div>
+        </div>
+        <div class="line line8">
+            <div class="inline_block title">学校</div>
+            <div class="inline_block value"><input type='text' ng-model='school'></div>
+        </div>
+        <div class="line line9">
+            <div class="inline_block title">学历</div>
+            <div class="inline_block value"><input type='text' ng-model='education'></div>
+        </div>
+        <div class="line line10">
+            <div class="inline_block title">公开</div>
+            <div class="inline_block value"><input type="checkbox" ng-model='display' /></div>
+        </div>
+        <div class="line line11">
+            <div class="inline_block title">内容</div>
+            <div class="inline_block value"><textarea ng-model='content'></textarea></div>
+        </div>
+        <button ng-init='showApply=false' ng-show="showApply" class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()">申请加入</button>
+    </div>
+</div>

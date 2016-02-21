@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^change_pwd/', user.change_pwd.ChangePwd.as_view()),
     url(r'^resumes_list/', user.resumes_list.Index.as_view()),
     url(r'^groups_list/', user.groups_list.Index.as_view()),
+    url(r'^resume/', user.resume.Index.as_view()),
 
     url(r'^group/admin_list/', group.admin_list.Index.as_view()),
     url(r'^group/auth_code/', group.auth_code.Index.as_view()),

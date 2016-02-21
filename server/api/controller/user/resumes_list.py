@@ -1,15 +1,11 @@
 __author__ = 'jobin'
-import hashlib
-import time
-import base64
+
 
 from django.http import JsonResponse
 from django.views.generic import View
-from django.forms import (Form, PasswordInput, CharField, EmailField)
 
 from .check_request import CheckRequest
 from api.models import Resume
-from api import config
 
 class Index(View):
     def get(self, request):

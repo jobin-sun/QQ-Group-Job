@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>QQ群推荐墙</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<style type="text/css">
-		.rz_toast_ctn{position: fixed;top: 2em; z-index: 99999;width: 100%; display: none; font-size: 12px; }
-		.rz_toast_txt{padding: 0.5em 1em;margin: 0 auto;display: table; background-color: rgba(0,0,0,0.6); border-radius: 20px; color: #fff;}
-	</style>
+    <meta charset="utf-8">
+    <title>QQ群推荐墙</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style type="text/css">
+        .rz_toast_ctn{position: fixed;top: 2em; z-index: 99999;width: 100%; display: none; font-size: 12px; }
+        .rz_toast_txt{padding: 0.5em 1em;margin: 0 auto;display: table; background-color: rgba(0,0,0,0.6); border-radius: 20px; color: #fff;}
+    </style>
 </head>
 <body>
-	<div ng-app="myApp">
-		<div ng-view></div>
-	</div>
+    <div ng-app="myApp">
+        <div ng-view></div>
+    </div>
 <div class="rz_toast_ctn">
   <div class="rz_toast_txt">
   </div>
 </div>
-	<script type="text/javascript" src="js_lib/angular.min.js"></script>
-	<script type="text/javascript" src="js_lib/angular-route.js"></script>
-	<script type="text/javascript" src="js_lib/angular-cookies.js"></script>
-	<!-- inject:js -->
-	<script type="text/javascript" src="js/common.js"></script>
-	<script type="text/javascript" src="js/route.js"></script>
-	<script type="text/javascript" src="js/ctrl/ChangePwdCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/GroupAdminCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/GroupResumeListCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/IndexCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/ListCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/LoginCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/LogoutCtrl.js"></script>
-	<script type="text/javascript" src="js/ctrl/RegCtrl.js"></script>
+    <script type="text/javascript" src="js_lib/angular.min.js"></script>
+    <script type="text/javascript" src="js_lib/angular-route.js"></script>
+    <script type="text/javascript" src="js_lib/angular-cookies.js"></script>
+    <!-- inject:js -->
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/route.js"></script>
+    <script type="text/javascript" src="js/filter.js"></script>
+    <script type="text/javascript" src="js/ctrl/ChangePwdCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/GroupAdminCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/GroupResumeListCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/IndexCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/ListCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/LoginCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/LogoutCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/RegCtrl.js"></script>
+    <script type="text/javascript" src="js/ctrl/ApplyCtrl.js"></script>
 
-	<script type="text/javascript" src="js/ctrl/GroupsList.js"></script>
-	<script type="text/javascript" src="js/ctrl/ResumesList.js"></script>
-  	<!-- endinject -->
+    <script type="text/javascript" src="js/ctrl/GroupsList.js"></script>
+    <script type="text/javascript" src="js/ctrl/ResumesList.js"></script>
+    <!-- endinject -->
 </body>
 </html>

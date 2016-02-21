@@ -5,4 +5,5 @@ from . import (index,
     check_login,
     resumes_list,
     groups_list,
+    resume,
     reg)

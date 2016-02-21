@@ -9,9 +9,6 @@ angular.module('myApp', ["ngRoute", "ngCookies"])
 		}).when('/index', {
 			templateUrl: 'tpl/user/index.html',
 			controller: 'IndexCtrl'
-		}).when('/hr/list/:groupId', {
-			templateUrl: 'tpl/hr/list.html',
-			controller: 'ListCtrl'
 		}).when('/logout', {
 			template: '',
 			controller: 'LogoutCtrl'
@@ -24,8 +21,18 @@ angular.module('myApp', ["ngRoute", "ngCookies"])
 		}).when('/resumes_list', {
 			templateUrl: 'tpl/user/resumes_list.html',
 			controller: 'ResumesListCtrl'
+		}).when('/apply/:groupId', {
+			templateUrl: 'tpl/user/apply.html',
+			controller: 'ApplyCtrl'
+		}).when('/apply', {
+			templateUrl: 'tpl/user/apply.html',
+			controller: 'ApplyCtrl'
+
 		
 		}).when('/hr/list', {
+			templateUrl: 'tpl/hr/list.html',
+			controller: 'ListCtrl'
+		}).when('/hr/list/:groupId', {
 			templateUrl: 'tpl/hr/list.html',
 			controller: 'ListCtrl'
 
