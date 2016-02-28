@@ -1,9 +1,15 @@
 angular.module('myApp')
 	.controller("GroupResumeListCtrl",["$scope", "$http", "$cookies", function($scope, $http, $cookies){
+		$http.get("/api/group/check_login/").success(function(response){
+			if(response.status != "success"){
+				location.href = "#/group/login";
+			}
+		})
+		$scope.current = 'resume_list';
 		var list = {};
 		$http.get("/api/group/resume_list/",{
 			params:{
-				groupID: $scope.groupID
+				groupId: $scope.groupId
 			}
 		}).success(function(response){
 			if (response.status == "success") {

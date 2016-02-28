@@ -71,7 +71,7 @@ class Index(View):
                     }
                 }
                 response = JsonResponse(data)
-                response.set_cookie("token",value=token, max_age=config.expiration, httponly=True)
+                response.set_cookie("admin_token",value=token, max_age=config.expiration, httponly=True)
                 return response
             else:
                 # 用户名或密码错误

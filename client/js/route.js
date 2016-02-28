@@ -36,12 +36,16 @@ angular.module('myApp', ["ngRoute", "ngCookies"])
 			templateUrl: 'tpl/hr/list.html',
 			controller: 'ListCtrl'
 
+		}).when('/group/index', {
+			redirectTo: '/group/resume_list/'
+		}).when('/group', {
+			redirectTo: '/group/resume_list/'
 		}).when('/group/join/', {
 			templateUrl: 'tpl/group/join.html',
-			controller: 'GroupJoinListCtrl'
+			controller: 'GroupJoinCtrl'
 		}).when('/group/login/', {
 			templateUrl: 'tpl/group/login.html',
-			controller: 'GroupLoginListCtrl'
+			controller: 'GroupLoginCtrl'
 		}).when('/group/resume_list/', {
 			templateUrl: 'tpl/group/resume_list.html',
 			controller: 'GroupResumeListCtrl'
@@ -51,5 +55,11 @@ angular.module('myApp', ["ngRoute", "ngCookies"])
 		}).when('/group/admin_list/', {
 			templateUrl: 'tpl/group/admin_list.html',
 			controller: 'GroupAdminListCtrl'
+		}).when('/group/auth_code/', {
+			templateUrl: 'tpl/group/auth_code.html',
+			controller: 'GroupAuthCodeCtrl'
+		}).when('/group/logout', {
+			template: '',
+			controller: 'GroupLogoutCtrl'
 		}).otherwise({redirectTo: '/login'});
 	}]);

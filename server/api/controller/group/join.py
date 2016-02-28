@@ -91,5 +91,5 @@ class Index(View):
         else:
             return JsonResponse({
                 "status" : 'error',
-                'msg' : "Illegal post"
+                'msg' : "Illegal post: %s" % uf.errors
             })

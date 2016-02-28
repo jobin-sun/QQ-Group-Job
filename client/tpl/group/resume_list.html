@@ -1,27 +1,31 @@
-<div class="container flex_box group">
-    <div ng-include="'tpl/group/left.html'"></div>
-    <div class="right flex1">
-        <div ng-repeat="item in items">
-            <div>
-                <span ng-bind='item.groupId'></span> 
-                <span ng-bind='item.email'></span>
-                <span ng-bind='item.status'></span>
+<div class="container">
+    <h2 class="form-signin-heading">权限管理 <a href="#/group" class="small">返回首页</a></h2>
+     <div class="flex_box group">
+        <div ng-include="'tpl/group/left.html'"></div>
+        <div class="right flex1">
+            <div ng-repeat="item in items">
+                <div>
+                    <span ng-bind='item.groupId'></span> 
+                    <span ng-bind='item.email'></span>
+                    <span ng-bind='item.status'></span>
+                </div>
+                <div>
+                    <span ng-bind='item.username'></span> 
+                    <span ng-bind='item.qq'></span>
+                    <span ng-bind='item.sex'></span>
+                </div>
+                <div>
+                    <span ng-bind='item.age'></span> 
+                    <span ng-bind='item.yearsOfWorking'></span>
+                    <span ng-bind='item.school'></span>
+                </div>
+                <div>
+                    <span ng-bind='item.educatioin'></span> 
+                    <span ng-bind='item.lastData'></span>
+                </div>
+                <div ng-bind='item.content'></div>
             </div>
-            <div>
-                <span ng-bind='item.username'></span> 
-                <span ng-bind='item.qq'></span>
-                <span ng-bind='item.sex'></span>
-            </div>
-            <div>
-                <span ng-bind='item.age'></span> 
-                <span ng-bind='item.yearsOfWorking'></span>
-                <span ng-bind='item.school'></span>
-            </div>
-            <div>
-                <span ng-bind='item.educatioin'></span> 
-                <span ng-bind='item.lastData'></span>
-            </div>
-            <div ng-bind='item.content'></div>
         </div>
     </div>
 </div>
+    

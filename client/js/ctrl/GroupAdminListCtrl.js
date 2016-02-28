@@ -1,6 +1,7 @@
 angular.module('myApp')
-	.controller("GroupAdminCtrl",["$scope","$http",function($scope, $http){
-		$http.get("api/group/admin/",{
+	.controller("GroupAdminListCtrl",["$scope","$http",function($scope, $http){
+		$scope.current = 'admin_list';
+		$http.get("api/group/admin_list/",{
 			params:{
 				code: $scope.code
 			}

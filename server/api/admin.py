@@ -20,7 +20,7 @@ class GroupList(admin.ModelAdmin):
     search_fields = ('groupName','groupId', 'requestMsg')
 
 class GroupAdminAdmin(admin.ModelAdmin):
-    list_display = ('groupId', 'password', 'userType')
+    list_display = ('groupId', 'adminName', 'userType')
 
 
 admin.site.register(User, UserAdmin)

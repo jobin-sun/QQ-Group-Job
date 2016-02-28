@@ -1,6 +1,19 @@
-<div class="container flex_box group">
-    <div ng-include="'tpl/group/left.html'"></div>
-    <div class="right flex1">
-        
-    </div>
+<div class="container">
+    <h2 class="form-signin-heading">权限管理 <a href="#/group" class="small">返回首页</a></h2>
+	<div class="flex_box group">
+	    <div ng-include="'tpl/group/left.html'"></div>
+	    <div class="right flex1">
+	        <form class="form-signin" name="changePwd">
+		        <div class="flex_box login_line">
+		        	<label for="inputPassword" class="inline_block login_txt">新密码 </label>
+		        	<input type="password" id="inputPassword" class="form-control flex1" ng-model="password" placeholder="密码" required="">
+		        </div>
+		        <div class="flex_box login_line">
+		        	<label for="inputPassword" class="inline_block login_txt">确认码</label>
+		        	<input type="password" id="inputPassword" class="form-control flex1" ng-model="rePassword" placeholder="重复密码" required="">
+		        </div>
+		        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="changePwd.$invalid || password != rePassword">提交</button>
+		    </form>
+	    </div>
+	</div>
 </div>

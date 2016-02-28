@@ -10,7 +10,7 @@ from .check_request import CheckRequest
 class Index(View):
     def get(self, request):
         check = CheckRequest(request)
-        if check.user:
+        if check.admin:
             data = {"status":"success",
                     "msg":"User logined"
                     }

@@ -45,7 +45,7 @@
   -wekit-flex:1;
   flex:1;
 }
-.login_txt{margin: 0 0.5em; height: 40px; line-height: 40px; width: 5em;}
+.login_txt{margin: 0 0.5em; height: 40px; line-height: 40px; width: 6em;}
 .login_line{padding: 0.5em 0;}
 .usable_btn{ height: 34px;}
 .edit_btn{ width: 6em;}
