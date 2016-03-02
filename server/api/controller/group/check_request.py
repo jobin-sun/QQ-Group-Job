@@ -32,7 +32,6 @@ class CheckRequest():
         admin_token = parse_adminToken(token)
         if admin_token is None:
             self.msg = "Format of token is not correct, Check your token(%s)" % token
-            print(self.msg)
             return
 
         if admin_token.is_expired():
@@ -44,7 +43,7 @@ class CheckRequest():
         admin = GroupAdmin.objects.filter(groupId__exact = admin_token.groupid,
                                           adminName__exact = admin_token.admin_name).first()
         if not admin:
-            self.msg = "Admin not found, groupId:%s; adminName." % admin_token.groupid, admin_token.admin_name
+            self.msg = "Admin not found, groupId:%s; adminName:%s." % admin_token.groupid, admin_token.admin_name
             return
 
         if admin_token.is_user(admin):
