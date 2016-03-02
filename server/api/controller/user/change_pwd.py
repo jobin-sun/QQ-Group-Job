@@ -4,7 +4,7 @@ import hashlib
 
 from django.http import JsonResponse
 from django.views.generic import View
-from django.forms import (Form, PasswordInput, CharField )
+from django.forms import (Form, PasswordInput, CharField)
 
 from .check_request import CheckRequest
 from api import config
@@ -15,7 +15,7 @@ class PwdForm(Form):
 
 class ChangePwd(View):
     def put(self, request):
-        check = CheckRequest(request);
+        check = CheckRequest(request)
         if not check.user:
             return JsonResponse({
                 "status": "error",

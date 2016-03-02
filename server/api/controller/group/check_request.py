@@ -1,9 +1,7 @@
 __author__ = 'jobin'
-import re
-import hashlib
-import time
-import datetime
-import json
+from datetime import datetime
+from json import loads
+from api.token import parse_adminToken
 from api import config
 from api.models import GroupAdmin
 
@@ -23,7 +21,7 @@ class CheckRequest():
         if request.method == "GET":
             self.jsonForm = request.GET.dict()
         else:
-            self.jsonForm = json.loads(request.body.decode("utf-8"))
+            self.jsonForm = loads(request.body.decode("utf-8"))
         if "admin_token" in self.jsonForm:
             token = self.jsonForm["admin_token"]
         else:
@@ -31,35 +29,25 @@ class CheckRequest():
         if not token:
             self.msg = "Token not found"
             return
-        pattern = re.compile(r'(\d+)-(\w+)-(\d{10})-(\w{40})')#依次是群id-管理员用户名-时间戳-token
-        match = pattern.match(token)
-        if not match:
+        admin_token = parse_adminToken(token)
+        if admin_token is None:
             self.msg = "Format of token is not correct, Check your token(%s)" % token
+            print(self.msg)
             return
-        groupId = match.group(1)
-        adminName = match.group(2)
-        t = int(match.group(3))
-        sha1 = match.group(4)
-        now = int(time.time())
 
-        if now - t > config.expiration:
-            self.msg = "Token is expired, Your time is %s" % datetime.datetime.fromtimestamp(
-                t
-            ).strftime('%Y-%m-%d %H:%M:%S')
+        if admin_token.is_expired():
+            self.msg = "Token is expired, Your time is %s" % datetime.fromtimestamp(
+                admin_token.timestamp).strftime('%Y-%m-%d %H:%M:%S')
 
             return
 
-        admin = GroupAdmin.objects.filter(groupId__exact = groupId, adminName__exact = adminName).first()
+        admin = GroupAdmin.objects.filter(groupId__exact = admin_token.groupid,
+                                          adminName__exact = admin_token.admin_name).first()
         if not admin:
-            self.msg = "Admin not found, groupId:%s; adminName." % groupId, adminName
+            self.msg = "Admin not found, groupId:%s; adminName." % admin_token.groupid, admin_token.admin_name
             return
 
-        dbToken = hashlib.sha1(
-            (
-                admin.random + config.keyToken + str(t)
-            ).encode("utf-8")
-        ).hexdigest()
-        if sha1 == dbToken:
+        if admin_token.is_user(admin):
             self.msg = "Admin logined"
             self.admin = admin
         else:
