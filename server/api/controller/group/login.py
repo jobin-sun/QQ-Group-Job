@@ -19,16 +19,17 @@
     }
 """
 
+import hashlib
+
 from django.http import JsonResponse
 from django.views.generic import View
 
-from django.forms import (Form, PasswordInput, CharField )
+from django.forms import (Form, PasswordInput, CharField)
 
 from .check_request import CheckRequest
+from api.token import new_adminToken
 from api.models import GroupAdmin
 from api import config
-import hashlib
-import time
 
 class LoginForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
@@ -58,11 +59,9 @@ class Index(View):
                         }
 
                 # 将username写入浏览器cookie,失效时间为3600 * 24 * 30
-                now = int(time.time())
-
-                sha1 = hashlib.sha1((admin.random + config.keyToken + str(now)).encode("utf-8")).hexdigest()
-                cookieOpt = {'expires': now + config.expiration}
-                token = groupId + "-"+ adminName +"-" + str(now) + "-" + sha1
+                admin_token = new_adminToken(admin)
+                token = admin_token.get_token()
+                cookieOpt = admin_token.expired_time
 
                 data['cookies'] = {
                     'token': {

@@ -1,14 +1,13 @@
 __author__ = 'jobin'
 
 import hashlib
-import time
-import base64
 
 from django.http import JsonResponse
 from django.views.generic import View
 from django.forms import (Form, PasswordInput, CharField, EmailField)
 
 from .check_request import CheckRequest
+from api.token import new_userToken
 from api.models import User
 from api import config
 
@@ -38,12 +37,10 @@ class Login(View):
                         'msg': "Login success"
                         }
 
-                # 将username写入浏览器cookie,失效时间为3600 * 24 * 30
-                now = int(time.time())
+                user_token = new_userToken(user)
+                token = user_token.get_token()
+                cookieOpt = user_token.expired_time
 
-                sha1 = hashlib.sha1((user.random + config.keyToken + str(now)).encode("utf-8")).hexdigest()
-                cookieOpt = {'expires': now + config.expiration}
-                token = base64.b64encode(email.encode('utf-8')).decode("utf-8") + "-" + str(now) + "-" + sha1
                 data['cookies'] = {
                     'token': {
                         'value': token,
