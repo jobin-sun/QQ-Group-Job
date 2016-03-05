@@ -1,30 +1,30 @@
-<div class="container login">
-      <form class="form-signin" name="reg">
-        <h2 class="form-signin-heading">群入驻 <a href="#/group/login" class="small">登录</a></h2>
-        <div class="flex_box login_line">
-        	<label class="inline_block login_txt">群Id*</label>
-        	<input type="text" class="form-control flex1" ng-model="groupId" placeholder="群Id" required="" autofocus="">
+<div class="group_reg">
+    <div class="text_center">
+        <img src="images/top.png">
+    </div>
+    <form class="form-signin" name="reg">
+        <div class="logo text_center"><img src="images/logo.png" alt=""></div>
+        <div class="line line1">
+            <input type="text" class="form-control" ng-model="groupId" placeholder="群Id" required="" autofocus="">
         </div>
-        <div class="flex_box login_line">
-        	<label class="inline_block login_txt">群名*</label>
-        	<input type="text" class="form-control flex1" ng-model="groupName" placeholder="群名" required="">
+        <div class="line line2">
+            <input type="text" class="form-control" ng-model="groupName" placeholder="群名" required="">
         </div>
-        <div class="flex_box login_line">
-            <label class="inline_block login_txt">群主用户名*</label>
-            <input type="text" class="form-control flex1" ng-init="adminName='root'" ng-model="adminName" placeholder="群名" required="">
+        <div class="line line3">
+            <input type="text" class="form-control" ng-model="adminName" placeholder="群主邮箱">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">密码* </label>
-        	<input type="password" id="inputPassword" class="form-control flex1" ng-model="password" placeholder="Password" required="">
+        <div class="line line4">
+            <input type="password" id="inputPassword" class="form-control" ng-model="password" placeholder="密码" required="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">确认码* </label>
-        	<input type="password" id="inputPassword" class="form-control flex1 password_{{ password == rePassword }}" ng-model="rePassword" placeholder="Password" required="">
+        <div class="line line5">
+            <input type="password" id="inputPassword" class="form-control password_{{ password == rePassword }}" ng-model="rePassword" placeholder="确认码" required="">
         </div>
-        <div class="flex_box login_line">
-            <label class="inline_block login_txt">入群信息* </label>
-            <input ng-init="requestMsg='您好,我是群入驻验证员,请同意我的加群请求'" type="text" class="form-control flex1" ng-model="requestMsg" placeholder="入群请求" required="">
+        <div class="line line6">
+            <input ng-init="requestMsg='您好,我是群入驻验证员,请同意我的加群请求'" type="text" class="form-control" ng-model="requestMsg" placeholder="入群请求" required="">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="reg.$invalid || password != rePassword">入驻</button>
-      </form>
+        <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="reg.$invalid || password != rePassword">入驻</button>
+    </form>
+    <div class="no_user">
+        <a href="#/group/login">返回登录</a>
+    </div>
 </div>

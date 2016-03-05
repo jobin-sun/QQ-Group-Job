@@ -1,62 +1,360 @@
+html, body {
+  width: 100%;
+  height: 100%
+}
+html {
+  overflow: hidden
+}
+body {
+  font-family: 'Microsoft Yahei', 微软雅黑, STHeiti, arial, sans-serif;
+  overflow: auto
+}
+.appContainer{ width: 100%; height: 100%; overflow: auto; }
+.inline_block {
+  display: inline-block
+}
+.flex_box {
+  display: box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex
+}
+.flex1 {
+  -webkit-flex-box: 1;
+  flex-box: 1;
+  -wekit-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1
+}
+.clear{ clear: both; }
 .form-signin {
-  max-width: 330px;
-  padding: 15px;
+  width: 480px;
+  border-radius: 8px;
+  background-color: #f0f0f0;
   margin: 0 auto;
+  margin-top: -15px;
+  padding-bottom: 30px;
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
+.form-signin .logo{
+  padding-top: 30px;
 }
-.form-signin .checkbox {
-  font-weight: normal;
+
+
+.login{
+  background-color: #156e72;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
 }
-.form-signin .form-control {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
+.login .line {
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 380px;
 }
-.form-signin .form-control:focus {
-  z-index: 2;
+.login .line1{
+  margin-top: 30px;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+.login .line input{
+  border:1px solid #dbdbdb;
 }
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.login .forget_pwd{
+  width: 380px;
+  margin: 16px auto 0px;
 }
-.inline_block{display: inline-block;}
-.flex_box{ 
-    display: box;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-  }
-.flex1{
-  -webkit-flex-box:1;
-  flex-box:1;
-  -wekit-flex:1;
-  flex:1;
+.login .btn_submit{
+  display: block;
+  width: 380px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  background-color: #2ea0a1;
+  color: #fff;
+  height: 40px;
+  font-size: 18px;
 }
-.login_txt{margin: 0 0.5em; height: 40px; line-height: 40px; width: 6em;}
-.login_line{padding: 0.5em 0;}
-.usable_btn{ height: 34px;}
-.edit_btn{ width: 6em;}
-.text_center{text-align: center;}
-.list .right .title{width: 8em; display: inline-block; text-align: right; padding-right: 0.5em;}
-.red{color: #f00}
-.login .password_false{ border: 1px solid red}
-input.ng-invalid-email{ border: 1px solid red;}
-input.ng-invalid-required{ border: 1px solid red;}
-input.ng-invalid{border: 1px solid red;}
-.list .left{ text-align: right;}
-.list .content{white-space: pre;}
-.user .left{ width: 200px; padding-top: 2em;}
-.user.apply .title{ width: 4em; }
+.login .other{width: 380px; margin:0 auto;}
+.login .other .left{
+  float: left;
+  background:url(../images/icon-HR.png) left top no-repeat;
+  padding-left: 1.5em;  
+  width: 49%
+}
+.login .other .right{
+  float: right;
+  width: 49%;
+  background:url(../images/icon-admin.png) 6em 0 no-repeat;
+  text-align: right;
+}
+.login .no_user{
+  width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 26px;
+}
+.login .no_user a{
+  font-size: 14px;
+  color: #fff;
+}
+
+
+.password_false {
+  border: 1px solid red !important
+}
+
+
+
+.hr{
+  background-color: #156e72;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+}
+.hr .line {
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 380px;
+}
+.hr .line1{
+  margin-top: 30px;
+}
+.hr .line input{
+  border:1px solid #dbdbdb;
+}
+.hr .btn_submit{
+  display: block;
+  width: 380px;
+  margin: 0 auto;
+  margin-top: 20px; 
+  margin-bottom: 24px;
+  background-color: #2ea0a1;
+  color: #fff;
+  height: 40px;
+  font-size: 18px;
+}
+.hr .other{width: 380px; margin:0 auto;}
+.hr .other .left{
+  float: left;
+  background:url(../images/icon-HR.png) left top no-repeat;
+  padding-left: 1.5em;  
+  width: 49%
+}
+.hr .other .right{
+  float: right;
+  width: 49%;
+  background:url(../images/icon-admin.png) 6em 0 no-repeat;
+  text-align: right;
+}
+.hr .no_user{
+  width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 26px;
+}
+.hr .no_user a{
+  font-size: 14px;
+  color: #fff;
+}
+
+
+.group_login{
+  background-color: #156e72;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+}
+.group_login .line {
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 380px;
+}
+.group_login .line1{
+  margin-top: 30px;
+}
+.group_login .line input{
+  border:1px solid #dbdbdb;
+}
+.group_login .forget_pwd{
+  width: 380px;
+  margin: 16px auto 20px;
+}
+.group_login .btn_submit{
+  display: block;
+  width: 380px;
+  margin: 0 auto;
+  margin-bottom: 24px;
+  background-color: #2ea0a1;
+  color: #fff;
+  height: 40px;
+  font-size: 18px;
+}
+.group_login .other{width: 380px; margin:0 auto;}
+.group_login .other .left{
+  float: left;
+  background:url(../images/icon-HR.png) left top no-repeat;
+  padding-left: 1.5em;  
+  width: 49%
+}
+.group_login .other .right{
+  float: right;
+  width: 49%;
+  background:url(../images/icon-admin.png) 6em 0 no-repeat;
+  text-align: right;
+}
+.group_login .no_user{
+  width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 26px;
+}
+.group_login .no_user a{
+  font-size: 14px;
+  color: #fff;
+}
+
+.reg{
+  background-color: #156e72;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+}
+.reg .line {
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 380px;
+}
+.reg .line1{
+  margin-top: 30px;
+}
+.reg .line input{
+  border:1px solid #dbdbdb;
+}
+.reg .btn_submit{
+  display: block;
+  width: 380px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  background-color: #2ea0a1;
+  color: #fff;
+  height: 40px;
+  font-size: 18px;
+}
+.reg .other{width: 380px; margin:0 auto;}
+.reg .other .left{
+  float: left;
+  background:url(../images/icon-HR.png) left top no-repeat;
+  padding-left: 1.5em;  
+  width: 49%
+}
+.reg .other .right{
+  float: right;
+  width: 49%;
+  background:url(../images/icon-admin.png) 6em 0 no-repeat;
+  text-align: right;
+}
+.reg .no_user{
+  width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 26px;
+}
+.reg .no_user a{
+  font-size: 14px;
+  color: #fff;
+}
+
+
+.group_reg{
+  background-color: #156e72;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+}
+.group_reg .line {
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 380px;
+}
+.group_reg .line1{
+  margin-top: 30px;
+}
+.group_reg .line input{
+  border:1px solid #dbdbdb;
+}
+.group_reg .btn_submit{
+  display: block;
+  width: 380px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  background-color: #2ea0a1;
+  color: #fff;
+  height: 40px;
+  font-size: 18px;
+}
+.group_reg .other{width: 380px; margin:0 auto;}
+.group_reg .other .left{
+  float: left;
+  background:url(../images/icon-HR.png) left top no-repeat;
+  padding-left: 1.5em;  
+  width: 49%
+}
+.group_reg .other .right{
+  float: right;
+  width: 49%;
+  background:url(../images/icon-admin.png) 6em 0 no-repeat;
+  text-align: right;
+}
+.group_reg .no_user{
+  width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 26px;
+}
+.group_reg .no_user a{
+  font-size: 14px;
+  color: #fff;
+}
+
+
+.usable_btn {
+  height: 34px
+}
+.edit_btn {
+  width: 6em
+}
+.text_center {
+  text-align: center
+}
+.list .right .title {
+  width: 8em;
+  display: inline-block;
+  text-align: right;
+  padding-right: 0.5em
+}
+.red {
+  color: #f00
+}
+input.ng-invalid-email {
+  border: 1px solid red
+}
+input.ng-invalid-required {
+  border: 1px solid red
+}
+input.ng-invalid {
+  border: 1px solid red
+}
+.list .left {
+  text-align: right
+}
+.list .content {
+  white-space: pre
+}
+.user .left {
+  width: 200px;
+  padding-top: 2em
+}
+.user.apply .title {
+  width: 4em
+}

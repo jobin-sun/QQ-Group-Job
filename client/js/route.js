@@ -61,5 +61,5 @@ angular.module('myApp', ["ngRoute", "ngCookies"])
 		}).when('/group/logout', {
 			template: '',
 			controller: 'GroupLogoutCtrl'
-		}).otherwise({redirectTo: '/login'});
+		}).otherwise({redirectTo: '/index'});
 	}]);

@@ -1,16 +1,26 @@
-<div class="container">
-      <form class="form-signin" name="loginForm">
-        <h2 class="form-signin-heading">请登录 <a href="#/reg" class="small">注册</a></h2>
-        <div class="flex_box login_line">
-        	<label for="inputEmail" class="inline_block login_txt">Email*</label>
-        	<input type="email" id="inputEmail" class="form-control flex1" ng-model="email" placeholder="Email地址" required="" autofocus="">
+<div class="login">
+    <div class="text_center">
+        <img src="images/top.png">
+    </div>
+    <form class="form-signin" name="loginForm">
+        <div class="logo text_center"><img src="images/logo.png" alt=""></div>
+        <div class="line line1">
+            <input type="email" class="form-control" ng-model="email" placeholder="Email地址" required="" autofocus="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">密码* </label>
-        	<input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">
+        <div class="line line2">
+            <input type="password" ng-model="password" class="form-control" placeholder="密码" required="">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
-      </form>
-      <div class="text_center"><a href="#/hr/list">我是HR,我想查看简历</a></div>
-      <div class="text_center"><a href="#/group/resume_list">我是群管理,我要管理群管理</a></div>
+        <div class="forget_pwd">
+            <a href="javascript:void(0)">忘记密码</a>
+        </div>
+        <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
+        <div class="other">
+            <a class="left" href="#/hr/list">HR登录</a>
+            <a class="right" href="#/group/login">群管理员登录</a>
+            <div class="clear"></div>
+        </div>
+    </form>
+    <div class="no_user">
+        <a href="#/reg">还没有账户？</a>
+    </div>
 </div>

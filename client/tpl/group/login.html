@@ -1,19 +1,29 @@
-<div class="container">
-      <form class="form-signin" name="loginForm">
-        <h2 class="form-signin-heading">请登录 <a href="#/group/join" class="small">群入驻</a></h2>
-        <div class="flex_box login_line">
-        	<label for="" class="inline_block login_txt">群ID*</label>
-        	<input type="number" class="form-control flex1" ng-model="groupId" placeholder="群ID" required="" autofocus="">
+<div class="group_login">
+    <div class="text_center">
+        <img src="images/top.png">
+    </div>
+    <form class="form-signin" name="loginForm">
+        <div class="logo text_center"><img src="images/logo.png" alt=""></div>
+        <div class="line line1">
+            <input type="number" class="form-control flex1" ng-model="groupId" placeholder="群ID" required="" autofocus="">
         </div>
-        <div class="flex_box login_line">
-        	<label class="inline_block login_txt">用户名*</label>
-        	<input type="text" class="form-control flex1" ng-model="adminName" placeholder="用户名" required="" autofocus="">
+        <div class="line line2">
+            <input type="text" class="form-control flex1" ng-model="adminName" placeholder="用户名" required="" autofocus="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">密码* </label>
-        	<input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">
+        <div class="line line3">
+            <input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
-      </form>
-      <div class="text_center"><a href="#/login">返回</a></div>
+        <div class="forget_pwd">
+            <a href="javascript:void(0)">忘记密码</a>
+        </div>
+        <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
+        <div class="other">
+            <a class="left" href="#/hr/list">HR登录</a>
+            <a class="right" href="#/login">普通用户登录</a>
+            <div class="clear"></div>
+        </div>
+    </form>
+    <div class="no_user">
+        <a href="#/group/join">群还没有入驻？</a>
+    </div>
 </div>

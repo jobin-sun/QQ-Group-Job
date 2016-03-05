@@ -1,26 +1,27 @@
-<div class="container login">
-      <form class="form-signin" name="reg">
-        <h2 class="form-signin-heading">请注册 <a href="#/login" class="small">登录</a></h2>
-        <div class="flex_box login_line">
-        	<label for="inputEmail" class="inline_block login_txt">Email*</label>
-        	<input type="email" id="inputEmail" class="form-control flex1" ng-model="email" placeholder="Email地址" required="" autofocus="">
+<div class="reg">
+    <div class="text_center">
+        <img src="images/top.png">
+    </div>
+    <form class="form-signin" name="reg">
+        <div class="logo text_center"><img src="images/logo.png" alt=""></div>
+        <div class="line line1">
+            <input type="email" class="form-control" ng-model="email" placeholder="Email地址" required="" autofocus="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputEmail" class="inline_block login_txt">姓名*</label>
-        	<input type="text" id="inputEmail" class="form-control flex1" ng-model="username" placeholder="姓名" required="" autofocus="">
+        <div class="line line2">
+            <input type="text" class="form-control" ng-model="username" placeholder="姓名" required="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">qq* </label>
-        	<input type="number" id="inputPassword" class="form-control flex1" ng-model="qq" placeholder="QQ号" required="">
+        <div class="line line3">
+            <input type="number" class="form-control" ng-model="qq" placeholder="QQ号" required="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">密码* </label>
-        	<input type="password" id="inputPassword" class="form-control flex1" ng-model="password" placeholder="Password" required="">
+        <div class="line line4">
+            <input type="password" class="form-control" ng-model="password" placeholder="密码" required="">
         </div>
-        <div class="flex_box login_line">
-        	<label for="inputPassword" class="inline_block login_txt">确认码* </label>
-        	<input type="password" id="inputPassword" class="form-control flex1 password_{{ password == rePassword }}" ng-model="rePassword" placeholder="Password" required="">
+        <div class="line line5">
+            <input type="password" class="form-control password_{{ password == rePassword }}" ng-model="rePassword" placeholder="确认码" required="">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="reg.$invalid || password != rePassword">注册</button>
-      </form>
+        <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="reg.$invalid || password != rePassword">注册</button>
+    </form>
+    <div class="no_user">
+        <a href="#/login">返回登录</a>
+    </div>
 </div>
