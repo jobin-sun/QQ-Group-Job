@@ -4,8 +4,8 @@ from api import config
 from hashlib import sha1
 from base64 import b64encode, b64decode
 
-userTokenPattern = compile(r'([\w+=/]+)-(\d{10})-(\w{40})')  # 依次是 emial-时间戳-token
-adminTokenPattern = compile(r'(\d+)-(\w+)-(\d{10})-(\w{40})')  # 依次是 群id-管理员用户名-时间戳-token
+userTokenPattern = compile(r'(\d+)-(\d{10})-(\w{40})')  # 依次是 用户id-时间戳-token
+adminTokenPattern = compile(r'(\d+)-(\d{10})-(\w{40})')  # 依次是 管理员id-时间戳-token
 
 def get_user_sha1(user, timestamp):
     return sha1((user.random + config.keyToken + str(timestamp)).encode('utf-8')).hexdigest()
@@ -25,46 +25,44 @@ class Token:
             return False
 
 class UserToken(Token):
-    def __init__(self, email, timestamp, token_sha1):
-        self.email = email
+    def __init__(self, id, timestamp, token_sha1):
+        self.id = id
         super().__init__(timestamp, token_sha1)
     def get_token(self):
-        return b64encode(self.email.encode('utf-8')).decode("utf-8") + "-" + str(self.timestamp) + "-" + self.token_sha1
+        return str(self.id) + "-" + str(self.timestamp) + "-" + self.token_sha1
 
 class AdminToken(Token):
-    def __init__(self, groupid, admin_name, timestamp, token_sha1):
-        self.groupid = groupid
-        self.admin_name = admin_name
+    def __init__(self, id, timestamp, token_sha1):
+        self.id = id
         super().__init__(timestamp, token_sha1)
     def get_token(self):
-        return self.groupid + "-" + self.admin_name + "-" + str(self.timestamp) + "-" + self.token_sha1
+        return  str(self.id) + "-" + str(self.timestamp) + "-" + self.token_sha1
 
 def new_userToken(user):
     now = int(time())
     user_sha1 = get_user_sha1(user, now)
-    return UserToken(user.email, now, user_sha1)
+    return UserToken(user.id, now, user_sha1)
 
 def new_adminToken(admin):
     now = int(time())
     admin_sha1 = get_user_sha1(admin, now)
-    return AdminToken(admin.groupId, admin.adminName, now, admin_sha1)
+    return AdminToken(admin.id, now, admin_sha1)
 
 def parse_userToken(token):
     parse_result = userTokenPattern.match(token)
     if not parse_result:
         return None
-    email = b64decode(parse_result.group(1))
+    id = int(parse_result.group(1))
     timestamp = int(parse_result.group(2))
     user_sha1 = parse_result.group(3)
-    return UserToken(email, timestamp, user_sha1)
+    return UserToken(id, timestamp, user_sha1)
 
 def parse_adminToken(token):
     parse_result = adminTokenPattern.match(token)
     if not parse_result:
         return None
-    groupid = parse_result.group(1)
-    admin_name = parse_result.group(2)
-    timestamp = int(parse_result.group(3))
-    admin_sha1 = parse_result.group(4)
-    return AdminToken(groupid, admin_name, timestamp, admin_sha1)
+    id = int(parse_result.group(1))
+    timestamp = int(parse_result.group(2))
+    admin_sha1 = parse_result.group(3)
+    return AdminToken(id, timestamp, admin_sha1)
 

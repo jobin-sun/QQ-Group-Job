@@ -32,13 +32,13 @@ class CheckRequest():
                 user_token.timestamp).strftime('%Y-%m-%d %H:%M:%S')
             return
 
-        user = User.objects.filter(email__exact = user_token.email).first()
+        user = User.objects.filter(id__exact = user_token.id).first()
         if not user:
-            self.msg = "User not found, Check your email(%s)." % user_token.email
+            self.msg = "User not found, Check your id(%s)." % user_token.id
             return
 
         if user_token.is_user:
-            self.msg = "User(%s) logined" % user_token.email
+            self.msg = "User(%s) logined" % user_token.id
             self.user = user
         else:
             self.msg = "Token is illegal, Check your token(%s)" % token

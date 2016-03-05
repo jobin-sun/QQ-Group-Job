@@ -40,10 +40,9 @@ class CheckRequest():
 
             return
 
-        admin = GroupAdmin.objects.filter(groupId__exact = admin_token.groupid,
-                                          adminName__exact = admin_token.admin_name).first()
+        admin = GroupAdmin.objects.filter(id__exact = admin_token.id).first()
         if not admin:
-            self.msg = "Admin not found, groupId:%s; adminName:%s." % admin_token.groupid, admin_token.admin_name
+            self.msg = "Admin not found, id:%s." % admin_token.id
             return
 
         if admin_token.is_user(admin):
