@@ -44,6 +44,9 @@ gulp.task('default', function () {
         .pipe(csso())
         .pipe(gulp.dest(dst + '/css'));
 
+    gulp.src(src + '/images/*')
+        .pipe(gulp.dest(dst + '/images'));
+
     gulp.src(src + '/static/**/*')
         .pipe(gulp.dest(dst + '/static'));
 

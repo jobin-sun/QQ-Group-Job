@@ -1,4 +1,4 @@
-angular.module('myApp', ["ngRoute", "ngCookies"])
+angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.when('/login', {
 			templateUrl: 'tpl/user/login.html',

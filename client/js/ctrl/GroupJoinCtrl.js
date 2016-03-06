@@ -14,7 +14,7 @@ angular.module('myApp')
 				requestMsg:$scope.requestMsg
 			}).success(function(response){
 				if(response.status == "success"){
-					//location.href = "#/index"
+					location.href = "#/group/login"
 				}else{
 					$T.toast(response.msg);
 				}
