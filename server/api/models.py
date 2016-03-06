@@ -130,7 +130,7 @@ class GroupAdmin(models.Model):
         (1, u'已激活')
     )
     groupId = models.CharField(max_length=15)  # 群号
-    admin_qq = models.CharField(max_length=15, unique=True)
+    admin_qq = models.CharField(max_length=15)
 
     login_random = models.CharField(max_length=10)
     activate_random = models.CharField(max_length=10)
