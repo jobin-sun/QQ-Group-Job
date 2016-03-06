@@ -37,7 +37,7 @@ class CheckRequest():
             self.msg = "User not found, Check your id(%s)." % user_token.id
             return
 
-        if user_token.is_user:
+        if user_token.is_user(user):
             self.msg = "User(%s) logined" % user_token.id
             self.user = user
         else:
