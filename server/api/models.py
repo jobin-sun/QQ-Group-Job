@@ -110,6 +110,11 @@ class Group(models.Model):
     addDate = models.DateTimeField(auto_now_add = True)
     requestMsg = models.CharField(max_length=50) # 审核群入驻时,需要加入到群里验证
     status = models.IntegerField(choices=statusChoices, default=0) # 群入驻状态,0:未验证, 1:验证通过, 2:验证不通过
+    def delete(self):
+        admins = GroupAdmin.objects.filter(groupId__exact=self.groupId)
+        for admin in admins:
+            admin.delete()
+        super(Group, self).delete()
 
 class GroupAdmin(models.Model):
     #群管理员列表
