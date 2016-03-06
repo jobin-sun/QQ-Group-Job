@@ -27,7 +27,7 @@ class PostForm(Form):
 
 class Index(View):
     def get(self, request):
-        check = CheckRequest(request);
+        check = CheckRequest(request)
         if not check.user:
             return JsonResponse({
                 "status": "error",
@@ -35,7 +35,7 @@ class Index(View):
             })
         uf = GetForm(check.jsonForm)
         if uf.is_valid():
-            item = Resume.objects.filter(userEmail = check.user.email, groupId = uf.cleaned_data['groupId']).first()
+            item = Resume.objects.filter(qq = check.user.qq, groupId = uf.cleaned_data['groupId']).first()
             if item:
                 return JsonResponse({
                     "status": 'success',
@@ -77,7 +77,7 @@ class Index(View):
                                  'msg': "Form is error"
                                  })
     def post(self, request):
-        check = CheckRequest(request);
+        check = CheckRequest(request)
         if not check.user:
             return JsonResponse({
                 "status": "error",
@@ -85,21 +85,19 @@ class Index(View):
             })
         uf = PostForm(check.jsonForm)
         if uf.is_valid():
-            resume = Resume();
-            resume.userEmail = uf.cleaned_data['email'];
-
-            resume.groupId = uf.cleaned_data['groupId'];
-            resume.qq = uf.cleaned_data['qq'];
-            resume.username = uf.cleaned_data['username'];
-
-            resume.sex = uf.cleaned_data['sex'];
-            resume.age = uf.cleaned_data['age'];
-            resume.yearsOfWorking = uf.cleaned_data['yearsOfWorking'];
-            resume.school = uf.cleaned_data['school'];
-            resume.education = uf.cleaned_data['education'];
-
-            resume.content = uf.cleaned_data['content'];
-            resume.display = uf.cleaned_data['display'];
+            resume = Resume(
+                userEmail = uf.cleaned_data['email'],
+                groupId = uf.cleaned_data['groupId'],
+                qq = uf.cleaned_data['qq'],
+                username = uf.cleaned_data['username'],
+                sex = uf.cleaned_data['sex'],
+                age = uf.cleaned_data['age'],
+                yearsOfWorking = uf.cleaned_data['yearsOfWorking'],
+                school = uf.cleaned_data['school'],
+                education = uf.cleaned_data['education'],
+                content = uf.cleaned_data['content'],
+                display = uf.cleaned_data['display']
+            )
             resume.save()
             if resume.id:
                 return JsonResponse({
@@ -116,5 +114,4 @@ class Index(View):
                 "status": "error",
                 "msg": "From error"
             })
-
 

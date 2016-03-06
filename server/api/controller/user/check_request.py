@@ -1,7 +1,7 @@
 __author__ = 'jobin'
 from datetime import datetime
 from json import loads
-from api.token import parse_userToken
+from api.token import parse_token
 from api import config
 from api.models import User
 
@@ -22,7 +22,7 @@ class CheckRequest():
         if not token:
             self.msg = "Token not found"
             return
-        user_token = parse_userToken(token)
+        user_token = parse_token(token, 'login')
         if not user_token:
             self.msg = "Format of token is not correct, Check your token(%s)" % token
             return
