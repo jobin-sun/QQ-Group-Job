@@ -82,12 +82,10 @@ delete:
 from django.http import JsonResponse
 from django.views.generic import View
 
-import hashlib, random, string
-
 from .check_request import CheckRequest
 from .form import CheckAdminForm, DelAdminForm, MngResumeForm
 from api.models import GroupAdmin, Resume, User
-from api import config
+from api.token import db_password, new_random
 
 class Index(View):
     def get(self, request):
@@ -95,13 +93,19 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
-        admins = GroupAdmin.objects.filter(groupId = check.admin.groupId, userType = 0).values('id','groupId','adminName')
+
+        admins = GroupAdmin.objects.filter(
+            groupId = check.admin.groupId,
+            userType = 0
+        ).values('id', 'groupId', 'admin_qq')
+
         data = {"status" : "success",
                 "msg":"",
                 "data": [] }
+
         for item in admins:
-            admin = User.objects.filter(username = item['adminName']).first()
-            resume = Resume.objects.filter(groupId = check.admin.groupId, userEmail = admin.email).first()
+            admin = User.objects.filter(qq__exact = item['admin_qq']).first()
+            resume = Resume.objects.filter(groupId__exact = check.admin.groupId, qq__exact = admin.qq).first()
             if resume:
                 item['status'] = resume.status
             else:
@@ -119,14 +123,20 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "Admin is invalid."})
-        pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
-        password = hashlib.sha1(pwd).hexdigest()
-        admin = GroupAdmin.objects.filter(groupId = check.admin.groupId, adminName = uf.cleaned_data['adminName'], password = password).first()
+        admin = GroupAdmin.objects.filter(
+            groupId = check.admin.groupId,
+            admin_qq = uf.cleaned_data['admin_qq'],
+        ).first()
         if admin:
             return JsonResponse({"status": 'error',
                                 'msg': "Admin exist."})
-        rdm = ''.join(random.sample(string.ascii_letters + string.digits, 10))
-        admin = GroupAdmin.create(check.admin.groupId, uf.cleaned_data['adminName'], password, rdm, 0)
+        admin = GroupAdmin(
+            groupId=check.admin.groupId,
+            admin_qq=uf.cleaned_data['admin_qq'],
+            password = db_password(uf.cleaned_data['password']),
+            login_random = new_random(),
+            userType=0
+            )
         admin.save()
         return JsonResponse({"status" : "success",
                              "msg" : "Update success."})
@@ -140,12 +150,15 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "Admin is invalid."})
-        pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
-        password = hashlib.sha1(pwd).hexdigest()
-        admin = GroupAdmin.objects.filter(groupId = check.admin.groupId, adminName = uf.cleaned_data['adminName'], password = password).first()
+        password = db_password(uf.cleaned_data['password'])
+        admin = GroupAdmin.objects.filter(
+            groupId = check.admin.groupId,
+            admin_qq = uf.cleaned_data['admin_qq'],
+            password = password
+        ).first()
         if not admin:
             return JsonResponse({"status": 'error',
-                                'msg': "GroupID or adminName or password is error"})
+                                'msg': "GroupID or admin_qq or password is error"})
         uf = MngResumeForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status": "error",

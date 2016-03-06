@@ -4,8 +4,6 @@ from django.http import JsonResponse
 from django.views.generic import View
 from api.models import AuthCode, Resume, Rank
 
-
-
 from django.forms import (Form, IntegerField, CharField)
 
 
@@ -19,7 +17,7 @@ class List(View):
         if uf.is_valid():
             code = uf.cleaned_data['code']
             groupId = uf.cleaned_data['groupId']
-            codeDb = AuthCode.objects.filter(display__code = code, display__groupId = groupId).first()
+            codeDb = AuthCode.objects.filter(code__exact = code, groupId__exact = groupId).first()
             if codeDb:
                 codeDb.times += 1
                 codeDb.save()
@@ -27,7 +25,7 @@ class List(View):
                         'msg' : '',
                         'data' : []
                         }
-                rst = Resume.objects.filter(display__exact = True).values('id', 'userEmail','groupId','username', 'qq', 'addDate', 'content')
+                rst = Resume.objects.filter(groupId__exact = groupId, display__exact = True).values('id', 'userEmail','groupId','username', 'qq', 'addDate', 'content')
                 for item in rst:
                     item['addDate'] = item['addDate'].strftime('%Y-%m-%d')
                     rank = Rank.objects.filter(resumeId__exact = item['id'])

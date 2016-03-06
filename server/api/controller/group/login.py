@@ -19,21 +19,19 @@
     }
 """
 
-import hashlib
-
 from django.http import JsonResponse
 from django.views.generic import View
 
 from django.forms import (Form, PasswordInput, CharField)
 
 from .check_request import CheckRequest
-from api.token import new_adminToken
+from api.token import new_token, db_password
 from api.models import GroupAdmin
-from api import config
+from api.config import expiration
 
 class LoginForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
-    adminName = CharField(label=u'群主QQ：', max_length=15)
+    admin_qq = CharField(label=u'群主QQ：', max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput())
 
 
@@ -48,18 +46,28 @@ class Index(View):
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
             groupId = uf.cleaned_data['groupId']
-            adminName = uf.cleaned_data['adminName']
-            pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
-            password = hashlib.sha1(pwd).hexdigest()
-            # 获取的表单数据与数据库进行比较
-            admin = GroupAdmin.objects.filter(groupId__exact=groupId, adminName__exact=adminName, password__exact=password).first()
-            if admin:
-                data = {"status": 'success',
-                        'msg': "Login success"
-                        }
+            admin_qq = uf.cleaned_data['admin_qq']
+            password = db_password(uf.cleaned_data['password'])
 
-                # 将username写入浏览器cookie,失效时间为3600 * 24 * 30
-                admin_token = new_adminToken(admin)
+            # 获取的表单数据与数据库进行比较
+            admin = GroupAdmin.objects.filter(
+                groupId__exact=groupId,
+                admin_qq__exact=admin_qq,
+                password__exact=password
+            ).first()
+
+            if admin:
+                if admin.userType == 1 and admin.status == 0:
+                    return JsonResponse({
+                        "status": 'error',
+                        "msg": "群主帐号未激活"
+                    })
+                data = {
+                    "status": 'success',
+                    'msg': "Login success"
+                }
+
+                admin_token = new_token(admin, 'login')
                 token = admin_token.get_token()
                 cookieOpt = admin_token.expired_time
 
@@ -70,12 +78,12 @@ class Index(View):
                     }
                 }
                 response = JsonResponse(data)
-                response.set_cookie("admin_token",value=token, max_age=config.expiration, httponly=True)
+                response.set_cookie("admin_token",value=token, max_age=expiration['login'], httponly=True)
                 return response
             else:
                 # 用户名或密码错误
                 return JsonResponse({"status": 'error',
-                                     'msg': "GroupID or adminName or password is error"
+                                     'msg': "GroupID or admin_qq or password is error"
                                      })
         else:
             return JsonResponse({"status": 'error',

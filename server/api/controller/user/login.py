@@ -7,15 +7,14 @@ from django.views.generic import View
 from django.forms import (Form, PasswordInput, CharField, EmailField)
 
 from .check_request import CheckRequest
-from api.token import new_userToken
+from api.token import new_token
 from api.models import User
-from api import config
-
+from api.token import db_password
+from api.config import expiration
 
 class LoginForm(Form):
     password = CharField(label=u'密码：', widget=PasswordInput())
-    email = EmailField(label=u'电子邮件：')
-
+    qq = EmailField(label=u'QQ：')
 
 
 class Login(View):
@@ -27,29 +26,35 @@ class Login(View):
                         })
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
-            email = uf.cleaned_data['email']
-            pwd = (uf.cleaned_data['password'] + config.keyPwd).encode("utf-8")
-            password = hashlib.sha1(pwd).hexdigest()
+            qq = uf.cleaned_data['qq']
+            password = db_password(uf.cleaned_data['password'])
             # 获取的表单数据与数据库进行比较
-            user = User.objects.filter(email__exact=email, password__exact=password).first()
+            user = User.objects.filter(qq__exact=qq, password__exact=password).first()
             if user:
-                data = {"status": 'success',
-                        'msg': "Login success"
+                if user.status == 0:
+                    return JsonResponse({
+                        "status" : 'error',
+                        'msg' : "此qq账户已注册,但未激活"
+                    })
+
+                if user.status == 1:
+                    data = {"status": 'success',
+                            'msg': "Login success"
+                            }
+
+                    user_token = new_token(user, 'login')
+                    token = user_token.get_token()
+                    cookieOpt = user_token.expired_time
+
+                    data['cookies'] = {
+                        'token': {
+                            'value': token,
+                            'opt': cookieOpt
                         }
-
-                user_token = new_userToken(user)
-                token = user_token.get_token()
-                cookieOpt = user_token.expired_time
-
-                data['cookies'] = {
-                    'token': {
-                        'value': token,
-                        'opt': cookieOpt
                     }
-                }
-                response = JsonResponse(data)
-                response.set_cookie("token",value=token, max_age=config.expiration, httponly=True)
-                return response
+                    response = JsonResponse(data)
+                    response.set_cookie("token", value=token, max_age=expiration['login'], httponly=True)
+                    return response
             else:
                 # 用户名或密码错误
                 return JsonResponse({"status": 'error',

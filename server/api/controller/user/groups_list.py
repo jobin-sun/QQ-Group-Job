@@ -5,7 +5,6 @@ from django.views.generic import View
 
 from .check_request import CheckRequest
 from api.models import Resume
-from api import config
 
 class Index(View):
     def get(self, request):
@@ -19,7 +18,7 @@ class Index(View):
                 "msg" :  '',
                 "data" : []
                 }
-        lst = Resume.objects.filter(userEmail = check.user.email)
+        lst = Resume.objects.filter(qq__exact = check.user.qq)
         for item in lst:
             data['data'].append({
                 'groupId': item.groupId,

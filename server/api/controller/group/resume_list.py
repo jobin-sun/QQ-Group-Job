@@ -74,7 +74,7 @@ from django.db.models import Avg
 
 from .check_request import CheckRequest
 from api.models import Resume, Rank, User
-from .form import (MngResumeForm, DelResumeForm)
+from .form import MngResumeForm, DelResumeForm
 
 
 class Index(View):
@@ -89,9 +89,9 @@ class Index(View):
                 }
         resumes = Resume.objects.filter(groupId = check.admin.groupId)
         for item in resumes:
-            user = User.objects.filter(email = item.userEmail).first()
+            user = User.objects.filter(qq = item.qq).first()
             allRank = Rank.objects.filter(resumeId = item.id)
-            rank = allRank.filter(adminName = check.admin.adminName).first()
+            rank = allRank.filter(admin_qq = check.admin.admin_qq).first()
             avgRank = allRank.aggregate(Avg('rank'))
             if not user:
                 return JsonResponse({"status": "error",
@@ -105,14 +105,14 @@ class Index(View):
                 "content": item.content,
                 "status": item.status
             }
-            if not rank: 
+            if not rank:
                 resume['myRank'] = u'尚未评分'
             else:
                 resume['myRank'] = rank.rank
             resume['averageRank'] = avgRank['rank__avg']
             data['data'].append(resume)
         return JsonResponse(data)
-        
+
     def post(self, request):
         return JsonResponse({"status":"success",
                              "msg":""})
