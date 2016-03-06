@@ -37,7 +37,7 @@ class GroupListAdmin(admin.ModelAdmin):
             admin = GroupAdmin.objects.get(groupId__exact =obj.groupId, userType__exact=1)
         except ObjectDoesNotExist:
             return ''
-        return admin.adminName
+        return admin.admin_qq
 
 
 admin.site.register(User, UserAdmin)
