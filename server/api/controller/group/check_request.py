@@ -1,7 +1,7 @@
 __author__ = 'jobin'
 from datetime import datetime
 from json import loads
-from api.token import parse_adminToken
+from api.token import parse_token
 from api import config
 from api.models import GroupAdmin
 
@@ -29,7 +29,7 @@ class CheckRequest():
         if not token:
             self.msg = "Token not found"
             return
-        admin_token = parse_adminToken(token)
+        admin_token = parse_token(token, 'login')
         if admin_token is None:
             self.msg = "Format of token is not correct, Check your token(%s)" % token
             return

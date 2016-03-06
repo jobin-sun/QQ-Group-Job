@@ -21,14 +21,12 @@ put:
 
 """
 
-import hashlib
-
 from django.http import JsonResponse
 from django.views.generic import View
 
 from .check_request import CheckRequest
 from .form import PwdForm
-from api.models import GroupAdmin
+from api.token import db_password
 
 
 class Index(View):
@@ -42,8 +40,7 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "Password is invalid."})
-        pwd = (uf.cleaned_data['password']).encode("utf-8")
-        check.admin.password = hashlib.sha1(pwd).hexdigest()
+        check.admin.password = db_password(uf.cleaned_data['password'])
         check.admin.save()
         return JsonResponse({"status" : "success",
                              "msg" : ""})

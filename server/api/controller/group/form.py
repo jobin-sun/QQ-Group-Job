@@ -1,8 +1,5 @@
 #-*- coding:utf-8 -*-
-
 from django.forms import (Form, CharField, PasswordInput, IntegerField, ChoiceField)
-
-
 
 
 class PwdForm(Form):
@@ -23,7 +20,7 @@ class DelResumeForm(Form):
     resumeId = IntegerField()
 
 class CheckAdminForm(Form):
-    adminName = CharField(max_length=15) 
+    admin_qq = CharField(max_length=15)
     password = CharField(widget=PasswordInput())
 
 class DelAdminForm(Form):

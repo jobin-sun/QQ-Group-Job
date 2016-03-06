@@ -6,24 +6,23 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Resume, AuthCode, Group, GroupAdmin
 
 class AuthCodeAdmin(admin.ModelAdmin):
-    list_display = ('groupId','adminName', 'code', 'times')
+    list_display = ('groupId','admin_qq', 'code', 'times')
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'username','qq')
-    search_fields = ('email', 'username', 'qq')
+    list_display = ('username','qq')
+    search_fields = ('username', 'qq')
 
 class ResumeAdmin(admin.ModelAdmin):
     list_display = ('userEmail','groupId','qq','display')
     search_fields = ('userEmail','groupId','qq','content')
 
 class GroupAdminAdmin(admin.ModelAdmin):
-    list_display = ('groupId', 'adminName', 'userType')
+    list_display = ('groupId', 'admin_qq', 'userType')
 
 class GroupListAdmin(admin.ModelAdmin):
     actions = ['delete_model']
-    list_display = ('groupName','groupId', 'owner', 'requestMsg', 'status')
-    search_fields = ('groupName','groupId', 'requestMsg')
-    fields = ('groupName','groupId', 'requestMsg', 'status')
+    list_display = ('groupName','groupId', 'owner', 'status')
+    search_fields = ('groupName','groupId')
     def get_actions(self, request):
         actions = super(GroupListAdmin, self).get_actions(request)
         del actions['delete_selected']
