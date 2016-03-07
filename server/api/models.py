@@ -66,8 +66,8 @@ class Resume(models.Model):
         (0, u'大专以下'),
         (1, u'大专'),
         (2, u'本科'),
-        (2, u'硕士'),
-        (2, u'硕士以上')
+        (3, u'硕士'),
+        (4, u'硕士以上')
     )
     groupId = models.CharField(max_length=15)  # 所属群
     qq = models.CharField(max_length=15)
