@@ -29,16 +29,18 @@ class Reg(View):
         if uf.is_valid():
             #检测用户是否存在
             checkUser = User.objects.filter(qq__exact = uf.cleaned_data['qq']).first()
-            if checkUser.status == 0:
-                return JsonResponse({
-                    "status" : 'error',
-                    'msg' : "此qq账户已注册,但未激活"
-                })
-            if checkUser.status == 1:
-                return JsonResponse({
-                    "status" : 'error',
-                    'msg' : "此qq账户已存在"
-                })
+            if checkUser:
+                if checkUser.status == 0:
+                    return JsonResponse({
+                        "status" : 'error',
+                        'msg' : "此qq账户已注册,但未激活"
+                    })
+                else:
+                    return JsonResponse({
+                        "status" : 'error',
+                        'msg' : "此qq账户已存在"
+                    })
+
             user = User(
                 username = uf.cleaned_data['username'],
                 password = db_password(uf.cleaned_data['password']),

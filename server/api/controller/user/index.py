@@ -2,22 +2,18 @@ __author__ = 'jobin'
 
 from django.http import JsonResponse
 from django.views.generic import View
-from django.forms import Form, PasswordInput, CharField, EmailField, BooleanField, Textarea
+from django.forms import Form, IntegerField, CharField
 
 from .check_request import CheckRequest
-from api.models import Resume
-
-
-class UserForm(Form):
-    username = CharField(label=u'用户名：', max_length=50)
-    password = CharField(label=u'密码：', widget=PasswordInput())
-    qq = CharField(label='QQ：', max_length=15)
 
 
 class UpdateUserForm(Form):
     username = CharField(label=u'用户名：', max_length=50)
-    display = BooleanField(required=False,initial=False)
-    content = CharField(label=u'详情',required=False,widget=Textarea)
+    sex = IntegerField()
+    age = IntegerField(min_value=15, max_value=100)
+    yearsOfWorking = IntegerField(min_value=0, max_value=60)
+    school = CharField(max_length=40)
+    education = IntegerField()
 
 class Index(View):
     def get(self, request):
@@ -27,7 +23,7 @@ class Index(View):
                 "status": "error",
                 "msg": "User not logined"
             })
-        data = {"status" :  "success",
+        return JsonResponse({"status" :  "success",
                 "msg" :  '',
                 "data" :  {
                     "username" :  check.user.username,
@@ -39,15 +35,7 @@ class Index(View):
                     'education' : check.user.education,
                     "addDate" :  check.user.addDate.strftime('%Y-%m-%d')
                     }
-                }
-        resume = Resume.objects.filter(qq__exact = check.user.qq).first()
-        if resume:
-            data['data'].update({
-                "content" : resume.content,
-                "display" : resume.display,
-                "contentDate" : resume.lastDate.strftime('%Y-%m-%d %H:%m')
                 })
-        return JsonResponse(data)
 
     def put(self, request):
         check = CheckRequest(request);
@@ -59,19 +47,17 @@ class Index(View):
         uf = UpdateUserForm(check.jsonForm)
         if uf.is_valid():
             check.user.username = uf.cleaned_data['username']
+            check.user.sex = uf.cleaned_data['sex']
+            check.user.age = uf.cleaned_data['age']
+            check.user.yearsOfWorking = uf.cleaned_data['yearsOfWorking']
+            check.user.school = uf.cleaned_data['school']
+            check.user.education = uf.cleaned_data['education']
             check.user.save()
-            resume = Resume.objects.filter(qq__exact = check.user.qq).first()
-            if not resume:
-                resume = Resume()
-                resume.qq = check.user.qq
-            resume.content = uf.cleaned_data['content']
-            resume.display = uf.cleaned_data['display']
-            resume.save()
 
             return JsonResponse({"status" : "success",
                     "msg" :  ''
                     })
         else:
             return JsonResponse({"status" : "error",
-                    "msg" : 'Illegal put'
+                    "msg" : 'Illegal put: %s' % uf.errors
                     })

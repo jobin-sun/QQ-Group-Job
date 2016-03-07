@@ -19,10 +19,11 @@ class Index(View):
                 "msg" :  '',
                 "data" : []
                 }
-        resumes = Resume.objects.filter(userEmail = check.user.email)
+        resumes = Resume.objects.filter(qq = check.user.qq)
 
         for item in resumes:
             resume = {
+                "userEmail": item.userEmail,
                 "groupId": item.groupId,
                 "username": item.username,
                 "qq": item.qq,

@@ -14,7 +14,7 @@ from api.config import expiration
 
 class LoginForm(Form):
     password = CharField(label=u'密码：', widget=PasswordInput())
-    qq = EmailField(label=u'QQ：')
+    qq = CharField(label='QQ：', max_length=15)
 
 
 class Login(View):
@@ -31,12 +31,6 @@ class Login(View):
             # 获取的表单数据与数据库进行比较
             user = User.objects.filter(qq__exact=qq, password__exact=password).first()
             if user:
-                if user.status == 0:
-                    return JsonResponse({
-                        "status" : 'error',
-                        'msg' : "此qq账户已注册,但未激活"
-                    })
-
                 if user.status == 1:
                     data = {"status": 'success',
                             'msg': "Login success"
@@ -55,6 +49,16 @@ class Login(View):
                     response = JsonResponse(data)
                     response.set_cookie("token", value=token, max_age=expiration['login'], httponly=True)
                     return response
+                elif user.status == 0:
+                    return JsonResponse({
+                        "status" : 'error',
+                        'msg' : "此qq账户已注册,但未激活"
+                    })
+                else:
+                    return JsonResponse({
+                        "status" : 'error',
+                        'msg' : "用户状态不合法，请联系管理员"
+                    })
             else:
                 # 用户名或密码错误
                 return JsonResponse({"status": 'error',
