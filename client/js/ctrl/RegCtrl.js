@@ -7,7 +7,6 @@ angular.module('myApp')
 		})
 		$scope.submit = function(){
 			$http.post("/api/reg/",{
-				email:$scope.email,
 				username:$scope.username,
 				qq:$scope.qq,
 				password:$scope.password

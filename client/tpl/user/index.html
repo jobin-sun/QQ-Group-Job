@@ -5,21 +5,20 @@
             <h2 class="form-signin-heading">个人信息</h2>
             <div class="login_txt edit_btn"><a href="javascript:void(0)"><label>我要编辑 <input type="checkbox" ng-model="canEdit" ng-init="canEdit=false"></label></a></div>
             <div class="flex_box login_line">
-                <label for="inputEmail" class="inline_block login_txt">Email*</label>
-                <input type="email" id="inputEmail" class="form-control flex1" ng-model="email" ng-disabled="true" placeholder="Email地址" required="" autofocus="">
-            </div>
-            <div class="flex_box login_line">
                 <label for="inputEmail" class="inline_block login_txt">姓名*</label>
                 <input type="text" id="inputEmail" class="form-control flex1" ng-model='username' ng-disabled="!canEdit"  placeholder="姓名" required="" autofocus="">
             </div>
             <div class="flex_box login_line">
-                <label for="inputPassword" class="inline_block login_txt">qq* </label>
-                <input type="number" id="inputPassword" class="form-control flex1" ng-model="qq" ng-disabled="!canEdit"  placeholder="qq" required="">
+                <label class="inline_block login_txt">qq* </label>
+                <input type="number" class="form-control flex1" ng-model="qq" ng-disabled="!canEdit"  placeholder="qq" required="">
             </div>
             
             <div class="flex_box login_line">
-                <label for="" class="inline_block login_txt">性别* </label>
-                <input type="text" id="" class="form-control flex1" ng-model="sex" ng-disabled="!canEdit"  placeholder="性别" required="">
+                <label class="inline_block login_txt">性别* </label>
+                <select ng-disabled="!canEdit"
+                    ng-options="option.id as option.name for option in sexOptions"
+                    ng-model="sex">
+                </select>
             </div>
             <div class="flex_box login_line">
                 <label for="" class="inline_block login_txt">年龄* </label>
@@ -35,7 +34,10 @@
             </div>
             <div class="flex_box login_line">
                 <label for="" class="inline_block login_txt">学历* </label>
-                <input type="text" id="" class="form-control flex1" ng-model="education" ng-disabled="!canEdit"  placeholder="学历" required="">
+                <select ng-disabled="!canEdit"
+                    ng-options="option.id as option.name for option in eduOptions"
+                    ng-model="education">
+                </select>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="submit()" ng-disabled="indexForm.$invalid || !canEdit" >提交</button>
         </form>

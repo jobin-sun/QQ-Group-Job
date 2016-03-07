@@ -47,6 +47,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+.login .domain{height: 34px; line-height: 34px;}
 .login .line {
   margin: 0 auto;
   margin-top: 10px;
@@ -218,6 +219,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+.reg .domain{height: 34px; line-height: 34px;}
 .reg .line {
   margin: 0 auto;
   margin-top: 10px;
@@ -336,14 +338,9 @@ body {
 .red {
   color: #f00
 }
-input.ng-invalid-email {
-  border: 1px solid red
-}
-input.ng-invalid-required {
-  border: 1px solid red
-}
-input.ng-invalid {
-  border: 1px solid red
+
+input.ng-dirty.ng-invalid {
+  border: 1px solid red !important;
 }
 .list .left {
   text-align: right

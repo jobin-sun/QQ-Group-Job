@@ -7,7 +7,7 @@ angular.module('myApp')
 		})
 		$scope.submit = function(){
 			$http.post("/api/login/", {
-				email: $scope.email,
+				qq: $scope.qq,
 				password: $scope.password
 			}).success(function(response){
 				if(response.status == "success"){
