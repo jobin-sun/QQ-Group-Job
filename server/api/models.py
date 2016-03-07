@@ -92,7 +92,7 @@ class Resume(models.Model):
 
 class Rank(models.Model):
     resumeId = models.IntegerField()
-    admin_qq = models.CharField(max_length=15)  # 群主QQ号或管理员用户名
+    admin_qq = models.CharField(max_length=15)  # 群主QQ号或管理员QQ号
     rank = models.IntegerField(default=0)
     comment = models.TextField(blank=True, null=True)  # 管理员评价, 下期做
 
