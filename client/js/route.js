@@ -21,6 +21,9 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/resumes_list', {
 			templateUrl: 'tpl/user/resumes_list.html',
 			controller: 'ResumesListCtrl'
+		}).when('/resume/:id', {
+			templateUrl: 'tpl/user/resume.html',
+			controller: 'ResumeCtrl'
 		}).when('/apply/:groupId', {
 			templateUrl: 'tpl/user/apply.html',
 			controller: 'ApplyCtrl'

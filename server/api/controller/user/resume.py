@@ -8,11 +8,26 @@ from api.models import Resume
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
 
 class GetForm(Form):
-    groupId = CharField(label=u'群Id：', max_length=15)
+    id = IntegerField()
+class DeleteForm(Form):
+    id = IntegerField()
 
 class PostForm(Form):
     email = EmailField(max_length=15)
     groupId = CharField(max_length=15) #所属群
+    qq = CharField(max_length=15)
+    username = CharField(max_length=50)
+    sex = IntegerField()
+    age = IntegerField(min_value=15, max_value=100)
+    yearsOfWorking = IntegerField(min_value=0, max_value=60)
+    school = CharField(max_length=40)
+    education = IntegerField()
+    content = CharField(widget=Textarea)
+    display = BooleanField()
+
+class PutForm(Form):
+    id = IntegerField()
+    email = EmailField(max_length=15)
     qq = CharField(max_length=15)
     username = CharField(max_length=50)
     sex = IntegerField()
@@ -35,13 +50,14 @@ class Index(View):
             })
         uf = GetForm(check.jsonForm)
         if uf.is_valid():
-            item = Resume.objects.filter(qq = check.user.qq, groupId = uf.cleaned_data['groupId']).first()
+            item = Resume.objects.filter(id__exact = uf.cleaned_data['id'], qq__exact = check.user.qq).first()
             if item:
                 return JsonResponse({
                     "status": 'success',
                     'msg': '',
                     'count': 1,
                     'data':{
+                        'id': item.id,
                         'email': item.userEmail,
                         "groupId": item.groupId,
                         "username": item.username,
@@ -114,4 +130,63 @@ class Index(View):
                 "status": "error",
                 "msg": "From error"
             })
+    def put(self, request):
+        check = CheckRequest(request)
+        if not check.user:
+            return JsonResponse({
+                "status": "error",
+                "msg": "User not logined"
+            })
+        uf = PutForm(check.jsonForm)
+        if uf.is_valid():
+            item = Resume.objects.filter(id__exact = uf.cleaned_data['id'], qq__exact = check.user.qq).first()
+            if item:
+                item.userEmail = uf.cleaned_data['email']
+                item.qq = uf.cleaned_data['qq']
+                item.username = uf.cleaned_data['username']
+                item.sex = uf.cleaned_data['sex']
+                item.age = uf.cleaned_data['age']
+                item.yearsOfWorking = uf.cleaned_data['yearsOfWorking']
+                item.school = uf.cleaned_data['school']
+                item.education = uf.cleaned_data['education']
+                item.content = uf.cleaned_data['content']
+                item.display = uf.cleaned_data['display']
+                item.save()
+                return JsonResponse({"status": 'success',
+                                 'msg': ""
+                                 })
+            else:
+                return JsonResponse({"status": 'error',
+                                 'msg': "id not found:%s" % uf.cleaned_data['id']
+                                 })
+        else:
+            return JsonResponse({"status": 'error',
+                                 'msg': "Form is error:%s" % uf.errors
+                                 })
+
+    def delete(self, request):
+        check = CheckRequest(request)
+        if not check.user:
+            return JsonResponse({
+                "status": "error",
+                "msg": "User not logined"
+            })
+        uf = DeleteForm(check.jsonForm)
+        if uf.is_valid():
+            item = Resume.objects.filter(id__exact = uf.cleaned_data['id'], qq__exact = check.user.qq).first()
+            if item:
+                item.delete()
+                return JsonResponse({"status": 'success',
+                                 'msg': ""
+                                 })
+            else:
+                return JsonResponse({"status": 'error',
+                                 'msg': "id not found:%s" % uf.cleaned_data['id']
+                                 })
+        else:
+            return JsonResponse({"status": 'error',
+                                 'msg': "Form is error:%s" % uf.errors
+                                 })
+
+
 

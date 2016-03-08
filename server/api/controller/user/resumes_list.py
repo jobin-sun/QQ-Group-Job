@@ -23,7 +23,8 @@ class Index(View):
 
         for item in resumes:
             resume = {
-                "userEmail": item.userEmail,
+                "id": item.id,
+                "email": item.userEmail,
                 "groupId": item.groupId,
                 "username": item.username,
                 "qq": item.qq,
@@ -33,7 +34,7 @@ class Index(View):
                 'school': item.school,
                 'education': item.education,
                 "lastDate": item.lastDate.strftime('%Y-%m-%d'),
-                "content": item.content,
+                #"content": item.content,
                 "status": item.status
             }
             data['data'].append(resume)

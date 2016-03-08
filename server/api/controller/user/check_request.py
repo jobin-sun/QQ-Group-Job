@@ -11,7 +11,7 @@ class CheckRequest():
         self.msg = "" #用户状态或,错误信息
         self.jsonForm = {} # 解析GET或POST等方法中参数
         self.user = None
-        if request.method == "GET":
+        if request.method == "GET" or request.method == "DELETE":
             self.jsonForm = request.GET.dict()
         else:
             self.jsonForm = loads(request.body.decode("utf-8"))

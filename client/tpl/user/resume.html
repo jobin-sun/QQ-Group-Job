@@ -1,0 +1,102 @@
+<div class="container flex_box user">
+    <div ng-include="'tpl/user/left.html'"></div>
+    <style type="text/css" media="screen">
+    	.line div:first-child{ width: 5em; }
+    </style>
+    <div class="right flex1">
+    	<div class="login_txt edit_btn" style='width: 12em;'>
+    		<a href="javascript:void(0)"><label>我要编辑 <input type="checkbox" ng-model="canEdit" ng-init="canEdit=false"></label></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void" ng-click="delete()">删除</a>
+    	</div>
+    	<div class="show" ng-hide="canEdit">
+    		<div class="flex_box line line1">
+	    		<div>群ID:</div><div class="flex1" ng-bind='groupId'></div>
+	    	</div>
+	    	<div class="flex_box line line2">
+	    		<div>Email:</div><div class="flex1" ng-bind='email'></div>
+	    	</div>
+	    	<div class="flex_box line line3">
+	    		<div>姓名:</div><div class="flex1" ng-bind='username'></div>
+	    	</div>
+	    	<div class="flex_box line line4">
+	    		<div>qq:</div><div class="flex1" ng-bind='qq'></div>
+	    	</div>
+	    	<div class="flex_box line line5">
+	    		<div>年龄:</div><div class="flex1" ng-bind='age'></div>
+	    	</div>
+	    	<div class="flex_box line line6">
+	    		<div>性别:</div><div class="flex1" ng-bind='sex | strSex'></div>
+	    	</div>
+	    	<div class="flex_box line line7">
+	    		<div>工作年限:</div><div class="flex1" ng-bind='yearsOfWorking'></div>
+	    	</div>
+	    	<div class="flex_box line line8">
+	    		<div>学校:</div><div class="flex1" ng-bind='school'></div>
+	    	</div>
+	    	<div class="flex_box line line9">
+	    		<div>学历:</div><div class="flex1" ng-bind='education | strEdu'></div>
+	    	</div>
+	    	<div class="flex_box line line10">
+	    		<div>状态:</div><div ng-bind='status | strStatus'></div>
+	    	</div>
+	    	<div class="flex_box line line11">
+	    		<div>最后更新：</div><div ng-bind='lastDate'></div>
+	    	</div>
+	    	<div class="flex_box line line12">
+	    		<div>是否显示：</div>
+				<input type="checkbox" ng-model="display">
+	    	</div>
+	    	<div class="flex_box line line13">
+	    		<div>内容：</div>
+	    		<pagedown-viewer content="content"></pagedown-viewer>
+	    	</div>
+    	</div>
+    	<div class="edit" ng-show="canEdit">
+    		<div class="flex_box line line1">
+	    		<div>群ID:</div><div class="flex1" ng-bind='groupId'></div>
+	    	</div>
+	    	<div class="flex_box line line2">
+	    		<div>Email:</div><input ng-model='email'>
+	    	</div>
+	    	<div class="flex_box line line3">
+	    		<div>姓名:</div><input class="flex1" ng-model='username'>
+	    	</div>
+	    	<div class="flex_box line line4">
+	    		<div>qq:</div><input class="flex1" ng-model='qq'>
+	    	</div>
+	    	<div class="flex_box line line5">
+	    		<div>年龄:</div><input class="flex1" ng-model='age'>
+	    	</div>
+	    	<div class="flex_box line line6">
+	    		<div>性别:</div><select ng-disabled="!canEdit"
+                    ng-options="option.id as option.name for option in sexOptions"
+                    ng-model="sex">
+                </select>
+	    	</div>
+	    	<div class="flex_box line line7">
+	    		<div>工作年限:</div><input class="flex1" ng-model='yearsOfWorking'>
+	    	</div>
+	    	<div class="flex_box line line8">
+	    		<div>学校:</div><input class="flex1" ng-model='school'>
+	    	</div>
+	    	<div class="flex_box line line9">
+	    		<div>学历:</div><select ng-disabled="!canEdit"
+                    ng-options="option.id as option.name for option in eduOptions"
+                    ng-model="education">
+                </select>
+	    	</div>
+	    	<div class="flex_box line line12">
+	    		<div>是否显示：</div>
+				<input type="checkbox" ng-model="display">
+	    	</div>
+	    	<div class="flex_box line line13">
+	    		<div>内容：</div>
+	    		<pagedown-editor ng-model='content' content="content" placeholder="Markdown编辑器"></pagedown-editor>
+	    	</div>
+	    	<div class="ctn text_center">
+	    		<button ng-click="submit()">提交</button>
+	    	</div>
+    	</div>
+    		
+    </div>
+</div>

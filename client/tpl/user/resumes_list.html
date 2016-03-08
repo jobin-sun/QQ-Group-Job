@@ -1,27 +1,21 @@
 <div class="container flex_box user">
     <div ng-include="'tpl/user/left.html'"></div>
     <div class="right flex1">
-        <div ng-repeat="item in items">
-            <div>
-                <span ng-bind='item.groupId'></span> 
-                <span ng-bind='item.email'></span>
-                <span ng-bind='item.status'></span>
+        <div class="flex_box">
+            <div class="flex1">群ID</div>
+            <div class="flex1">Email</div>
+            <div class="flex1">状态</div>
+            <div class="flex1">最后更新</div>
+            <div class="flex1"> </div>
+        </div>
+        <div ng-repeat="item in items" style="height: 30px; line-height: 30px; cursor: pointer;">
+            <div class="flex_box">
+                <div class="flex1" ng-bind='item.groupId' ng-click='openResume(item.id)'></div> 
+                <div class="flex1" ng-bind='item.email' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-bind='item.status | strStatus' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-bind='item.lastDate' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-click="delete(item.id)">删除</div>
             </div>
-            <div>
-                <span ng-bind='item.username'></span> 
-                <span ng-bind='item.qq'></span>
-                <span ng-bind='item.sex'></span>
-            </div>
-            <div>
-                <span ng-bind='item.age'></span> 
-                <span ng-bind='item.yearsOfWorking'></span>
-                <span ng-bind='item.school'></span>
-            </div>
-            <div>
-                <span ng-bind='item.educatioin'></span> 
-                <span ng-bind='item.lastDate'></span>
-            </div>
-            <div ng-bind='item.content'></div>
         </div>
     </div>
 </div>
