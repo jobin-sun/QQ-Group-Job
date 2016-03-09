@@ -73,7 +73,7 @@ from django.views.generic import View
 from django.db.models import Avg
 
 from .check_request import CheckRequest
-from api.models import Resume, Rank, User
+from api.models import Resume, Rank
 from .form import MngResumeForm, DelResumeForm
 
 
@@ -87,29 +87,34 @@ class Index(View):
                 "msg" :  '',
                 "data" : []
                 }
-        resumes = Resume.objects.filter(groupId = check.admin.groupId)
+        resumes = Resume.objects.filter(groupId__exact = check.admin.groupId, display__exact= True)
         for item in resumes:
-            user = User.objects.filter(qq = item.qq).first()
-            allRank = Rank.objects.filter(resumeId = item.id)
-            rank = allRank.filter(admin_qq = check.admin.admin_qq).first()
+            allRank = Rank.objects.filter(resumeId__exact = item.id)
+            rank = allRank.filter(adminQQ__exact = check.admin.adminQQ).first()
             avgRank = allRank.aggregate(Avg('rank'))
-            if not user:
-                return JsonResponse({"status": "error",
-                                    "msg": "Resume without valid user"})
             resume = {
-                "resumeId": item.id,
+                "id": item.id,
                 "groupId": item.groupId,
-                "username": user.username,
                 "qq": item.qq,
+                "userEmail": item.userEmail,
+                "username": item.username,
+                "sex": item.sex,
+                "age": item.age,
+                "yearsOfWorking": item.yearsOfWorking,
+                'school': item.school,
+                'education': item.education,
                 "lastDate": item.lastDate.strftime('%Y-%m-%d'),
                 "content": item.content,
                 "status": item.status
             }
             if not rank:
-                resume['myRank'] = u'尚未评分'
+                resume['myRank'] = -1
             else:
                 resume['myRank'] = rank.rank
-            resume['averageRank'] = avgRank['rank__avg']
+            if not avgRank['rank__avg']:
+                resume['averageRank'] = -1
+            else:
+                resume['averageRank'] = avgRank['rank__avg']
             data['data'].append(resume)
         return JsonResponse(data)
 

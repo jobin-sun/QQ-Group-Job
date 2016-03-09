@@ -8,9 +8,9 @@ from api.models import Resume
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
 
 class GetForm(Form):
-    id = IntegerField()
+    groupId = IntegerField()
 class DeleteForm(Form):
-    id = IntegerField()
+    groupId = IntegerField()
 
 class PostForm(Form):
     email = EmailField(max_length=15)
@@ -22,7 +22,7 @@ class PostForm(Form):
     yearsOfWorking = IntegerField(min_value=0, max_value=60)
     school = CharField(max_length=40)
     education = IntegerField()
-    content = CharField(widget=Textarea)
+    content = CharField(widget=Textarea, required=False)
     display = BooleanField()
 
 class PutForm(Form):
@@ -50,7 +50,7 @@ class Index(View):
             })
         uf = GetForm(check.jsonForm)
         if uf.is_valid():
-            item = Resume.objects.filter(id__exact = uf.cleaned_data['id'], qq__exact = check.user.qq).first()
+            item = Resume.objects.filter(groupId__exact = uf.cleaned_data['groupId'], qq__exact = check.user.qq).first()
             if item:
                 return JsonResponse({
                     "status": 'success',
@@ -78,13 +78,16 @@ class Index(View):
                                  'msg': "Resume not found",
                                  'count': 0,
                                  'data':{
-                                     "email": check.user.email,
+                                     "groupId": uf.cleaned_data['groupId'],
                                      "username": check.user.username,
+                                     'email': check.user.qq + "@qq.com",
                                      "qq": check.user.qq,
                                      'sex': check.user.sex,
                                      'age': check.user.age,
                                      'yearsOfWorking': check.user.yearsOfWorking,
                                      'school': check.user.school,
+                                     'display': True,
+                                     "content": '',
                                      'education': check.user.education
                                  }
                             })
@@ -128,7 +131,7 @@ class Index(View):
         else:
             return JsonResponse({
                 "status": "error",
-                "msg": "From error"
+                "msg": "From error: %s" % uf.errors
             })
     def put(self, request):
         check = CheckRequest(request)
@@ -173,7 +176,7 @@ class Index(View):
             })
         uf = DeleteForm(check.jsonForm)
         if uf.is_valid():
-            item = Resume.objects.filter(id__exact = uf.cleaned_data['id'], qq__exact = check.user.qq).first()
+            item = Resume.objects.filter(groupId__exact = uf.cleaned_data['groupId'], qq__exact = check.user.qq).first()
             if item:
                 item.delete()
                 return JsonResponse({"status": 'success',
@@ -181,7 +184,7 @@ class Index(View):
                                  })
             else:
                 return JsonResponse({"status": 'error',
-                                 'msg': "id not found:%s" % uf.cleaned_data['id']
+                                 'msg': "groupId not found:%s" % uf.cleaned_data['groupId']
                                  })
         else:
             return JsonResponse({"status": 'error',

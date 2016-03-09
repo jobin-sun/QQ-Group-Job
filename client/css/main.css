@@ -164,6 +164,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+.group_login .domain{height: 34px; line-height: 34px;}
 .group_login .line {
   margin: 0 auto;
   margin-top: 10px;
@@ -273,6 +274,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+.group_reg .domain{height: 34px; line-height: 34px;}
 .group_reg .line {
   margin: 0 auto;
   margin-top: 10px;

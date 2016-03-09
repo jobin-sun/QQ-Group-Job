@@ -97,7 +97,7 @@ class Index(View):
         admins = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
             userType = 0
-        ).values('id', 'groupId', 'admin_qq')
+        ).values('id', 'groupId', 'adminQQ')
 
         data = {"status" : "success",
                 "msg":"",

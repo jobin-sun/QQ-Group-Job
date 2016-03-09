@@ -4,8 +4,8 @@
     	.line div:first-child{ width: 5em; }
     </style>
     <div class="right flex1">
-    	<div class="login_txt edit_btn" style='width: 12em;'>
-    		<a href="javascript:void(0)"><label>我要编辑 <input type="checkbox" ng-model="canEdit" ng-init="canEdit=false"></label></a>
+    	<div class="login_txt edit_btn" style='width: 12em;' ng-show="isExist">
+    		<a href="javascript:void(0)"><label>我要编辑 <input type="checkbox" ng-model="canEdit"></label></a>
 			&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void" ng-click="delete()">删除</a>
     	</div>
     	<div class="show" ng-hide="canEdit">
@@ -43,8 +43,7 @@
 	    		<div>最后更新：</div><div ng-bind='lastDate'></div>
 	    	</div>
 	    	<div class="flex_box line line12">
-	    		<div>是否显示：</div>
-				<input type="checkbox" ng-model="display">
+	    		<div>是否显示：</div><div ng-bind='display | strBool'></div>
 	    	</div>
 	    	<div class="flex_box line line13">
 	    		<div>内容：</div>
@@ -56,7 +55,8 @@
 	    		<div>群ID:</div><div class="flex1" ng-bind='groupId'></div>
 	    	</div>
 	    	<div class="flex_box line line2">
-	    		<div>Email:</div><input ng-model='email'>
+	    		<div>Email:</div><input class="flex1" ng-model='email'>
+
 	    	</div>
 	    	<div class="flex_box line line3">
 	    		<div>姓名:</div><input class="flex1" ng-model='username'>
@@ -68,7 +68,7 @@
 	    		<div>年龄:</div><input class="flex1" ng-model='age'>
 	    	</div>
 	    	<div class="flex_box line line6">
-	    		<div>性别:</div><select ng-disabled="!canEdit"
+	    		<div>性别:</div><select
                     ng-options="option.id as option.name for option in sexOptions"
                     ng-model="sex">
                 </select>
@@ -80,7 +80,7 @@
 	    		<div>学校:</div><input class="flex1" ng-model='school'>
 	    	</div>
 	    	<div class="flex_box line line9">
-	    		<div>学历:</div><select ng-disabled="!canEdit"
+	    		<div>学历:</div><select
                     ng-options="option.id as option.name for option in eduOptions"
                     ng-model="education">
                 </select>
@@ -94,7 +94,8 @@
 	    		<pagedown-editor ng-model='content' content="content" placeholder="Markdown编辑器"></pagedown-editor>
 	    	</div>
 	    	<div class="ctn text_center">
-	    		<button ng-click="submit()">提交</button>
+	    		<button class="btn btn-primary" ng-show="isExist" ng-click="submit()">提交</button>
+	    		<button class="btn btn-primary" ng-hide="isExist" ng-click="post()">申请入群</button>
 	    	</div>
     	</div>
     		

@@ -3,27 +3,21 @@
      <div class="flex_box group">
         <div ng-include="'tpl/group/left.html'"></div>
         <div class="right flex1">
-            <div ng-repeat="item in items">
-                <div>
-                    <span ng-bind='item.groupId'></span> 
-                    <span ng-bind='item.email'></span>
-                    <span ng-bind='item.status'></span>
-                </div>
-                <div>
-                    <span ng-bind='item.username'></span> 
-                    <span ng-bind='item.qq'></span>
-                    <span ng-bind='item.sex'></span>
-                </div>
-                <div>
-                    <span ng-bind='item.age'></span> 
-                    <span ng-bind='item.yearsOfWorking'></span>
-                    <span ng-bind='item.school'></span>
-                </div>
-                <div>
-                    <span ng-bind='item.educatioin'></span> 
-                    <span ng-bind='item.lastData'></span>
-                </div>
-                <div ng-bind='item.content'></div>
+            <div class="flex_box">
+                <div class="flex1">QQ</div>
+                <div class="flex1">姓名</div>
+                <div class="flex1">Email</div>
+                <div class="flex1">状态</div>
+                <div class="flex1">最后更新</div>
+                <div class="flex1"> </div>
+            </div>
+            <div class="flex_box" ng-repeat="item in items" style="cursor: pointer;">
+                <div class="flex1" ng-bind='item.qq' ng-click='openResume(item.groupId)'></div> 
+                <div class="flex1" ng-bind='item.username' ng-click='openResume(item.groupId)'></div>
+                <div class="flex1" ng-bind='item.userEmail' ng-click='openResume(item.groupId)'></div>
+                <div class="flex1" ng-bind='item.status | strStatus' ng-click='openResume(item.groupId)'></div>
+                <div class="flex1" ng-bind='item.lastDate' ng-click='openResume(item.groupId)'></div>
+                <div class="flex1" ng-click="delete(item.groupId)">删除</div>
             </div>
         </div>
     </div>

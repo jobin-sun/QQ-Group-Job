@@ -7,10 +7,17 @@ angular.module('myApp')
 		})
 		$http.get("/api/resume/",{
 			params:{
-				id: $routeParams.id 
+				groupId: $routeParams.groupId 
 			}
 		}).success(function(response){
 			if(response.status == "success"){
+				if(response.count == 0){
+					$scope.isExist = false;
+					$scope.canEdit = true;
+				}else{
+					$scope.isExist = true
+					$scope.canEdit = false
+				}
 					$scope.id=response.data.id
 					$scope.email=response.data.email
 					$scope.username=response.data.username
@@ -35,16 +42,43 @@ angular.module('myApp')
 		})
 		$scope.delete = function(){
 			$http.delete("/api/resume/",{
-				id: $scope.id
+				params:{
+					groupId: $scope.groupId
+				}
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功")
+					location.href = "#/resumes_list"
 				}else{
 					$T.toast(response.msg)
 				}
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
 			})
+		}
+		$scope.post = function() {
+			$http.post('/api/resume/',{
+				'email':$scope.email,
+				'groupId':$scope.groupId,
+				'username':$scope.username,
+				'qq':$scope.qq,
+				'sex':$scope.sex,
+				'age':$scope.age,
+				'yearsOfWorking':$scope.yearsOfWorking,
+				'school':$scope.school,
+				'education':$scope.education,
+				'content':$scope.content,
+				'display':$scope.display
+			}).success(function(response){
+				if(response.status == "success"){
+					$T.toast("更新成功")
+					location.reload();
+				}else{
+					$T.toast(response.msg)
+				}
+			}).error(function() {
+				$T.toast("服务器错误,请联系系统管理员")
+			});
 		}
 		$scope.submit = function(){
 			$http.put("/api/resume/",{
@@ -62,6 +96,7 @@ angular.module('myApp')
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功")
+					location.reload()
 				}else{
 					$T.toast(response.msg)
 				}

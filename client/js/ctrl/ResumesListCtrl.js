@@ -31,17 +31,18 @@ angular.module('myApp')
 		}).error(function(){
 			$T.toast("服务器错误,请联系系统管理员")
 		})
-		$scope.openResume = function(id){
-			location.href = "#/resume/"+id;
+		$scope.openResume = function(groupId){
+			location.href = "#/resume/"+groupId;
 		}
-		$scope.delete = function(id){
+		$scope.delete = function(groupId){
 			$http.delete("/api/resume/",{
 				params:{
-					id: id
+					groupId: groupId
 				}
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功")
+					location.href = "#/resumes_list"
 				}else{
 					$T.toast(response.msg)
 				}

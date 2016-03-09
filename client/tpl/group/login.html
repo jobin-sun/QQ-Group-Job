@@ -7,8 +7,13 @@
         <div class="line line1">
             <input type="number" class="form-control flex1" ng-model="groupId" placeholder="群ID" required="" autofocus="">
         </div>
-        <div class="line line2">
-            <input type="text" class="form-control flex1" ng-model="adminName" placeholder="用户名" required="" autofocus="">
+        <div class="line line2 flex_box">
+            <div class="qq flex1">
+                <input type="number" class="form-control" ng-model="adminQQ" placeholder="QQ号" required="">
+            </div>
+            <div class="domain">
+                @qq.com
+            </div>
         </div>
         <div class="line line3">
             <input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">

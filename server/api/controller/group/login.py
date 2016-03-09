@@ -31,7 +31,7 @@ from api.config import expiration
 
 class LoginForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
-    admin_qq = CharField(label=u'群主QQ：', max_length=15)
+    adminQQ = CharField(label=u'群主QQ：', max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput())
 
 
@@ -46,13 +46,13 @@ class Index(View):
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
             groupId = uf.cleaned_data['groupId']
-            admin_qq = uf.cleaned_data['admin_qq']
+            adminQQ = uf.cleaned_data['adminQQ']
             password = db_password(uf.cleaned_data['password'])
 
             # 获取的表单数据与数据库进行比较
             admin = GroupAdmin.objects.filter(
                 groupId__exact=groupId,
-                admin_qq__exact=admin_qq,
+                adminQQ__exact=adminQQ,
                 password__exact=password
             ).first()
 

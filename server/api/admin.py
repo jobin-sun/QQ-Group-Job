@@ -3,10 +3,10 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Register your models here.
 
-from .models import User, Resume, AuthCode, Group, GroupAdmin
+from .models import User, Resume, AuthCode, Group, GroupAdmin, Rank
 
 class AuthCodeAdmin(admin.ModelAdmin):
-    list_display = ('groupId','admin_qq', 'code', 'times')
+    list_display = ('groupId','adminQQ', 'code', 'times')
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username','qq')
@@ -16,8 +16,12 @@ class ResumeAdmin(admin.ModelAdmin):
     list_display = ('userEmail','groupId','qq','display')
     search_fields = ('userEmail','groupId','qq','content')
 
+class RankAdmin(admin.ModelAdmin):
+    list_display = ('resumeId','adminQQ','rank')
+    search_fields = ('resumeId','adminQQ')
+
 class GroupAdminAdmin(admin.ModelAdmin):
-    list_display = ('groupId', 'admin_qq', 'userType')
+    list_display = ('groupId', 'adminQQ', 'userType')
 
 class GroupListAdmin(admin.ModelAdmin):
     actions = ['delete_model']
@@ -37,11 +41,12 @@ class GroupListAdmin(admin.ModelAdmin):
             admin = GroupAdmin.objects.get(groupId__exact =obj.groupId, userType__exact=1)
         except ObjectDoesNotExist:
             return ''
-        return admin.admin_qq
+        return admin.adminQQ
 
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Resume, ResumeAdmin)
+admin.site.register(Rank, RankAdmin)
 admin.site.register(AuthCode, AuthCodeAdmin)
 admin.site.register(Group, GroupListAdmin)
 admin.site.register(GroupAdmin, GroupAdminAdmin)

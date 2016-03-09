@@ -19,4 +19,11 @@ angular.module('myApp').filter('strSex',function(){
         else
             return ""
     }
+}).filter('strBool',function(){
+    return function(v){
+        if(v)
+            return '是';
+        else
+            return "否"
+    }
 });

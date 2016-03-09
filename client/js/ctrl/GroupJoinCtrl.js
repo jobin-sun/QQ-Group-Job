@@ -9,9 +9,8 @@ angular.module('myApp')
 			$http.post("/api/group/join/", {
 				groupId: $scope.groupId,
 				groupName: $scope.groupName,
-				adminName: $scope.adminName,
-				password:$scope.password,
-				requestMsg:$scope.requestMsg
+				adminQQ: $scope.adminQQ,
+				password:$scope.password
 			}).success(function(response){
 				if(response.status == "success"){
 					location.href = "#/group/login"

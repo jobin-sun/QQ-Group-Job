@@ -30,7 +30,6 @@ from api.token import db_password
 
 
 class Index(View):
-
     def put(self, request):
         check = CheckRequest(request)
         if not check.admin:

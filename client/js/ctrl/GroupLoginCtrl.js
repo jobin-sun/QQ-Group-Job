@@ -8,7 +8,7 @@ angular.module('myApp')
 		$scope.submit = function(){
 			$http.post("/api/group/login/", {
 				groupId: $scope.groupId,
-				adminName: $scope.adminName,
+				adminQQ: $scope.adminQQ,
 				password:$scope.password
 			}).success(function(response){
 				if(response.status == "success"){

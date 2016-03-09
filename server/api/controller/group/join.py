@@ -24,7 +24,7 @@
 from django.http import JsonResponse
 from django.views.generic import View
 
-from django.forms import (Form, PasswordInput, CharField, EmailField )
+from django.forms import (Form, PasswordInput, CharField )
 
 from .check_request import CheckRequest
 from api.models import Group, GroupAdmin
@@ -34,7 +34,7 @@ from api.token import db_password, new_random
 class JoinForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
     groupName = CharField(label=u'群名称：', max_length=30)
-    ownerqq = CharField(label=u'群主QQ：', max_length=15)
+    adminQQ = CharField(label=u'群主QQ：', max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput(), max_length=40)
 
 class Index(View):
@@ -46,58 +46,63 @@ class Index(View):
                 "msg": "User logined"
             })
         uf = JoinForm(check.jsonForm)
-        groupId = uf.cleaned_data['groupId']
-        groupName = uf.cleaned_data['groupName']
-        ownerqq = uf.cleaned_data['ownerqq']
-        password = uf.cleaned_data['password']
         if uf.is_valid():
+            groupId = uf.cleaned_data['groupId']
+            groupName = uf.cleaned_data['groupName']
+            adminQQ = uf.cleaned_data['adminQQ']
+            password = uf.cleaned_data['password']
             #检测群是否存在
             checkGroup = Group.objects.filter(groupId__exact = groupId).first()
             if checkGroup:
-                if checkGroup.state == 0:
+                if checkGroup.status == 0:
                     return JsonResponse({
                         "status" : 'error',
                         'msg' : "此群已被注册,但正在验证中,群ID:%s" % groupId
                     })
-                if checkGroup.state == 1:
+                elif checkGroup.status == 1:
                     return JsonResponse({
                         "status" : 'error',
                         'msg' : "此群已被注册并验证通过,可申请转让,群ID:%s" % groupId
                     })
-                if checkGroup.state == 2:
+                elif checkGroup.status == 2:
                     GroupAdmin.objects.filter(groupId__exact = groupId).delete()
                     checkGroup.delete()
-                group = Group(
-                    groupId = groupId,
-                    groupName = groupName
-                )
-                group.save()
-                if not group.id:
+                else:
                     return JsonResponse({
                         "status" : 'error',
-                        'msg' : "Save group error, GroupID:%s" % uf.cleaned_data['groupId']
+                        'msg' : "此群已被注册"
                     })
+            group = Group(
+                groupId = groupId,
+                groupName = groupName
+            )
+            group.save()
+            if not group.id:
+                return JsonResponse({
+                    "status" : 'error',
+                    'msg' : "Save group error:%s" % uf.cleaned_data['groupId']
+                })
 
-                admin = GroupAdmin(
-                    groupId = groupId,
-                    qq = ownerqq,
-                    password = db_password(password),
-                    login_random = new_random(),
-                    activate_random = new_random(),
-                    recover_random = new_random(),
-                    userType = 1
-                    )
-                admin.save()
-                if admin.id:
-                    return JsonResponse({
-                        "status" : 'success',
-                        'msg' : ""
-                    })
+            admin = GroupAdmin(
+                groupId = groupId,
+                adminQQ = adminQQ,
+                password = db_password(password),
+                login_random = new_random(),
+                activate_random = new_random(),
+                recover_random = new_random(),
+                userType = 1
+                )
+            admin.save()
+            if admin.id:
+                return JsonResponse({
+                    "status" : 'success',
+                    'msg' : ""
+                })
             else:
                 return JsonResponse({
                     "status" : 'error',
-                    'msg' : "Save group admin error, GroupID:%s; Admin:%s" % (groupId, ownerqq)
-                    })
+                    'msg' : "Admin save error"
+                })
 
         else:
             return JsonResponse({
