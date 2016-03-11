@@ -97,14 +97,14 @@ class Index(View):
         admins = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
             userType = 0
-        ).values('id', 'groupId', 'admin_qq')
+        ).values('id', 'groupId', 'qq')
 
         data = {"status" : "success",
                 "msg":"",
                 "data": [] }
 
         for item in admins:
-            admin = User.objects.filter(qq__exact = item['admin_qq']).first()
+            admin = User.objects.filter(id__exact = item['id']).first()
             resume = Resume.objects.filter(groupId__exact = check.admin.groupId, qq__exact = admin.qq).first()
             if resume:
                 item['status'] = resume.status
@@ -125,14 +125,14 @@ class Index(View):
                                 "msg" : "Admin is invalid."})
         admin = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
-            admin_qq = uf.cleaned_data['admin_qq'],
+            qq = uf.cleaned_data['qq'],
         ).first()
         if admin:
             return JsonResponse({"status": 'error',
                                 'msg': "Admin exist."})
         admin = GroupAdmin(
             groupId=check.admin.groupId,
-            admin_qq=uf.cleaned_data['admin_qq'],
+            qq=uf.cleaned_data['qq'],
             password = db_password(uf.cleaned_data['password']),
             login_random = new_random(),
             userType=0
@@ -153,12 +153,12 @@ class Index(View):
         password = db_password(uf.cleaned_data['password'])
         admin = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
-            admin_qq = uf.cleaned_data['admin_qq'],
+            qq = uf.cleaned_data['qq'],
             password = password
         ).first()
         if not admin:
             return JsonResponse({"status": 'error',
-                                'msg': "GroupID or admin_qq or password is error"})
+                                'msg': "GroupID or qq or password is error"})
         uf = MngResumeForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status": "error",

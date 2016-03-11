@@ -7,4 +7,5 @@ expiration = {
         'activate': 60 * 60 * 24,
         'recover' : 60 * 60 * 24
         }
+email_address = 'system@qjob.social'
 

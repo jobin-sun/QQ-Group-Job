@@ -91,7 +91,7 @@ class Index(View):
         for item in resumes:
             user = User.objects.filter(qq = item.qq).first()
             allRank = Rank.objects.filter(resumeId = item.id)
-            rank = allRank.filter(admin_qq = check.admin.admin_qq).first()
+            rank = allRank.filter(qq = check.admin.qq).first()
             avgRank = allRank.aggregate(Avg('rank'))
             if not user:
                 return JsonResponse({"status": "error",

@@ -3,10 +3,10 @@ from django.http import JsonResponse
 from api.models import User
 from api.token import parse_token
 
-class Activate(View):
+class Recover(View):
     def get(self, request):
         token_str = request.GET['token']
-        token = parse_token(token_str, 'activate')
+        token = parse_token(token_str, 'recover')
         if token is None:
             msg = {
                 "status" : "error",
@@ -26,23 +26,15 @@ class Activate(View):
                         "msg" : "user not exsist"
                     }
                 else:
-                    if user.status == 1:
+                    if token.is_user(user):
                         msg = {
-                            "status" : "error",
-                            "msg" : "user already activated"
+                            "status" : "success",
+                            "msg" : "authentication is successful"
                         }
                     else:
-                        if token.is_user(user):
-                            user.status = 1
-                            user.save()
-                            msg = {
-                                "status" : "success",
-                                "msg" : "activated"
-                            }
-                        else:
-                            msg = {
-                                "status" : "error",
-                                "msg" : "error token"
-                            }
+                        msg = {
+                            "status" : "error",
+                            "msg" : "error token"
+                        }
         return JsonResponse(msg)
 

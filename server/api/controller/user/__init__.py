@@ -1,4 +1,5 @@
-from . import (index,
+from . import (
+    index,
     change_pwd,
     login,
     logout,
@@ -6,4 +7,7 @@ from . import (index,
     resumes_list,
     groups_list,
     resume,
-    reg)
+    reg,
+    mail,
+    activate
+)

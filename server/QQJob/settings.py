@@ -115,6 +115,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# email setting
+EMAIL_HOST = 'smtp.exmail.qq.com'
+EMAIL_HOST_USER = 'system@qjob.social'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+# email ssl
+EMAIL_USE_SSL = False
+EMAIL_SSL_CERTFILE = ''
+EMAIL_SSL_KEYFILE = ''
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
