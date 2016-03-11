@@ -3,10 +3,10 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Register your models here.
 
-from .models import User, Resume, AuthCode, Group, GroupAdmin, Rank
+from .models import User, Resume, AuthCode, Group, GroupAdmin
 
 class AuthCodeAdmin(admin.ModelAdmin):
-    list_display = ('groupId','adminQQ', 'code', 'times')
+    list_display = ('groupId','qq', 'code', 'times')
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username','qq')
@@ -21,7 +21,7 @@ class RankAdmin(admin.ModelAdmin):
     search_fields = ('resumeId','adminQQ')
 
 class GroupAdminAdmin(admin.ModelAdmin):
-    list_display = ('groupId', 'adminQQ', 'userType')
+    list_display = ('groupId', 'qq', 'userType')
 
 class GroupListAdmin(admin.ModelAdmin):
     actions = ['delete_model']
@@ -41,7 +41,7 @@ class GroupListAdmin(admin.ModelAdmin):
             admin = GroupAdmin.objects.get(groupId__exact =obj.groupId, userType__exact=1)
         except ObjectDoesNotExist:
             return ''
-        return admin.adminQQ
+        return admin.qq
 
 
 admin.site.register(User, UserAdmin)

@@ -90,7 +90,7 @@ class Index(View):
         resumes = Resume.objects.filter(groupId__exact = check.admin.groupId, display__exact= True)
         for item in resumes:
             allRank = Rank.objects.filter(resumeId__exact = item.id)
-            rank = allRank.filter(adminQQ__exact = check.admin.adminQQ).first()
+            rank = allRank.filter(qq__exact = check.admin.qq).first()
             avgRank = allRank.aggregate(Avg('rank'))
             resume = {
                 "id": item.id,

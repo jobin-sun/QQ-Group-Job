@@ -77,7 +77,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
-        codes = AuthCode.objects.filter(groupId = check.admin.groupId).values('id', 'admin_qq', 'code', 'times')
+        codes = AuthCode.objects.filter(groupId = check.admin.groupId).values('id', 'qq', 'code', 'times')
         data = {"status" : "success",
                 "msg":"",
                 "data": [] }
@@ -94,11 +94,11 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "Illegal AuthCode."})
-        codeDB = AuthCode.objects.filter(groupId = check.admin.groupId, admin_qq = check.admin.admin_qq).first()
+        codeDB = AuthCode.objects.filter(groupId = check.admin.groupId, qq = check.admin.qq).first()
         if not codeDB:
             code = AuthCode(
                 groupId=check.admin.groupId,
-                admin_qq=check.admin.admin_qq,
+                qq=check.admin.qq,
                 code=uf.cleaned_data['code'],
                 times=0,
                 lastDate=time.time()

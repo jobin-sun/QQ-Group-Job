@@ -20,7 +20,7 @@ class DelResumeForm(Form):
     resumeId = IntegerField()
 
 class CheckAdminForm(Form):
-    admin_qq = CharField(max_length=15)
+    qq = CharField(max_length=15)
     password = CharField(widget=PasswordInput())
 
 class DelAdminForm(Form):

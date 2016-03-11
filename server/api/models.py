@@ -92,14 +92,14 @@ class Resume(models.Model):
 
 class Rank(models.Model):
     resumeId = models.IntegerField()
-    adminQQ = models.CharField(max_length=15)  # 群主QQ号或管理员QQ号
+    qq = models.CharField(max_length=15)  # 群主QQ号或管理员用户名
     rank = models.IntegerField(default=0)
     comment = models.TextField(blank=True, null=True)  # 管理员评价, 下期做
 
 
 class AuthCode(models.Model):
     groupId = models.CharField(max_length=15)  # 所属群
-    adminQQ = models.CharField(max_length=15)  # 创建者用户名,或群主QQ号
+    qq = models.CharField(max_length=15)  # 创建者用户名,或群主QQ号
     code = IntegerRangeField(min_value=100000, max_value=999999)
     times = models.IntegerField(default=0)
     lastDate = models.DateTimeField(auto_now=True)
@@ -135,7 +135,7 @@ class GroupAdmin(models.Model):
         (1, u'已激活')
     )
     groupId = models.CharField(max_length=15)  # 群号
-    adminQQ = models.CharField(max_length=15)
+    qq = models.CharField(max_length=15)
 
     login_random = models.CharField(max_length=10)
     activate_random = models.CharField(max_length=10)

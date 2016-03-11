@@ -1,5 +1,4 @@
 __author__ = 'jobin'
-__author__ = 'jobin'
 
 from django.http import JsonResponse
 from django.views.generic import View

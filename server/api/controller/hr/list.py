@@ -38,7 +38,7 @@ class List(View):
                 return JsonResponse(data)
             else:
                 return JsonResponse({"status" : 'error',
-                        'msg' : 'Auth code is error, contact QQ group(Group id:371145284) admin for more information'
+                        'msg' : 'Auth code is error, contact QQ group(Group id:%s) admin for more information' % groupId
                         })
 
         else:
