@@ -34,7 +34,7 @@ from api.token import db_password, new_random
 class JoinForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
     groupName = CharField(label=u'群名称：', max_length=30)
-    adminQQ = CharField(label=u'群主QQ：', max_length=15)
+    qq = CharField(label=u'群主QQ：', max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput(), max_length=40)
 
 class Index(View):
@@ -49,7 +49,7 @@ class Index(View):
         if uf.is_valid():
             groupId = uf.cleaned_data['groupId']
             groupName = uf.cleaned_data['groupName']
-            adminQQ = uf.cleaned_data['adminQQ']
+            qq = uf.cleaned_data['qq']
             password = uf.cleaned_data['password']
             #检测群是否存在
             checkGroup = Group.objects.filter(groupId__exact = groupId).first()
@@ -85,7 +85,7 @@ class Index(View):
 
             admin = GroupAdmin(
                 groupId = groupId,
-                adminQQ = adminQQ,
+                qq = qq,
                 password = db_password(password),
                 login_random = new_random(),
                 activate_random = new_random(),

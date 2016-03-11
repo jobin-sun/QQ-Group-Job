@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Register your models here.
 
-from .models import User, Resume, AuthCode, Group, GroupAdmin
+from .models import User, Resume, AuthCode, Group, GroupAdmin, Rank
 
 class AuthCodeAdmin(admin.ModelAdmin):
     list_display = ('groupId','qq', 'code', 'times')
@@ -17,8 +17,8 @@ class ResumeAdmin(admin.ModelAdmin):
     search_fields = ('userEmail','groupId','qq','content')
 
 class RankAdmin(admin.ModelAdmin):
-    list_display = ('resumeId','adminQQ','rank')
-    search_fields = ('resumeId','adminQQ')
+    list_display = ('resumeId','qq','rank')
+    search_fields = ('resumeId','qq')
 
 class GroupAdminAdmin(admin.ModelAdmin):
     list_display = ('groupId', 'qq', 'userType')

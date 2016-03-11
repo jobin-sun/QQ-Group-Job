@@ -9,7 +9,7 @@ angular.module('myApp')
 			$http.post("/api/group/join/", {
 				groupId: $scope.groupId,
 				groupName: $scope.groupName,
-				adminQQ: $scope.adminQQ,
+				qq: $scope.qq,
 				password:$scope.password
 			}).success(function(response){
 				if(response.status == "success"){
