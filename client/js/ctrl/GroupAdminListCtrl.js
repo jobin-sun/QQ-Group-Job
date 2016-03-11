@@ -1,6 +1,10 @@
 angular.module('myApp')
-	.controller("GroupAdminListCtrl",["$scope","$http",function($scope, $http){
+	.controller("GroupAdminListCtrl",["$scope","$http", "$cookies", function($scope, $http, $cookies){
 		$scope.current = 'admin_list';
+		if($cookies.get("admin_logined") != "yes"){
+			location.href = "#/group/login";
+			return;
+		}
 		$http.get("api/group/admin_list/",{
 			params:{
 				code: $scope.code

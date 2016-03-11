@@ -39,10 +39,6 @@ class LoginForm(Form):
 class Index(View):
     def post(self, request):
         check = CheckRequest(request);
-        if check.admin:
-            return JsonResponse({"status": 'error',
-                        'msg': "User logined"
-            })
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
             groupId = uf.cleaned_data['groupId']
@@ -79,6 +75,7 @@ class Index(View):
                 }
                 response = JsonResponse(data)
                 response.set_cookie("admin_token",value=token, max_age=expiration['login'], httponly=True)
+                response.set_cookie("admin_logined",value="yes", max_age=expiration['login'])
                 return response
             else:
                 # 用户名或密码错误

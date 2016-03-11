@@ -1,10 +1,9 @@
 angular.module('myApp')
 	.controller("ResumesListCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		$http.get("/api/check_login/").success(function(response){
-			if(response.status != "success"){
-				location.href = "#/login";
-			}
-		})
+		if($cookies.get("logined") != "yes"){
+			location.href = "#/login";
+			return;
+		}
 		$http.get("/api/resumes_list/").success(function(response){
 			if(response.status == "success"){
 				$scope.items = [];

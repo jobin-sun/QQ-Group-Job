@@ -1,10 +1,9 @@
 angular.module('myApp')
 	.controller("GroupsListCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		$http.get("/api/check_login/").success(function(response){
-			if(response.status != "success"){
-				location.href = "#/login";
-			}
-		})
+		if($cookies.get("logined") != "yes"){
+			location.href = "#/login";
+			return;
+		}
 		var statusOb = ['申请中', '允许的', '拒绝的', '拉黑的'];
 		$http.get('/api/groups_list/').success(function(response){
 			if(response.status == 'success'){

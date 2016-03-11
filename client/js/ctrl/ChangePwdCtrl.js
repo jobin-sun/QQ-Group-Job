@@ -1,10 +1,9 @@
 angular.module('myApp')
 	.controller("ChangePwdCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
-		$http.get("/api/check_login/").success(function(response){
-			if(response.status != "success"){
-				location.href = "#/login";
-			}
-		})
+		if($cookies.get("logined") != "yes"){
+			location.href = "#/login";
+			return;
+		}
 		$scope.submit = function(){
 			$http.put("/api/change_pwd/", {
 				password: $scope.password

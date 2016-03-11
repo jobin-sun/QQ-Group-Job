@@ -1,10 +1,9 @@
 angular.module('myApp')
 	.controller("LoginCtrl",["$scope","$http", "$cookies",function($scope, $http, $cookies){
-		$http.get("/api/check_login/").success(function(response){
-			if(response.status == "success"){
-				location.href = "#/index";
-			}
-		})
+		if($cookies.get("logined") == "yes"){
+			location.href = "#/index";
+			return;
+		}
 		$scope.submit = function(){
 			$http.post("/api/login/", {
 				qq: $scope.qq,

@@ -11,4 +11,5 @@ class Logout(View):
                                  "msg":""
                                  })
         response.delete_cookie("token")
+        response.delete_cookie("logined")
         return  response

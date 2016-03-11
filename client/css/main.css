@@ -39,7 +39,7 @@ body {
 .form-signin .logo{
   padding-top: 30px;
 }
-
+.top_img_ctn{ height: 306px; }
 
 .login{
   background-color: #156e72;

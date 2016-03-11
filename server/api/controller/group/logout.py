@@ -11,4 +11,5 @@ class Index(View):
                                  "msg":""
                                  })
         response.delete_cookie("admin_token")
+        response.delete_cookie("admin_logined")
         return  response

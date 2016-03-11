@@ -20,10 +20,6 @@ class LoginForm(Form):
 class Login(View):
     def post(self, request):
         check = CheckRequest(request);
-        if check.user:
-            return JsonResponse({"status": 'error',
-                        'msg': "User logined"
-                        })
         uf = LoginForm(check.jsonForm)
         if uf.is_valid():
             qq = uf.cleaned_data['qq']
@@ -48,6 +44,7 @@ class Login(View):
                     }
                     response = JsonResponse(data)
                     response.set_cookie("token", value=token, max_age=expiration['login'], httponly=True)
+                    response.set_cookie("logined", value="yes", max_age=expiration['login'])
                     return response
                 elif user.status == 0:
                     return JsonResponse({

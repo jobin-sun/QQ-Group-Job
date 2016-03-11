@@ -1,10 +1,9 @@
 angular.module('myApp')
-	.controller("ResumeCtrl",["$scope","$http","$routeParams",function($scope, $http, $routeParams){
-		$http.get("/api/check_login/").success(function(response){
-			if(response.status != "success"){
-				location.href = "#/login";
-			}
-		})
+	.controller("ResumeCtrl",["$scope","$http","$routeParams","$cookies", function($scope, $http, $routeParams, $cookies){
+		if($cookies.get("logined") != "yes"){
+			location.href = "#/login";
+			return;
+		}
 		$http.get("/api/resume/",{
 			params:{
 				groupId: $routeParams.groupId 
