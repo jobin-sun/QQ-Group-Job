@@ -1,11 +1,20 @@
 from django.views.generic import View
 from django.http import JsonResponse
+from django.forms import Form, PasswordInput, CharField
+from json import loads
 from api.models import User
-from api.token import parse_token
+from api.token import parse_token, db_password
+
+
+class RecoverForm(Form):
+    token = CharField(label=u'token: ')
+    password = CharField(label=u'密码: ', widget=PasswordInput())
+
 
 class Recover(View):
-    def get(self, request):
-        token_str = request.GET['token']
+    def post(self, request):
+        uf = RecoverForm(loads(request.body.decode("utf-8")))
+        token_str = uf.cleaned_data['token']
         token = parse_token(token_str, 'recover')
         if token is None:
             msg = {
@@ -27,6 +36,9 @@ class Recover(View):
                     }
                 else:
                     if token.is_user(user):
+                        password = db_password(uf.cleaned_data['password'])
+                        user.password = password
+                        user.save()
                         msg = {
                             "status" : "success",
                             "msg" : "authentication is successful"
