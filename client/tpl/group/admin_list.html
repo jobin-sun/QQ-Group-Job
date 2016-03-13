@@ -1,17 +1,4 @@
-    <style type="text/css"> 
-        .adm-box {
-            width: 100%; 
-        }
-        .group-cvlist-table {
-            margin 0;
-            padding: 0px;
-        }
-        .group-mnglist{
-            padding-left: 5px;
-        }
-    </style>
-
-<div class="container" ng-init="show=false">
+<div class="container">
     <h2 class="form-signin-heading">权限管理 <a href="#/group" class="small">返回首页</a></h2>
     <div class="flex_box group">
         <div ng-include="'tpl/group/left.html'"></div>
@@ -20,22 +7,36 @@
                 <div ng-repeat="item in items" >
                     <div class="adm-box panel panel-default">
                         <div class="panel-heading">
-                            群QQ:<span ng-bind="item.groupID"></span>
-                            群名:<span ng-bind="item.groupName"></span>
-                            群主:<span ng-bind="item.adminName"></span>
-                        </div>
-                        <div class="panel-body">
-                            <table class="group-admin-table">
-                                <tr ng-repeat="admin in item.admins">
-                                    <td class="group-mnglist">QQ:<span ng-bind="admin.adminName"></span></td>
-                                    <td class="group-mnglist"><a href="" class="red">删除</a></td>
-                                    <td class="group-mnglist"><a href="" class="red">更改权限</a></td>
-                                </tr>
-                            </table>
+                            用户名:<span ng-bind="item.qq"></span>
+                            状态:<span ng-bind="item.status"></span>
+                            <a ng-click="delete(item.id)" href="javascript:void(0)">删除</a>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="ctn text_left">
+                <label>添加
+                    <input type="checkbox" ng-model="showAddWindow">
+                </label>
+            </div>
+            <div ng-show="showAddWindow">
+                <div class="line flex_box line1">
+                    <div class="title">Email</div>
+                    <div class="value flex1"><input type="number" ng-model="add.qq">@qq.com</div>
+                </div>
+                <div class="line flex_box line2">
+                    <div class="title">密码</div>
+                    <div class="value flex1"><input type="password" ng-model="add.password"></div>
+                </div>
+                <div class="line flex_box line3">
+                    <div class="title">确认码</div>
+                    <div class="value flex1"><input type="password" ng-model="add.repassword"></div>
+                </div>
+                <div class="ctn text_left">
+                    <button class="btn btn-primary" ng-click="post()">确认添加</button>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

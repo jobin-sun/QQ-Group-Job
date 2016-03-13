@@ -5,11 +5,7 @@ angular.module('myApp')
 			location.href = "#/group/login";
 			return;
 		}
-		$http.get("api/group/admin_list/",{
-			params:{
-				code: $scope.code
-			}
-		}).success(function(response){
+		$http.get("api/group/admin_list/").success(function(response){
 			if (response.status == "success") {
 				$scope.items = []
 				try{
@@ -24,5 +20,30 @@ angular.module('myApp')
 		}).error(function(){
 			$T.toast("服务器错误,请联系系统管理员")
 		})
+		$scope.post = function(){
+			$http.post("api/group/admin_list/",{
+				qq: $scope.add.qq,
+				password: $scope.add.password
+			}).success(function(response){
+				console.log(response);
+			}).error(function(){
+				$T.toast("服务器错误,请联系系统管理员")
+			})
+		}
+		$scope.delete = function(id){
+			$http.delete("api/group/admin_list/",{
+				params:{
+					id: id
+				}
+			}).success(function(response){
+				if(response.status == "success"){
+					location.reload();
+				}else{
+					$T.toast(response.msg);
+				}
+			}).error(function(){
+				$T.toast("服务器错误,请联系系统管理员")
+			})
+		}
 	}])
 	

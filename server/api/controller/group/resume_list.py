@@ -117,39 +117,3 @@ class Index(View):
                 resume['averageRank'] = avgRank['rank__avg']
             data['data'].append(resume)
         return JsonResponse(data)
-
-    def post(self, request):
-        return JsonResponse({"status":"success",
-                             "msg":""})
-
-    def put(self, request):
-        check = CheckRequest(request)
-        if not check.admin:
-            return JsonResponse({"status": "error",
-                                "msg": "Only admin permitted"})
-        uf = MngResumeForm(check.jsonForm)
-        if not uf.is_valid():
-            return JsonResponse({"status": "error",
-                                "msg": "resumeId is invalid."})
-        resume = Resume.objects.filter(id = uf.cleaned_data['resumeId']).first()
-        if uf.cleaned_data['status']:
-            resume.status = uf.cleaned_data['status']
-        if uf.cleaned_data['rank']:
-            resume.rank = uf.cleaned_data['rank']
-        resume.save()
-        return JsonResponse({"status":"success",
-                             "msg":""})
-
-    def delete(self, request):
-        check = CheckRequest(request)
-        if not check.admin:
-            return JsonResponse({"status": "error",
-                                "msg": "Only admin permitted"})
-        uf = DelResumeForm(check.jsonForm)
-        if not uf.is_valid():
-            return JsonResponse({"status": "error",
-                                "msg": "resumeId is invalid."})
-        Resume.objects.filter(id = uf.cleaned_data['resumeId']).delete()
-        Rank.objects.filter(resumeId = uf.cleaned_data['resumeId']).delete()
-        return JsonResponse({"status":"success",
-                             "msg":""})

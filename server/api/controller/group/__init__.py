@@ -5,5 +5,6 @@ from . import (resume_list,
     check_login,
     join,
     login,
-    logout
+    logout,
+    resume
     )

@@ -45,6 +45,9 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/group/resume_list/', {
 			templateUrl: 'tpl/group/resume_list.html',
 			controller: 'GroupResumeListCtrl'
+		}).when('/group/resume/:id', {
+			templateUrl: 'tpl/group/resume.html',
+			controller: 'GroupResumeCtrl'
 		}).when('/group/change_pwd', {
 			templateUrl: 'tpl/group/change_pwd.html',
 			controller: 'GroupChangePwdCtrl'

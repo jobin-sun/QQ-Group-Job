@@ -26,4 +26,11 @@ angular.module('myApp').filter('strSex',function(){
         else
             return "否"
     }
-});
+}).filter('strRank',function(){
+    return function(v){
+        if(v == -1)
+            return "未评分";
+        else
+            return v
+    }
+});;

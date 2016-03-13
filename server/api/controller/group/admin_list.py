@@ -90,33 +90,25 @@ from api.token import db_password, new_random
 class Index(View):
     def get(self, request):
         check = CheckRequest(request)
-        if not check.admin:
+        if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
-
         admins = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
             userType = 0
-        ).values('id', 'groupId', 'qq')
+        ).values('id', 'groupId', 'qq', 'status')
 
         data = {"status" : "success",
                 "msg":"",
                 "data": [] }
-
-        for item in admins:
-            admin = User.objects.filter(id__exact = item['id']).first()
-            resume = Resume.objects.filter(groupId__exact = check.admin.groupId, qq__exact = admin.qq).first()
-            if resume:
-                item['status'] = resume.status
-            else:
-                item['status'] = '尚无简历'
-            data["data"].append(item)
+        for admin in admins:
+            data["data"].append(admin)
         return JsonResponse(data)
 
     def post(self, request):
         ''' 群主添加新管理员 '''
         check = CheckRequest(request)
-        if not check.admin:
+        if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
         uf = CheckAdminForm(check.jsonForm)
@@ -143,7 +135,7 @@ class Index(View):
 
     def put(self, request):
         check = CheckRequest(request)
-        if not check.admin:
+        if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
         uf = CheckAdminForm(check.jsonForm)
@@ -174,17 +166,17 @@ class Index(View):
 
     def delete(self, request):
         check = CheckRequest(request)
-        if not check.admin:
+        if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
         uf = DelAdminForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "GroupAdminId is invalid."})
-        admin = GroupAdmin.objects.filter(id = uf.cleaned_data['Id']).first()
+        admin = GroupAdmin.objects.filter(id = uf.cleaned_data['id'], groupId__exact=check.admin.groupId).first()
         if not admin:
             return JsonResponse({"status" : "error",
                                 "msg" : "No such admin."})
-        GroupAdmin.objects.filter(id = uf.cleaned_data['Id']).delete()
+        admin.delete()
         return JsonResponse({"status" : "success",
                              "msg" : "Delete success."})

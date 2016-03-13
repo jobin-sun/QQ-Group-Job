@@ -12,12 +12,12 @@
                 <div class="flex1"> </div>
             </div>
             <div class="flex_box" ng-repeat="item in items" style="cursor: pointer;">
-                <div class="flex1" ng-bind='item.qq' ng-click='openResume(item.groupId)'></div> 
-                <div class="flex1" ng-bind='item.username' ng-click='openResume(item.groupId)'></div>
-                <div class="flex1" ng-bind='item.userEmail' ng-click='openResume(item.groupId)'></div>
-                <div class="flex1" ng-bind='item.status | strStatus' ng-click='openResume(item.groupId)'></div>
-                <div class="flex1" ng-bind='item.lastDate' ng-click='openResume(item.groupId)'></div>
-                <div class="flex1" ng-click="delete(item.groupId)">删除</div>
+                <div class="flex1" ng-bind='item.qq' ng-click='openResume(item.id)'></div> 
+                <div class="flex1" ng-bind='item.username' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-bind='item.userEmail' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-bind='item.status | strStatus' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-bind='item.lastDate' ng-click='openResume(item.id)'></div>
+                <div class="flex1" ng-click="delete(item.id)">删除</div>
             </div>
         </div>
     </div>

@@ -1,0 +1,67 @@
+<div class="container">
+    <h2 class="form-signin-heading">权限管理 <a href="#/group" class="small">返回首页</a></h2>
+    <div class="flex_box group">
+        <div ng-include="'tpl/group/left.html'"></div>
+	    <div class="right flex1">
+	    	<div class="login_txt edit_btn" style='width: 12em;' ng-show="isExist">
+	    		<a href="javascript:void" ng-click="delete()">删除</a>
+	    	</div>
+	    	<div>
+	    		<div class="flex_box line line1">
+		    		<div>群ID:</div><div class="flex1" ng-bind='item.groupId'></div>
+		    	</div>
+		    	<div class="flex_box line line2">
+		    		<div>Email:</div><div class="flex1" ng-bind='item.email'></div>
+		    	</div>
+		    	<div class="flex_box line line3">
+		    		<div>姓名:</div><div class="flex1" ng-bind='item.username'></div>
+		    	</div>
+		    	<div class="flex_box line line4">
+		    		<div>qq:</div><div class="flex1" ng-bind='item.qq'></div>
+		    	</div>
+		    	<div class="flex_box line line5">
+		    		<div>年龄:</div><div class="flex1" ng-bind='item.age'></div>
+		    	</div>
+		    	<div class="flex_box line line6">
+		    		<div>性别:</div><div class="flex1" ng-bind='item.sex | strSex'></div>
+		    	</div>
+		    	<div class="flex_box line line7">
+		    		<div>工作年限:</div><div class="flex1" ng-bind='item.yearsOfWorking'></div>
+		    	</div>
+		    	<div class="flex_box line line8">
+		    		<div>学校:</div><div class="flex1" ng-bind='item.school'></div>
+		    	</div>
+		    	<div class="flex_box line line9">
+		    		<div>学历:</div><div class="flex1" ng-bind='item.education | strEdu'></div>
+		    	</div>
+		    	<div class="flex_box line line10">
+		    		<div>状态:</div><select
+	                    ng-options="option.id as option.name for option in statusOptions"
+	                    ng-model="item.status">
+	                </select>
+		    	</div>
+		    	<div class="flex_box line line11">
+		    		<div>最后更新：</div><div ng-bind='item.lastDate'></div>
+		    	</div>
+		    	<div class="flex_box line line12">
+		    		<div>是否显示：</div><div ng-bind='item.display | strBool'></div>
+		    	</div>
+		    	<div class="flex_box line line13">
+		    		<div>我的评分：</div>
+					<input type="number" ng-model='item.myRank'>
+		    	</div>
+		    	<div class="flex_box line line14">
+		    		<div>平均评分：</div><div ng-bind='item.averageRank | strRank'></div>
+		    	</div>
+		    	<div class="flex_box line line15">
+		    		<div>内容：</div>
+		    		<pagedown-viewer content="item.content"></pagedown-viewer>
+		    	</div>
+		    	<div class="ctn text_left">
+		    		<button class="btn btn-primary" ng-hide="isExist" ng-click="put()">保存</button>
+		    		<button class="btn btn-primary" ng-hide="isExist" ng-click="delete(item.id)">删除</button>
+		    	</div>
+	    	</div>
+	    </div>
+	</div>
+</div>

@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^group/login/', group.login.Index.as_view()),
     url(r'^group/logout/', group.logout.Index.as_view()),
     url(r'^group/resume_list/', group.resume_list.Index.as_view()),
+    url(r'^group/resume/', group.resume.Index.as_view()),
 #    url(r'^group/send_activate_mail/', group.mail.Activate.as_view()),
 #    url(r'^group/send_recover_mail/', group.mail.Recover.as_view()),
 #    url(r'^group/activate/', group.activate.Activate.as_view()),

@@ -84,5 +84,5 @@ class Index(View):
                                      })
         else:
             return JsonResponse({"status": 'error',
-                                 'msg': "login form is error"
+                                 'msg': "login form is error: %s" % uf.errors
                                  })

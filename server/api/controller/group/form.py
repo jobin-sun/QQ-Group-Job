@@ -24,10 +24,10 @@ class CheckAdminForm(Form):
     password = CharField(widget=PasswordInput())
 
 class DelAdminForm(Form):
-    Id = IntegerField()
+    id = IntegerField()
 
 class AuthCodeForm(Form):
     code = IntegerField(min_value=100000, max_value=999999)
 
 class DelAuthCodeForm(Form):
-    Id = IntegerField()
+    id = IntegerField()

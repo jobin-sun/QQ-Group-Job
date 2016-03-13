@@ -94,20 +94,14 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "Illegal AuthCode."})
-        codeDB = AuthCode.objects.filter(groupId = check.admin.groupId, qq = check.admin.qq).first()
-        if not codeDB:
-            code = AuthCode(
-                groupId=check.admin.groupId,
-                qq=check.admin.qq,
-                code=uf.cleaned_data['code'],
-                times=0,
-                lastDate=time.time()
-                )
-            code.save()
-        else:
-            codeDB.code = uf.cleaned_data['code']
-            lastDate = time.time()
-            codeDB.save()
+        code = AuthCode(
+            groupId=check.admin.groupId,
+            qq=check.admin.qq,
+            code=uf.cleaned_data['code'],
+            times=0,
+            lastDate=time.time()
+            )
+        code.save()
         return JsonResponse({"status":"success",
                              "msg":"Update Success."})
 
@@ -124,10 +118,10 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "AuthCodeId is invalid."})
-        code = AuthCode.objects.filter(id = uf.cleaned_data['Id']).first()
+        code = AuthCode.objects.filter(id = uf.cleaned_data['id']).first()
         if not code:
             return JsonResponse({"status" : "error",
                                 "msg" : "No such code."})
-        AuthCode.objects.filter(id = uf.cleaned_data['Id']).delete()
+        code.delete()
         return JsonResponse({"status" : "success",
                              "msg" : "Delete success."})

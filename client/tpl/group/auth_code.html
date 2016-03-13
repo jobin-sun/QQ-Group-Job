@@ -3,7 +3,32 @@
 	<div class="flex_box group">
 	    <div ng-include="'tpl/group/left.html'"></div>
 	    <div class="right flex1">
-	        
+	    	<div class="title flex_box">
+	    		<div class="flex1">qq</div>
+	        	<div class="flex1">授权码</div>
+	        	<div class="flex1">查看次数</div>
+	        	<div class="flex1">删除</div>
+	    	</div>
+	        <div class="line flex_box" ng-repeat="item in items">
+	        	<div class="flex1" ng-bind="item.qq"></div>
+	        	<div class="flex1" ng-bind='item.code'></div>
+	        	<div class="flex1" ng-bind='item.times'></div>
+	        	<div class="flex1"><a href="javascript:void(0)" ng-click="delete(item.id)">删除</a></div>
+	        </div>
+	        <div class="ctn text_left">
+                <label>添加
+                    <input type="checkbox" ng-model="showAddWindow">
+                </label>
+            </div>
+            <div ng-show="showAddWindow">
+                <div class="line flex_box line1">
+                    <div class="title">授权码</div>
+                    <div class="value flex1"><input type="number" ng-model="add.code"></div>
+                </div>
+                <div class="ctn text_left">
+                    <button class="btn btn-primary" ng-click="post()">确认添加</button>
+                </div>
+            </div>
 	    </div>
 	</div>
 </div>
