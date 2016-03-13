@@ -423,4 +423,52 @@ input.ng-dirty.ng-invalid {
 .user .profile .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-right: 40px; margin-bottom: 40px; padding-top: 40px; padding-bottom: 40px; background-color: #fff;}
 .user .profile .body .title{ width: 6em; text-align: right; }
 .user .profile .body .line{height: 55px; line-height: 55px;}
-.user .profile .body .edit_btn{ position:absolute; right: 0px; top: 0px; }
+.user .profile .body .edit_btn{ position:absolute; right: 40px; top: 40px; color: #66b9f4; font-size: 18px; display: inline-block; cursor: pointer; background: url(../images/btn-edit.png) no-repeat left center; padding-left: 40px; height: 32px; line-height: 32px;}
+.user .profile .body .submit_btn{ background-color: #2bbfbd; height: 50px; line-height: 50px; font-size: 20px; color: #fff; padding:0 1em;}
+
+.user .resumes_list{ background-color: #eeeeee }
+.user .resumes_list .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.user .resumes_list .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; }
+.user .resumes_list .body .item{ float: left; width: 780px; height: 280px; background-color: #fff; margin-right: 20px; margin-bottom: 20px; padding: 20px;}
+.user .resumes_list .body .line{ height: 25px; line-height: 25px; font-size: 18px; color: #787878 }
+.user .resumes_list .body .item .title{ background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; margin-left: -27px; color: #fff; padding-left: 27px;}
+.user .resumes_list .body .item .status{ font-size: 24px; color: #787878 }
+.user .resumes_list .body .item .status0{ color: #eacc02 }
+.user .resumes_list .body .item .status1{ color: #2bbfbd }
+.user .resumes_list .body .item .status2{ color: #b7b7b7 }
+.user .resumes_list .body .item .status3{ color: #b7b7b7 }
+.user .resumes_list .body .item .content{ margin:20px 0px; }
+.user .resumes_list .body .item .footer{ height: 46px; line-height: 46px; border-top: 1px #dddddd dashed;}
+
+.user .resume{ background-color: #eeeeee }
+.user .resume .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.user .resume .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 40px; margin-right: 40px;}
+.user .resume .line .key{ width: 5em; }
+.user .resume .line13 .key{ width: 5em; vertical-align: top; }
+.user .resume .body .status{ position: absolute; right: 40px; top: 20px; }
+.user .resume .body .status0{ color: #eacc02 }
+.user .resume .body .status1{ color: #2bbfbd }
+.user .resume .body .status2{ color: #b7b7b7 }
+.user .resume .body .status3{ color: #b7b7b7 }
+
+.user .resume .body .title{ max-width: 350px; min-width: 250px; padding-left: 27px; position: absolute; top: 14px; left: -7px; background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; color: #fff; }
+.user .resume .body .edit_btn{ position:absolute; right: -5em; top: px; color: #66b9f4; font-size: 18px; display: inline-block; cursor: pointer; background: url(../images/btn-edit.png) no-repeat left center; padding-left: 40px;}
+.user .resume .body .delete_btn{ position:absolute; right: -8em; top: 0px; color: #66b9f4; cursor: pointer; margin-left: 1em;}
+.user .resume .show{ margin-top: 30px; }
+.user .resume .edit{ margin-top: 30px; }
+.user .resume .body .submit_btn{ background-color: #2bbfbd; height: 50px; line-height: 50px; font-size: 20px; color: #fff; padding:0 1em;}
+
+.user .resume .body .line {
+    height: 40px;
+    line-height: 40px;
+}
+
+.user .changepwd{ background-color: #eeeeee }
+.user .changepwd .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.user .changepwd .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 40px; margin-right: 40px;}
+.user .changepwd .line .key{ width: 5em; }
+.user .changepwd .body .submit_btn{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.user .changepwd .body .line {
+    height: 40px;
+    line-height: 40px;
+}

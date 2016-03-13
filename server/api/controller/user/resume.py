@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.generic import View
 
 from .check_request import CheckRequest
-from api.models import Resume
+from api.models import Resume, Group
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
 
 class GetForm(Form):
@@ -52,6 +52,10 @@ class Index(View):
         if uf.is_valid():
             item = Resume.objects.filter(groupId__exact = uf.cleaned_data['groupId'], qq__exact = check.user.qq).first()
             if item:
+                group = Group.objects.filter(groupId__exact = item.groupId).first()
+                groupName = ""
+                if group:
+                    groupName = group.groupName
                 return JsonResponse({
                     "status": 'success',
                     'msg': '',
@@ -60,6 +64,7 @@ class Index(View):
                         'id': item.id,
                         'email': item.userEmail,
                         "groupId": item.groupId,
+                        "groupName": groupName,
                         "username": item.username,
                         "qq": item.qq,
                         'sex': item.sex,

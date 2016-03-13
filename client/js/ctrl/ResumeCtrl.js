@@ -1,9 +1,17 @@
 angular.module('myApp')
-	.controller("ResumeCtrl",["$scope","$http","$routeParams","$cookies", function($scope, $http, $routeParams, $cookies){
+	.controller("ResumeCtrl",["$scope","$http","$routeParams","$cookies", "getUser", function($scope, $http, $routeParams, $cookies, getUser){
 		if($cookies.get("logined") != "yes"){
 			location.href = "#/login";
 			return;
 		}
+		$scope.edit = "edit/";
+		if($routeParams.edit == "edit"){
+			$scope.canEdit = true;
+			$scope.edit = ""
+		}
+		getUser(function(data){
+			$scope.username = data.username;
+		})
 		$http.get("/api/resume/",{
 			params:{
 				groupId: $routeParams.groupId 
@@ -12,27 +20,13 @@ angular.module('myApp')
 			if(response.status == "success"){
 				if(response.count == 0){
 					$scope.isExist = false;
-					$scope.canEdit = true;
+					location.href = "#/resume/edit/"+$routeParams.groupId;
 				}else{
-					$scope.isExist = true
-					$scope.canEdit = false
+					$scope.isExist = true;
 				}
-					$scope.id=response.data.id
-					$scope.email=response.data.email
-					$scope.username=response.data.username
-					$scope.qq=response.data.qq
-					$scope.sex=response.data.sex
-					$scope.age=response.data.age
-					$scope.yearsOfWorking=response.data.yearsOfWorking
-					$scope.school=response.data.school
-					$scope.education=response.data.education
-					$scope.groupId=response.data.groupId
-					$scope.lastDate=response.data.lastDate
-					$scope.status=response.data.status
-					$scope.display= response.data.display
-					$scope.content = response.data.content
-					$scope.sexOptions = $T.sexOptions; 
-					$scope.eduOptions = $T.eduOptions;
+				$scope.data = response.data;
+				$scope.data.sexOptions = $T.sexOptions; 
+				$scope.data.eduOptions = $T.eduOptions;
 			}else{
 				$T.toast(response.msg);
 			}
@@ -42,7 +36,7 @@ angular.module('myApp')
 		$scope.delete = function(){
 			$http.delete("/api/resume/",{
 				params:{
-					groupId: $scope.groupId
+					groupId: $scope.data.groupId
 				}
 			}).success(function(response){
 				if(response.status == "success"){
@@ -57,17 +51,17 @@ angular.module('myApp')
 		}
 		$scope.post = function() {
 			$http.post('/api/resume/',{
-				'email':$scope.email,
-				'groupId':$scope.groupId,
-				'username':$scope.username,
-				'qq':$scope.qq,
-				'sex':$scope.sex,
-				'age':$scope.age,
-				'yearsOfWorking':$scope.yearsOfWorking,
-				'school':$scope.school,
-				'education':$scope.education,
-				'content':$scope.content,
-				'display':$scope.display
+				'email':$scope.data.email,
+				'groupId':$scope.data.groupId,
+				'username':$scope.data.username,
+				'qq':$scope.data.qq,
+				'sex':$scope.data.sex,
+				'age':$scope.data.age,
+				'yearsOfWorking':$scope.data.yearsOfWorking,
+				'school':$scope.data.school,
+				'education':$scope.data.education,
+				'content':$scope.data.content,
+				'display':$scope.data.display
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功")
