@@ -6,5 +6,9 @@ from . import (resume_list,
     join,
     login,
     logout,
-    resume
-    )
+    resume,
+    logout,
+    mail,
+    activate,
+    recover
+)

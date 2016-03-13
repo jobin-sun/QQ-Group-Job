@@ -2,7 +2,7 @@ from django.views.generic import View
 from django.http import JsonResponse
 from django.forms import Form, PasswordInput, CharField
 from json import loads
-from api.models import User
+from api.models import GroupAdmin
 from api.token import parse_token, db_password
 
 
@@ -28,17 +28,17 @@ class Recover(View):
                     "msg" : "token is expired"
                 }
             else:
-                user = User.objects.filter(id__exact = token.id).first()
-                if user is None:
+                owner = GroupAdmin.objects.filter(groupId__exact = token.id, userType__exact = 1).first()
+                if owner is None:
                     msg = {
                         "status" : "error",
-                        "msg" : "user not exsist"
+                        "msg" : "group not exsist"
                     }
                 else:
-                    if token.is_user(user):
+                    if token.is_user(owner):
                         password = db_password(uf.cleaned_data['password'])
-                        user.password = password
-                        user.save()
+                        owner.password = password
+                        owner.save()
                         msg = {
                             "status" : "success",
                             "msg" : "authentication is successful"

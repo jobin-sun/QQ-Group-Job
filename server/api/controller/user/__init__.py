@@ -9,5 +9,6 @@ from . import (
     resume,
     reg,
     mail,
-    activate
+    activate,
+    recover
 )
