@@ -13,6 +13,7 @@ body {
 .inline_block {
   display: inline-block
 }
+.none{ display: none; }
 .flex_box {
   display: box;
   display: -webkit-flex;
@@ -27,6 +28,8 @@ body {
   -ms-flex: 1;
   flex: 1
 }
+.floatL{ float: left; }
+.floatR{ float: right; }
 .clear{ clear: both; }
 .form-signin {
   width: 480px;
@@ -325,9 +328,6 @@ body {
 .usable_btn {
   height: 34px
 }
-.edit_btn {
-  width: 6em
-}
 .text_center {
   text-align: center
 }
@@ -350,10 +350,77 @@ input.ng-dirty.ng-invalid {
 .list .content {
   white-space: pre
 }
+.user{
+  height: 100%;
+  position: relative;
+  left: 0;
+  top:0;
+}
+.user .top{
+  height: 100px;
+  position: relative;
+  left: 0;
+  top: 0;
+  z-index: 99999;
+}
+.user .top .logo{
+  background-color: #2bbfbd;
+  width: 260px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
 .user .left {
-  width: 200px;
-  padding-top: 2em
+  width: 260px;
+  padding-top: 100px;
+  position: absolute;
+  top:0;
+  left: 0;
+  z-index: 9999;
+  height: 100%;
+  background-color: #121920;
 }
-.user.apply .title {
-  width: 4em
+.user .left .line{ 
+  background-position: left top; 
+  font-size: 18px;
+  color: #707c87;
+  margin-left: 26px;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
+.user .left .line0{
+  margin-top: 53px;
+  background-image: url(../images/icon-profile.png);
+  background-repeat: no-repeat;
+}
+.user .left .line1{
+  background-image: url(../images/icon-resume-list.png);
+  background-repeat: no-repeat;
+}
+.user .left .line2{
+  background-image: url(../images/icon-changepwd.png);
+  background-repeat: no-repeat;
+}
+.user .left .line a{
+  color: #707c87;
+}
+.user_picture img{ width: 50px; height: 50px; border-radius: 50%;}
+.top_right{ height: 100px; line-height: 100px; padding-right: 25px;}
+.top_right a{ font-size: 20px; color: #9e9e9e; padding-left: 10px; padding-right: 10px;}
+.logout{ padding-left: 30px; background: url(../images/icon-logout.png) no-repeat left center; }
+.user .right{
+  padding-left: 260px;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #121920;
+}
+.user .profile{ background-color: #eeeeee }
+.user .profile .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.user .profile .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-right: 40px; margin-bottom: 40px; padding-top: 40px; padding-bottom: 40px; background-color: #fff;}
+.user .profile .body .title{ width: 6em; text-align: right; }
+.user .profile .body .line{height: 55px; line-height: 55px;}
+.user .profile .body .edit_btn{ position:absolute; right: 0px; top: 0px; }
