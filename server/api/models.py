@@ -72,7 +72,7 @@ class Resume(models.Model):
     groupId = models.CharField(max_length=15)  # 所属群
     qq = models.CharField(max_length=15)
 
-    userEmail = models.EmailField(max_length=15)
+    userEmail = models.EmailField(max_length=17)
     username = models.CharField(max_length=50)
     sex = models.IntegerField(default=0, choices=sexChoices)
     age = IntegerRangeField(default=20, min_value=15, max_value=100)

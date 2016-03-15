@@ -4,8 +4,13 @@ from django.http import JsonResponse
 from django.views.generic import View
 
 from .check_request import CheckRequest
-from api.models import Resume, Group
+from api.models import Resume, Group, GroupAdmin
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
+
+from api.send_mail import start_mail_thread
+from api.config import email_address
+from api.token import new_token
+from QQJob.settings import BASE_DIR
 
 class GetForm(Form):
     groupId = IntegerField()
@@ -13,7 +18,7 @@ class DeleteForm(Form):
     groupId = IntegerField()
 
 class PostForm(Form):
-    email = EmailField(max_length=15)
+    email = EmailField(max_length=17)
     groupId = CharField(max_length=15) #所属群
     qq = CharField(max_length=15)
     username = CharField(max_length=50)
@@ -124,9 +129,21 @@ class Index(View):
             )
             resume.save()
             if resume.id:
+                with open(BASE_DIR + "/api/mail_template/remind.html", 'rt') as mail_template:
+                    template = mail_template.read()
+                admins = GroupAdmin.objects.filter(groupId = resume.groupId,
+                                                    status= 1).all()
+                link = "http://www.qjob.social/api/group/resume_list/"
+                email_content = template % (resume.qq, link)
+                start_mail_thread(        
+                    'Qjob new resume remind', 
+                    email_content,
+                    email_address,
+                    ['%s@qq.com' % admin.qq for admin in admins]
+                    )
                 return JsonResponse({
                     "status" : 'success',
-                    'msg' : ""
+                    'msg' : "already notifyied admins"
                     })
             else:
                 return JsonResponse({
