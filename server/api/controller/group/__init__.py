@@ -10,5 +10,6 @@ from . import (resume_list,
     logout,
     mail,
     activate,
+    admin,
     recover
 )

@@ -28,6 +28,19 @@ body {
   -ms-flex: 1;
   flex: 1
 }
+.pop{ width: 100%; height: 100%; overflow: hidden; position: absolute; left: 0px; top: 0px; background-color: rgba(0,0,0,0.2); z-index: 99999; }
+.width10{ width: 10%; }
+.width20{ width: 20%; }
+.width30{ width: 30%; }
+.width40{ width: 40%; }
+.width50{ width: 50%; }
+.width60{ width: 60%; }
+.width70{ width: 70%; }
+.width80{ width: 80%; }
+.width90{ width: 90%; }
+.width100{ width: 100%; }
+.text_left{ text-align: left; }
+.text_right{ text-align: right; }
 .floatL{ float: left; }
 .floatR{ float: right; }
 .clear{ clear: both; }
@@ -429,7 +442,7 @@ input.ng-dirty.ng-invalid {
 .user .resumes_list{ background-color: #eeeeee }
 .user .resumes_list .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
 .user .resumes_list .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; }
-.user .resumes_list .body .item{ float: left; width: 780px; height: 280px; background-color: #fff; margin-right: 20px; margin-bottom: 20px; padding: 20px;}
+.user .resumes_list .body .item{ float: left; min-width: 630px; width: 48%; height: 280px; background-color: #fff; margin-right: 20px; margin-bottom: 20px; padding: 20px;}
 .user .resumes_list .body .line{ height: 25px; line-height: 25px; font-size: 18px; color: #787878 }
 .user .resumes_list .body .item .title{ background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; margin-left: -27px; color: #fff; padding-left: 27px;}
 .user .resumes_list .body .item .status{ font-size: 24px; color: #787878 }
@@ -472,3 +485,154 @@ input.ng-dirty.ng-invalid {
     height: 40px;
     line-height: 40px;
 }
+
+
+.group{
+  height: 100%;
+  position: relative;
+  left: 0;
+  top:0;
+}
+.group .top{
+  height: 100px;
+  position: relative;
+  left: 0;
+  top: 0;
+  z-index: 99999;
+}
+.group .top .logo{
+  background-color: #2bbfbd;
+  width: 260px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+.group .left {
+  width: 260px;
+  padding-top: 100px;
+  position: absolute;
+  top:0;
+  left: 0;
+  z-index: 9999;
+  height: 100%;
+  background-color: #121920;
+}
+.group .left .line{ 
+  background-position: left top; 
+  font-size: 18px;
+  color: #707c87;
+  margin-left: 26px;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.group .left .line0{
+  margin-top: 53px;
+  background-image: url(../images/icon-resume-list.png);
+  background-repeat: no-repeat;
+}
+.group .left .line1{
+  background-image: url(../images/icon-left-admin.png);
+  background-repeat: no-repeat;
+}
+
+.group .left .line2{
+  background-image: url(../images/icon-left-auth.png);
+  background-repeat: no-repeat;
+}
+.group .left .line3{
+  background-image: url(../images/icon-changepwd.png);
+  background-repeat: no-repeat;
+}
+.group .left .line a{
+  color: #707c87;
+}
+.group .right{
+  padding-left: 260px;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #121920;
+}
+
+.group .resumes_list{ background-color: #eeeeee }
+.group .resumes_list .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.group .resumes_list .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; }
+.group .resumes_list .body .item{ float: left; min-width: 630px; width: 48%; height: 280px; background-color: #fff; margin-right: 20px; margin-bottom: 20px; padding: 20px;}
+.group .resumes_list .body .line{ height: 25px; line-height: 25px; font-size: 18px; color: #787878 }
+.group .resumes_list .body .item .title{ background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; margin-left: -27px; color: #fff; padding-left: 27px;}
+.group .resumes_list .body .item .rank{ color: #2bbfbd }
+.group .resumes_list .body .item .status{ font-size: 24px; color: #787878 }
+.group .resumes_list .body .item .status0{ color: #eacc02 }
+.group .resumes_list .body .item .status1{ color: #2bbfbd }
+.group .resumes_list .body .item .status2{ color: #b7b7b7 }
+.group .resumes_list .body .item .status3{ color: #b7b7b7 }
+.group .resumes_list .body .item .content{ margin:20px 0px; }
+.group .resumes_list .body .item .footer{ height: 46px; line-height: 46px; border-top: 1px #dddddd dashed;}
+
+
+.group .resume{ background-color: #eeeeee }
+.group .resume .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.group .resume .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 40px; margin-right: 40px;}
+.group .resume .line .key{ width: 5em; }
+.group .resume .line13 .key{ width: 5em; vertical-align: top; }
+.group .resume .body .rank{ position: absolute; right: 40px; top: 20px; color: #2bbfbd; font-size: 18px; }
+
+.group .resume .body .title{ max-width: 350px; min-width: 250px; padding-left: 27px; position: absolute; top: 14px; left: -7px; background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; color: #fff; }
+.group .resume .body .edit_btn{ position:absolute; right: -5em; top: px; color: #66b9f4; font-size: 18px; display: inline-block; cursor: pointer; background: url(../images/btn-edit.png) no-repeat left center; padding-left: 40px;}
+.group .resume .body .delete_btn{ position:absolute; right: -8em; top: 0px; color: #66b9f4; cursor: pointer; margin-left: 1em;}
+.group .resume .show{ margin-top: 30px; }
+.group .resume .edit{ margin-top: 30px; }
+.group .resume .body .submit_btn{ background-color: #2bbfbd; height: 50px; line-height: 50px; font-size: 20px; color: #fff; padding:0 1em;}
+
+.group .resume .body .line {
+    height: 40px;
+    line-height: 40px;
+}
+
+.group .changepwd{ background-color: #eeeeee }
+.group .changepwd .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.group .changepwd .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 40px; margin-right: 40px;}
+.group .changepwd .line .key{ width: 5em; }
+.group .changepwd .body .submit_btn{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.group .changepwd .body .line {
+    height: 40px;
+    line-height: 40px;
+}
+
+.group .admin_list{ background-color: #eeeeee }
+.group .admin_list .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.group .admin_list .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 0px 20px; margin-right: 40px;}
+.group .admin_list .body .title{ height: 65px; line-height: 65px; border-bottom: 1px solid #ddd;}
+.group .admin_list .body .icon img{ width:40px; height: 40px; border-radius: 50%; }
+.group .admin_list .body .line{ height: 80px; line-height: 80px; border-bottom: 1px #ddd dashed;}
+.group .admin_list .add{ padding-bottom: 20px;}
+.group .admin_list .body .submit_btn{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.group .pop .body{ width: 600px; height: 400px; margin:0 auto; background-color: #fff; position: relative; top: 50%; -webkit-transform: translateY(-50%); transform: translateY(-50%);box-shadow: 0px 5px 30px;}
+.group .pop .btn.ok{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.group .pop .title{ height: 68px; line-height: 68px; font-size: 24px; color: #2bbfbd; border-bottom: 2px solid #2bbfbd; padding: 0 25px;}
+.group .pop .line{ height: 64px; line-height: 64px; margin-top: 10px; }
+.group .pop .line .name{ width: 190px; text-align: right; }
+.group .pop .line .value{ text-align: left; }
+.group .pop .line input{ height: 50px; }
+.group .pop .line2 input{ width: 250px; }
+
+
+.group .auth_code{ background-color: #eeeeee }
+.group .auth_code .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.group .auth_code .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 0px 20px; margin-right: 40px;}
+.group .auth_code .body .title{ height: 65px; line-height: 65px; border-bottom: 1px solid #ddd;}
+.group .auth_code .body .icon img{ width:40px; height: 40px; border-radius: 50%; }
+.group .auth_code .body .line{ height: 80px; line-height: 80px; border-bottom: 1px #ddd dashed;}
+.group .auth_code .add{ padding-bottom: 20px;}
+.group .auth_code .body .submit_btn{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.group .pop.auth_add .body{ width: 600px; height: 320px; margin:0 auto; background-color: #fff; position: relative; top: 50%; -webkit-transform: translateY(-50%); transform: translateY(-50%);box-shadow: 0px 5px 30px;}
+.group .pop .btn.ok{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.group .pop .title{ height: 68px; line-height: 68px; font-size: 24px; color: #2bbfbd; border-bottom: 2px solid #2bbfbd; padding: 0 25px;}
+.group .pop .line{ height: 64px; line-height: 64px; margin-top: 10px; }
+.group .pop .line .name{ width: 190px; text-align: right; }
+.group .pop .line .value{ text-align: left; }
+.group .pop .line input{ height: 50px; }
+.group .pop .line2 input{ width: 250px; }

@@ -77,7 +77,10 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status" : "error",
                                 "msg" : "Only admin permitted"})
-        codes = AuthCode.objects.filter(groupId = check.admin.groupId).values('id', 'qq', 'code', 'times')
+        if check.admin.userType == 1:
+            codes = AuthCode.objects.filter(groupId__exact = check.admin.groupId).values('id', 'qq', 'code', 'times')
+        else:
+            codes = AuthCode.objects.filter(groupId__exact = check.admin.groupId, qq__exact=check.admin.qq).values('id', 'qq', 'code', 'times')
         data = {"status" : "success",
                 "msg":"",
                 "data": [] }
@@ -94,6 +97,12 @@ class Index(View):
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
                                 "msg" : "Illegal AuthCode."})
+        rst = AuthCode.objects.filter(groupId__exact = check.admin.groupId, code__exact=uf.cleaned_data['code']).count()
+        print(rst)
+        if rst != 0:
+            return JsonResponse({"status" : "error",
+                                "msg" : "Auth code exist."})
+
         code = AuthCode(
             groupId=check.admin.groupId,
             qq=check.admin.qq,
@@ -103,7 +112,13 @@ class Index(View):
             )
         code.save()
         return JsonResponse({"status":"success",
-                             "msg":"Update Success."})
+                             "msg":"Update Success.",
+                             "data":{
+                                 "id":code.id,
+                                 "qq":code.qq,
+                                 "code":code.code,
+                                 "times": code.times
+                             }})
 
     def put(self, request):
         return JsonResponse({"status":"success",

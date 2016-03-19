@@ -1,8 +1,11 @@
 angular.module('myApp')
-	.controller("GroupLoginCtrl",["$scope","$http", "$cookies",function($scope, $http, $cookies){
+	.controller("GroupLoginCtrl",["$scope","$http", "$cookies","$routeParams", function($scope, $http, $cookies, $routeParams){
 		if($cookies.get("admin_logined") == "yes"){
 			location.href = "#/group";
 			return;
+		}
+		if($routeParams.groupId){
+			$scope.groupId = parseInt($routeParams.groupId);
 		}
 		$scope.submit = function(){
 			$http.post("/api/group/login/", {

@@ -76,16 +76,20 @@ class Index(View):
             resume.save()
         if uf.cleaned_data['rank']:
             rank = Rank.objects.filter(resumeId = uf.cleaned_data['resumeId'],qq__exact = check.admin.qq).first()
-            if rank:
-                rank.rank = uf.cleaned_data['rank']
+            if uf.cleaned_data['rank'] == -1:
+                if rank:
+                    rank.delete()
             else:
-                rank = Rank(
-                    resumeId = uf.cleaned_data['resumeId'],
-                    qq = check.admin.qq,
-                    rank= uf.cleaned_data['rank']
+                if rank:
+                    rank.rank = uf.cleaned_data['rank']
+                else:
+                    rank = Rank(
+                        resumeId = uf.cleaned_data['resumeId'],
+                        qq = check.admin.qq,
+                        rank= uf.cleaned_data['rank']
 
-                )
-            rank.save()
+                    )
+                rank.save()
         return JsonResponse({"status":"success",
                              "msg":""})
 

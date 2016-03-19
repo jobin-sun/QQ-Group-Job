@@ -1,42 +1,73 @@
-<div class="container">
-    <h2 class="form-signin-heading">权限管理 <a href="#/group" class="small">返回首页</a></h2>
-    <div class="flex_box group">
+<style type="text/css">
+    .group .left .line1{ background-position: left bottom;}
+    .group .left .line1 a{ color: #2bbfbd; }
+</style>
+<div class="group">
+    <div class="top">
+        <div ng-include="'tpl/group/top.html'"></div>
+    </div>
+    <div class="left">
         <div ng-include="'tpl/group/left.html'"></div>
-        <div class="right flex1">
-            <div ng-show="show" class="list">
-                <div ng-repeat="item in items" >
-                    <div class="adm-box panel panel-default">
-                        <div class="panel-heading">
-                            用户名:<span ng-bind="item.qq"></span>
-                            状态:<span ng-bind="item.status"></span>
-                            <a ng-click="delete(item.id)" href="javascript:void(0)">删除</a>
-                        </div>
+    </div>
+    <div class="right">
+        <div class="banner"><img src="images/banner.png" alt=""></div>
+        <div class="admin_list">
+            <div class="header">
+                管理员列表
+            </div>
+            <div class="body">
+                <div class="title">
+                    <div class="width50 text_left floatL">QQ/昵称</div>
+                    <div class="width50 text_right floatL">操作</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="line" ng-repeat="item in items" ng-hide="item.hide">
+                    <div class="inline_block icon"><img src="images/icon-default-user.png"></div>
+                    <div class="inline_block nick">
+                        <span class="qq" ng-bind="item.qq"></span>/
+                        <span class="nick" ng-bind="item.nick"></span>
+                        
+                    </div>
+                    <div class="inline_block floatR">
+                        <a href="javascript:void(0)" ng-click="delete(item)">删除</a>
                     </div>
                 </div>
-            </div>
-            <div class="ctn text_left">
-                <label>添加
-                    <input type="checkbox" ng-model="showAddWindow">
-                </label>
-            </div>
-            <div ng-show="showAddWindow">
-                <div class="line flex_box line1">
-                    <div class="title">Email</div>
-                    <div class="value flex1"><input type="number" ng-model="add.qq">@qq.com</div>
-                </div>
-                <div class="line flex_box line2">
-                    <div class="title">密码</div>
-                    <div class="value flex1"><input type="password" ng-model="add.password"></div>
-                </div>
-                <div class="line flex_box line3">
-                    <div class="title">确认码</div>
-                    <div class="value flex1"><input type="password" ng-model="add.repassword"></div>
-                </div>
-                <div class="ctn text_left">
-                    <button class="btn btn-primary" ng-click="post()">确认添加</button>
+                <div class="add">
+                    <button class="btn submit_btn" ng-click="showAdminAdd = true">添加</button> 
                 </div>
             </div>
             
+            <div style="width: 100%; height: 1px;"></div>
+        </div>
+    </div>
+    <div class="pop admin_add" ng-show="showAdminAdd" ng-click="hide_pop()">
+        <div class="body" ng-click="stopPropagation($event)">
+            <div class="title">添加管理员</div>
+            <div class="content">
+                <div class="line line1">
+                    <div class="name inline_block">用户名：</div>
+                    <div class="value inline_block">
+                        <div class="qq inline_block">
+                            <input type="number" class="form-control" ng-model="add.qq" placeholder="QQ号" required="">
+                        </div>
+                        <div class="domain inline_block">
+                            @qq.com
+                        </div>
+                    </div>
+                </div>
+                <div class="line line2">
+                    <div class="name inline_block">昵称：</div>
+                    <div class="value inline_block">
+                        <input type="text" class="form-control" ng-model="add.nick" placeholder="昵称" required="">
+                    </div>
+                </div>
+                <div class="line line3">
+                    <div class="name inline_block"></div>
+                    <div class="value inline_block">
+                        <button class="btn ok" ng-click="post()">确定</button> 
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -92,11 +92,11 @@ class Index(View):
         check = CheckRequest(request)
         if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
-                                "msg" : "Only admin permitted"})
+                                "msg" : "只有群主才有权限"})
         admins = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
             userType = 0
-        ).values('id', 'groupId', 'qq', 'status')
+        ).values('id', 'groupId','nick', 'qq', 'status')
 
         data = {"status" : "success",
                 "msg":"",
@@ -110,7 +110,7 @@ class Index(View):
         check = CheckRequest(request)
         if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
-                                "msg" : "Only admin permitted"})
+                                "msg" : "只有群主才有权限"})
         uf = CheckAdminForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status" : "error",
@@ -125,50 +125,27 @@ class Index(View):
         admin = GroupAdmin(
             groupId=check.admin.groupId,
             qq=uf.cleaned_data['qq'],
-            password = db_password(uf.cleaned_data['password']),
+            nick=uf.cleaned_data['nick'],
+            password = db_password(new_random()),
             login_random = new_random(),
             userType=0
             )
         admin.save()
         return JsonResponse({"status" : "success",
-                             "msg" : "Update success."})
-
-    def put(self, request):
-        check = CheckRequest(request)
-        if not check.admin or check.admin.userType != 1:
-            return JsonResponse({"status" : "error",
-                                "msg" : "Only admin permitted"})
-        uf = CheckAdminForm(check.jsonForm)
-        if not uf.is_valid():
-            return JsonResponse({"status" : "error",
-                                "msg" : "Admin is invalid."})
-        password = db_password(uf.cleaned_data['password'])
-        admin = GroupAdmin.objects.filter(
-            groupId = check.admin.groupId,
-            qq = uf.cleaned_data['qq'],
-            password = password
-        ).first()
-        if not admin:
-            return JsonResponse({"status": 'error',
-                                'msg': "GroupID or qq or password is error"})
-        uf = MngResumeForm(check.jsonForm)
-        if not uf.is_valid():
-            return JsonResponse({"status": "error",
-                                "msg": "resumeId is invalid."})
-        resume = Resume.objects.filter(id = uf.cleaned_data['resumeId']).first()
-        if uf.cleaned_data['status']:
-            resume.status = uf.cleaned_data['status']
-        if uf.cleaned_data['rank']:
-            resume.rank = uf.cleaned_data['rank']
-        resume.save()
-        return JsonResponse({"status" : "success",
-                             "msg" : "Update success."})
+                             "msg" : "Update success.",
+                             "data":{
+                                 "id": admin.id,
+                                 "groupId": admin.groupId,
+                                 "nick": admin.nick,
+                                 "qq": admin.qq,
+                                 "status": admin.status
+                             }})
 
     def delete(self, request):
         check = CheckRequest(request)
         if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
-                                "msg" : "Only admin permitted"})
+                                "msg" : "只有群主才有权限"})
         uf = DelAdminForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status" : "error",

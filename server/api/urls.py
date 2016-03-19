@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^group/send_recover_mail/', group.mail.Recover.as_view()),
     url(r'^group/activate/', group.activate.Activate.as_view()),
     url(r'^group/recover/', group.recover.Recover.as_view()),
+    url(r'^group/admin/', group.admin.Index.as_view()),
 ]

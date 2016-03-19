@@ -73,8 +73,10 @@ from django.views.generic import View
 from django.db.models import Avg
 
 from .check_request import CheckRequest
-from api.models import Resume, Rank
+from api.models import Resume, Rank, Group
 from .form import MngResumeForm, DelResumeForm
+from django.db.models import Q
+
 
 
 class Index(View):
@@ -87,16 +89,21 @@ class Index(View):
                 "msg" :  '',
                 "data" : []
                 }
-        resumes = Resume.objects.filter(groupId__exact = check.admin.groupId, display__exact= True)
+        resumes = Resume.objects.filter(Q(groupId__exact = check.admin.groupId, display__exact= True), Q(status__exact=0) | Q(status__exact=1)).order_by("status")
         for item in resumes:
             allRank = Rank.objects.filter(resumeId__exact = item.id)
             rank = allRank.filter(qq__exact = check.admin.qq).first()
             avgRank = allRank.aggregate(Avg('rank'))
+            group = Group.objects.filter(groupId__exact = item.groupId).first()
+            groupName = ""
+            if group:
+                groupName = group.groupName
             resume = {
                 "id": item.id,
                 "groupId": item.groupId,
+                "groupName": groupName,
                 "qq": item.qq,
-                "userEmail": item.userEmail,
+                "email": item.userEmail,
                 "username": item.username,
                 "sex": item.sex,
                 "age": item.age,

@@ -21,7 +21,7 @@ class DelResumeForm(Form):
 
 class CheckAdminForm(Form):
     qq = CharField(max_length=15)
-    password = CharField(widget=PasswordInput())
+    nick = CharField(max_length=15)
 
 class DelAdminForm(Form):
     id = IntegerField()

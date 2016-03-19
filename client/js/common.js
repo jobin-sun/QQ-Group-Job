@@ -28,6 +28,14 @@ $T.eduOptions = [
 $T.statusOptions = [
 						{id: 0, name: '申请中'}, 
 						{id: 1, name: '允许的'}, 
-						{id: 2, name: '拒绝的'}, 
-						{id: 3, name: '拉黑的'}
+						{id: 2, name: '拒绝的'} 
+					];
+
+$T.rankOptions = [
+						{id: -1, name: '未评分'}, 
+						{id: 1, name: 1}, 
+						{id: 2, name: 2}, 
+						{id: 3, name: 3},
+						{id: 4, name: 4},
+						{id: 5, name: 5}
 					];

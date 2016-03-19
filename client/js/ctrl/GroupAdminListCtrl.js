@@ -1,10 +1,12 @@
 angular.module('myApp')
-	.controller("GroupAdminListCtrl",["$scope","$http", "$cookies", function($scope, $http, $cookies){
-		$scope.current = 'admin_list';
+	.controller("GroupAdminListCtrl",["$scope","$http", "$cookies", "getAdmin", function($scope, $http, $cookies, getAdmin){
 		if($cookies.get("admin_logined") != "yes"){
 			location.href = "#/group/login";
 			return;
 		}
+		getAdmin(function(data){
+			$scope.admin = data;
+		})
 		$http.get("api/group/admin_list/").success(function(response){
 			if (response.status == "success") {
 				$scope.items = []
@@ -23,27 +25,42 @@ angular.module('myApp')
 		$scope.post = function(){
 			$http.post("api/group/admin_list/",{
 				qq: $scope.add.qq,
-				password: $scope.add.password
+				nick: $scope.add.nick
 			}).success(function(response){
-				console.log(response);
+				if(response.status == "success"){
+					$T.toast("添加成功");
+					$scope.add = undefined;
+					$scope.showAdminAdd = false;
+					$scope.items.push(response.data);
+				}else{
+					$T.toast(response.msg);
+				}
+				
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
-		$scope.delete = function(id){
+		$scope.delete = function(item){
 			$http.delete("api/group/admin_list/",{
 				params:{
-					id: id
+					id: item.id
 				}
 			}).success(function(response){
 				if(response.status == "success"){
-					location.reload();
+					$T.toast("删除成功");
+					item.hide = true;
 				}else{
 					$T.toast(response.msg);
 				}
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
 			})
+		}
+		$scope.hide_pop = function(){
+			$scope.showAdminAdd = false;
+		}
+		$scope.stopPropagation = function($event){
+			$event.stopPropagation();
 		}
 	}])
 	

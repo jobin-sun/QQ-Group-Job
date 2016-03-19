@@ -54,8 +54,7 @@ class Resume(models.Model):
     statusChoices = (
         (0, u'申请中'),
         (1, u'允许的'),
-        (2, u'拒绝的'),
-        (3, u'拉黑的'),
+        (2, u'拒绝的')
     )
     sexChoices = (
         (0, u'保密'),
@@ -136,6 +135,7 @@ class GroupAdmin(models.Model):
     )
     groupId = models.CharField(max_length=15)  # 群号
     qq = models.CharField(max_length=15)
+    nick = models.CharField(max_length=15)
 
     login_random = models.CharField(max_length=10)
     activate_random = models.CharField(max_length=10)

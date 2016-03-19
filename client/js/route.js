@@ -15,9 +15,6 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/change_pwd', {
 			templateUrl: 'tpl/user/change_pwd.html',
 			controller: 'ChangePwdCtrl'
-		}).when('/groups_list', {
-			templateUrl: 'tpl/user/groups_list.html',
-			controller: 'GroupsListCtrl'
 		}).when('/resumes_list', {
 			templateUrl: 'tpl/user/resumes_list.html',
 			controller: 'ResumesListCtrl'
@@ -28,10 +25,10 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 			templateUrl: 'tpl/user/resume.html',
 			controller: 'ResumeCtrl'
 		
-		}).when('/hr/list', {
+		}).when('/hr', {
 			templateUrl: 'tpl/hr/list.html',
 			controller: 'ListCtrl'
-		}).when('/hr/list/:groupId', {
+		}).when('/hr/:groupId', {
 			templateUrl: 'tpl/hr/list.html',
 			controller: 'ListCtrl'
 
@@ -43,6 +40,9 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 			templateUrl: 'tpl/group/join.html',
 			controller: 'GroupJoinCtrl'
 		}).when('/group/login/', {
+			templateUrl: 'tpl/group/login.html',
+			controller: 'GroupLoginCtrl'
+		}).when('/group/login/:groupId', {
 			templateUrl: 'tpl/group/login.html',
 			controller: 'GroupLoginCtrl'
 		}).when('/group/resume_list/', {

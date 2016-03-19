@@ -33,4 +33,11 @@ angular.module('myApp').filter('strSex',function(){
         else
             return v
     }
-});;
+}).filter('strActivate',function(){
+    return function(v){
+        if(v == 1)
+            return "未评分";
+        else
+            return ""
+    }
+});

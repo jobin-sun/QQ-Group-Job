@@ -1,10 +1,12 @@
 angular.module('myApp')
-	.controller("GroupResumeListCtrl",["$scope", "$http", "$cookies", function($scope, $http, $cookies){
+	.controller("GroupResumeListCtrl",["$scope", "$http", "$cookies", "getAdmin", function($scope, $http, $cookies, getAdmin){
 		if($cookies.get("admin_logined") != "yes"){
 			location.href = "#/group/login";
 			return;
 		}
-		$scope.current = 'resume_list';
+		getAdmin(function(data){
+			$scope.admin = data;
+		})
 		var list = {};
 		$http.get("/api/group/resume_list/",{
 			params:{
@@ -19,18 +21,30 @@ angular.module('myApp')
 		}).error(function(){
 			$T.toast("服务器错误,请联系系统管理员")
 		})
-		$scope.openResume = function(id){
-			location.href = "#/group/resume/"+id;
-		}
-		$scope.delete = function(resumeId){
-			$http.delete("/api/group/resume/",{
-				params:{
-					resumeId: resumeId
-				}
+
+		$scope.allow = function(resume){
+			$http.put("/api/group/resume/",{
+				resumeId: resume.id,
+				status: 1
 			}).success(function(response){
 				if(response.status == "success"){
-					$T.toast("简历已删除");
-					location.href = "#/group/resume_list/"
+					$T.toast("保存成功");
+					resume.status = 1;
+				}else{
+					$T.toast(response.msg)
+				}
+			}).error(function(){
+				$T.toast("服务器错误,请联系系统管理员")
+			})
+		}
+		$scope.deny = function(resume){
+			$http.put("/api/group/resume/",{
+				resumeId: resume.id,
+				status: 2
+			}).success(function(response){
+				if(response.status == "success"){
+					$T.toast("保存成功");
+					resume.status = 2;
 				}else{
 					$T.toast(response.msg)
 				}

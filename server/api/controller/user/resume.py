@@ -40,7 +40,7 @@ class PutForm(Form):
     yearsOfWorking = IntegerField(min_value=0, max_value=60)
     school = CharField(max_length=40)
     education = IntegerField()
-    content = CharField(widget=Textarea)
+    content = CharField(widget=Textarea, required=False)
     display = BooleanField()
 
 

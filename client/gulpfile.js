@@ -12,6 +12,9 @@ gulp.task('default', function () {
     var app = gulp.src([
             src + '/js/common.js',
             src + '/js/route.js',
+            src + '/js/service.js',
+            src + '/js/filter.js',
+            src + '/js/directive.js',
             src + '/js/ctrl/*.js'
         ])
         .pipe(concat("app.js"))

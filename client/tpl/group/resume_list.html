@@ -1,25 +1,56 @@
-<div class="container">
-    <h2 class="form-signin-heading">权限管理 <a href="#/group" class="small">返回首页</a></h2>
-     <div class="flex_box group">
+<style type="text/css">
+    .group .left .line0{ background-position: left bottom;}
+    .group .left .line0 a{ color: #2bbfbd; }
+</style>
+<div class="group">
+    <div class="top">
+        <div ng-include="'tpl/group/top.html'"></div>
+    </div>
+    <div class="left">
         <div ng-include="'tpl/group/left.html'"></div>
-        <div class="right flex1">
-            <div class="flex_box">
-                <div class="flex1">QQ</div>
-                <div class="flex1">姓名</div>
-                <div class="flex1">Email</div>
-                <div class="flex1">状态</div>
-                <div class="flex1">最后更新</div>
-                <div class="flex1"> </div>
+    </div>
+    <div class="right">
+        <div class="banner"><img src="images/banner.png" alt=""></div>
+        <div class="resumes_list">
+            <div class="header">
+                简历列表
             </div>
-            <div class="flex_box" ng-repeat="item in items" style="cursor: pointer;">
-                <div class="flex1" ng-bind='item.qq' ng-click='openResume(item.id)'></div> 
-                <div class="flex1" ng-bind='item.username' ng-click='openResume(item.id)'></div>
-                <div class="flex1" ng-bind='item.userEmail' ng-click='openResume(item.id)'></div>
-                <div class="flex1" ng-bind='item.status | strStatus' ng-click='openResume(item.id)'></div>
-                <div class="flex1" ng-bind='item.lastDate' ng-click='openResume(item.id)'></div>
-                <div class="flex1" ng-click="delete(item.id)">删除</div>
+            <div class="body">
+                <div class="item" ng-repeat="item in items" ng-hide="item.status==2">
+                    <div class="title">
+                        <div class="floatL">
+                            <img src="images/icon-qq-group-resume.png" alt="">
+                            <span ng-bind='item.groupName'></span>-<span ng-bind='item.groupId'></span>
+                        </div>
+                        <div class="floatR rank">
+                            <span>我的评分:</span><span ng-bind="item.myRank | strRank"></span>；
+                            <span>平均:</span><span ng-bind="item.averageRank | strRank"></span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="content">
+                        <div class="line line1">姓名：<span ng-bind="item.username"></span></div>
+                        <div class="line line2">Email：<span ng-bind="item.email"></span></div>
+                        <div class="line line3">QQ：<span ng-bind="item.qq"></span></div>
+                        <div class="line line4">工作年限：<span ng-bind="item.yearsOfWorking"></span></div>
+                        <div class="line line5">学历：<span ng-bind="item.education | strEdu"></span></div>
+                    </div>
+                    <div class="footer">
+                        <div class="floatL">
+                            <div class="isPass" ng-show="item.status == 0">
+                                <a href="javascript:void(0)" ng-click="allow(item)">允许</a>
+                                <a href="javascript:void(0)" ng-click="deny(item)">拒绝</a>
+                            </div>
+                        </div>
+                        <div class="floatR">
+                            <a href="#/group/resume/{{ item.id }}">查看更多</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
             </div>
+            <div style="width: 100%; height: 1px;"></div>
         </div>
     </div>
 </div>
-    

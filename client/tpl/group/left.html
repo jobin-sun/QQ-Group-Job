@@ -1,7 +1,12 @@
-            <div class="left list-group">
-                <a href="#/group/resume_list/" class="list-group-item {{ current == 'resume_list' && 'active' }}">简历列表</a>
-                <a href="#/group/admin_list/" class="list-group-item {{ current == 'admin_list' && 'active' }}">管理员列表</a>
-                <a href="#/group/auth_code" class="list-group-item {{ current == 'auth_code' && 'active' }}">授权码</a>
-                <a href="#/group/change_pwd" class="list-group-item {{ current == 'change_pwd' && 'active' }}">修改密码</a>
-                <a href="#/group/logout" class="list-group-item {{ current == 'logout' && 'active' }}">退出</a>
-            </div>
+<div class="line line0">
+	<a href='#/group/resume_list'>简历列表</a>
+</div>
+<div class="line line1" ng-show="admin.userType == 1">
+	<a href='#/group/admin_list'>管理员列表</a>
+</div>
+<div class="line line2">
+	<a href="#/group/auth_code">授权码</a>
+</div>
+<div class="line line3">
+	<a href="#/group/change_pwd">修改密码</a>
+</div>
