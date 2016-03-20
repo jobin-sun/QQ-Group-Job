@@ -1,5 +1,5 @@
 from django.views.generic import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from api.models import User
 from api.token import parse_token
 
@@ -35,10 +35,7 @@ class Activate(View):
                         if token.is_user(user):
                             user.status = 1
                             user.save()
-                            msg = {
-                                "status" : "success",
-                                "msg" : "activated"
-                            }
+                            return HttpResponseRedirect('/#/login')
                         else:
                             msg = {
                                 "status" : "error",

@@ -28,7 +28,7 @@ body {
   -ms-flex: 1;
   flex: 1
 }
-.pop{ width: 100%; height: 100%; overflow: hidden; position: absolute; left: 0px; top: 0px; background-color: rgba(0,0,0,0.2); z-index: 99999; }
+.pop{ width: 100%; height: 100%; overflow: hidden; position: fixed; left: 0px; top: 0px; background-color: rgba(0,0,0,0.2); z-index: 99999; }
 .width10{ width: 10%; }
 .width20{ width: 20%; }
 .width30{ width: 30%; }
@@ -44,6 +44,7 @@ body {
 .floatL{ float: left; }
 .floatR{ float: right; }
 .clear{ clear: both; }
+.ellipsis_txt{ padding-right: 0.5em; max-width: 320px; min-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .form-signin {
   width: 480px;
   border-radius: 8px;
@@ -117,60 +118,6 @@ body {
 
 .password_false {
   border: 1px solid red !important
-}
-
-
-
-.hr{
-  background-color: #156e72;
-  width: 100%; 
-  height: 100%;
-  overflow: hidden;
-}
-.hr .line {
-  margin: 0 auto;
-  margin-top: 10px;
-  width: 380px;
-}
-.hr .line1{
-  margin-top: 30px;
-}
-.hr .line input{
-  border:1px solid #dbdbdb;
-}
-.hr .btn_submit{
-  display: block;
-  width: 380px;
-  margin: 0 auto;
-  margin-top: 20px; 
-  margin-bottom: 24px;
-  background-color: #2ea0a1;
-  color: #fff;
-  height: 40px;
-  font-size: 18px;
-}
-.hr .other{width: 380px; margin:0 auto;}
-.hr .other .left{
-  float: left;
-  background:url(../images/icon-HR.png) left top no-repeat;
-  padding-left: 1.5em;  
-  width: 49%
-}
-.hr .other .right{
-  float: right;
-  width: 49%;
-  background:url(../images/icon-admin.png) 6em 0 no-repeat;
-  text-align: right;
-}
-.hr .no_user{
-  width: 380px;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 26px;
-}
-.hr .no_user a{
-  font-size: 14px;
-  color: #fff;
 }
 
 
@@ -357,12 +304,14 @@ body {
 input.ng-dirty.ng-invalid {
   border: 1px solid red !important;
 }
+
+/*
 .list .left {
   text-align: right
 }
 .list .content {
   white-space: pre
-}
+}*/
 .user{
   height: 100%;
   position: relative;
@@ -445,6 +394,7 @@ input.ng-dirty.ng-invalid {
 .user .resumes_list .body .item{ float: left; min-width: 630px; width: 48%; height: 280px; background-color: #fff; margin-right: 20px; margin-bottom: 20px; padding: 20px;}
 .user .resumes_list .body .line{ height: 25px; line-height: 25px; font-size: 18px; color: #787878 }
 .user .resumes_list .body .item .title{ background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; margin-left: -27px; color: #fff; padding-left: 27px;}
+.user .resumes_list .body .item .title img{ width: 28px; height: 28px; border-radius: 50%; }
 .user .resumes_list .body .item .status{ font-size: 24px; color: #787878 }
 .user .resumes_list .body .item .status0{ color: #eacc02 }
 .user .resumes_list .body .item .status1{ color: #2bbfbd }
@@ -465,6 +415,7 @@ input.ng-dirty.ng-invalid {
 .user .resume .body .status3{ color: #b7b7b7 }
 
 .user .resume .body .title{ max-width: 350px; min-width: 250px; padding-left: 27px; position: absolute; top: 14px; left: -7px; background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; color: #fff; }
+.user .resume .body .title img{ width: 28px; height: 28px; border-radius: 50%; }
 .user .resume .body .edit_btn{ position:absolute; right: -5em; top: px; color: #66b9f4; font-size: 18px; display: inline-block; cursor: pointer; background: url(../images/btn-edit.png) no-repeat left center; padding-left: 40px;}
 .user .resume .body .delete_btn{ position:absolute; right: -8em; top: 0px; color: #66b9f4; cursor: pointer; margin-left: 1em;}
 .user .resume .show{ margin-top: 30px; }
@@ -563,6 +514,7 @@ input.ng-dirty.ng-invalid {
 .group .resumes_list .body .item{ float: left; min-width: 630px; width: 48%; height: 280px; background-color: #fff; margin-right: 20px; margin-bottom: 20px; padding: 20px;}
 .group .resumes_list .body .line{ height: 25px; line-height: 25px; font-size: 18px; color: #787878 }
 .group .resumes_list .body .item .title{ background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; margin-left: -27px; color: #fff; padding-left: 27px;}
+.group .resumes_list .body .item .title img{ width: 28px; height: 28px; border-radius: 50%;}
 .group .resumes_list .body .item .rank{ color: #2bbfbd }
 .group .resumes_list .body .item .status{ font-size: 24px; color: #787878 }
 .group .resumes_list .body .item .status0{ color: #eacc02 }
@@ -581,6 +533,7 @@ input.ng-dirty.ng-invalid {
 .group .resume .body .rank{ position: absolute; right: 40px; top: 20px; color: #2bbfbd; font-size: 18px; }
 
 .group .resume .body .title{ max-width: 350px; min-width: 250px; padding-left: 27px; position: absolute; top: 14px; left: -7px; background: url(../images/resume_list_title.png) no-repeat left center; height: 42px; line-height: 42px; color: #fff; }
+.group .resume .body .title img{ width: 28px; height: 28px; border-radius: 50%;}
 .group .resume .body .edit_btn{ position:absolute; right: -5em; top: px; color: #66b9f4; font-size: 18px; display: inline-block; cursor: pointer; background: url(../images/btn-edit.png) no-repeat left center; padding-left: 40px;}
 .group .resume .body .delete_btn{ position:absolute; right: -8em; top: 0px; color: #66b9f4; cursor: pointer; margin-left: 1em;}
 .group .resume .show{ margin-top: 30px; }
@@ -636,3 +589,97 @@ input.ng-dirty.ng-invalid {
 .group .pop .line .value{ text-align: left; }
 .group .pop .line input{ height: 50px; }
 .group .pop .line2 input{ width: 250px; }
+.group .top .pop .body{ height: 290px; }
+
+
+
+.hr.hr_login{
+  background-color: #156e72;
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+}
+.hr.hr_login .line {
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 380px;
+}
+.hr.hr_login .line1{
+  margin-top: 30px;
+}
+.hr.hr_login .line input{
+  border:1px solid #dbdbdb;
+}
+.hr.hr_login .btn_submit{
+  display: block;
+  width: 380px;
+  margin: 0 auto;
+  margin-top: 20px; 
+  margin-bottom: 24px;
+  background-color: #2ea0a1;
+  color: #fff;
+  height: 40px;
+  font-size: 18px;
+}
+.hr.hr_login .other{width: 380px; margin:0 auto;}
+.hr.hr_login .other .left{
+  float: left;
+  background:url(../images/icon-HR.png) left top no-repeat;
+  padding-left: 1.5em;  
+  width: 49%
+}
+.hr.hr_login .other .right{
+  float: right;
+  width: 49%;
+  background:url(../images/icon-admin.png) 6em 0 no-repeat;
+  text-align: right;
+}
+.hr.hr_login .no_user{
+  width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 26px;
+}
+.hr.hr_login .no_user a{
+  font-size: 14px;
+  color: #fff;
+}
+.hr{ background-color: #eeeeee; height: 100%; overflow: auto;}
+.hr .top{ height: 100px; line-height: 100px; background-color: #fff; }
+.hr .top .logo{ margin-left: 25px; }
+.hr .main{ width: 1120px; margin:0 auto; font-size: 18px;}
+.hr .main .header{ height: 80px; line-height: 80px; color: #2bbfbd; font-size: 24px; }
+.hr .main .list{ height: 240px; position: relative; top: 0; left: 0; background-color: #fff; margin-bottom: 10px;}
+.hr .main .title{ position: relative; top: 0px; left: -7px; background: url(../images/resume_list_title.png) no-repeat left center; height: 70px; line-height: 70px; color: #fff; width: 100%; padding: 0 20px 0 22px;}
+.hr .main .title .rank{ color: #2bbfbd; }
+.hr .main .content{ padding: 0 16px; }
+.hr .main .list .line{ height: 26px; line-height: 26px; }
+.hr .main .footer{ height: 46px; line-height: 46px; border-top: 1px #dddddd dashed; margin: 22px 16px 0;}
+
+
+.hr .resume{width: 1120px; margin:0 auto; font-size: 18px;}
+.hr .resume .header a{ height: 80px; line-height: 80px; color: #2bbfbd; font-size: 24px; }
+.hr .resume .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-bottom: 40px; background-color: #fff; padding: 40px; padding-top: 0; }
+.hr .resume .body .title{ padding-left: 27px; position: relative; top: 0px; left: -47px; background: url(../images/resume_list_title.png) no-repeat left center; height: 70px; line-height: 70px; color: #fff; }
+.hr .resume .body .title .rank{ color: #2bbfbd; }
+.hr .resume .line .key{ width: 5em; }
+.hr .resume .line13 .key{ width: 5em; vertical-align: top; }
+
+
+.hr .resume .body .line {
+    height: 40px;
+    line-height: 40px;
+}
+
+.reg .activate_ctn{ line-height: 40px; height: 40px; margin-bottom: -30px; }
+.group_reg .activate_ctn{ line-height: 40px; height: 40px; margin-bottom: -30px; }
+
+.new_pwd{ background-color: #eeeeee; text-align: center; height: 100%;}
+.new_pwd .header{ font-size: 24px; color: #2bbfbd; height: 90px; line-height: 90px; margin-left: 40px;}
+.new_pwd .body{ position: relative; top:0; left: 0; font-size: 18px; color: #787878; margin-left: 40px; margin-bottom: 40px; padding-bottom: 40px; background-color: #fff; padding: 40px; margin-right: 40px;}
+.new_pwd .line .key{ width: 5em; }
+.new_pwd .body .submit_btn{ background-color: #2bbfbd; height: 40px; line-height: 40px; margin-top: 1em; font-size: 20px; color: #fff; padding:0 1em;}
+.new_pwd .body .line {
+    height: 40px;
+    line-height: 40px;
+}

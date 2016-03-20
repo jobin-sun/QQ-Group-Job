@@ -1,13 +1,6 @@
 angular.module('myApp')
-	.controller("GroupAdminListCtrl",["$scope","$http", "$cookies", "getAdmin", function($scope, $http, $cookies, getAdmin){
-		if($cookies.get("admin_logined") != "yes"){
-			location.href = "#/group/login";
-			return;
-		}
-		getAdmin(function(data){
-			$scope.admin = data;
-		})
-		$http.get("api/group/admin_list/").success(function(response){
+	.controller("GroupAdminListCtrl",["$scope","$http","$rootScope", function($scope, $http, $rootScope){
+		$http.get("/api/group/admin_list/").success(function(response){
 			if (response.status == "success") {
 				$scope.items = []
 				try{
@@ -23,12 +16,13 @@ angular.module('myApp')
 			$T.toast("服务器错误,请联系系统管理员")
 		})
 		$scope.post = function(){
-			$http.post("api/group/admin_list/",{
+			$http.post("/api/group/admin_list/",{
 				qq: $scope.add.qq,
 				nick: $scope.add.nick
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("添加成功");
+					$scope.sendEmail(response.data);
 					$scope.add = undefined;
 					$scope.showAdminAdd = false;
 					$scope.items.push(response.data);
@@ -41,7 +35,7 @@ angular.module('myApp')
 			})
 		}
 		$scope.delete = function(item){
-			$http.delete("api/group/admin_list/",{
+			$http.delete("/api/group/admin_list/",{
 				params:{
 					id: item.id
 				}
@@ -61,6 +55,23 @@ angular.module('myApp')
 		}
 		$scope.stopPropagation = function($event){
 			$event.stopPropagation();
+		}
+		$scope.sendEmail = function(item){
+			$http.get('/api/group/send_activate_mail/',{
+				params:{
+					id: item.id
+				}
+			})
+			.success(function(response){
+				if(response.status == "success"){
+					$T.toast("激活邮件已发送，请提醒查收");
+				}else{
+					$T.toast(response.msg);
+				}
+			}).error(function(){
+				$T.toast("服务器错误,请联系系统管理员")
+			})
+			
 		}
 	}])
 	

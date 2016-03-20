@@ -14,7 +14,7 @@ class MngResumeForm(Form):
     )
     resumeId = IntegerField()
     status = ChoiceField(choices=STATUS_CHOICES, required=False)
-    rank = IntegerField(required=False)
+    rank = IntegerField()
 
 class DelResumeForm(Form):
     resumeId = IntegerField()

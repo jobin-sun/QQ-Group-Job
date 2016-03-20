@@ -17,13 +17,22 @@
             </div>
             <div class="body">
             	<div class="title">
-            		<img src="images/icon-qq-group-resume.png" alt="">
-                    <span ng-bind='data.groupName'></span>-<span ng-bind='data.groupId'></span>
-            		<a href="#/resume/{{ edit }}{{data.groupId}}" ng-show="isExist" class="edit_btn floatR">编辑</a>
-            		<div class="inline_block floatR delete_btn" ng-show="isExist" ng-click="delete()">删除</div>
+            		<div class="floatL ellipsis_txt">
+            			<img ng-src="http://p.qlogo.cn/gh/{{ data.groupId }}/{{ data.groupId }}/50" alt="">
+                    	<span ng-bind='data.groupName'></span>-<span ng-bind='data.groupId'></span>
+            		</div>
+            		<div class="floatL">
+            			<a href="#/resume/{{ edit }}{{data.groupId}}" ng-show="isExist" class="edit_btn floatR">编辑</a>
+            			<div class="inline_block floatR delete_btn" ng-show="isExist" ng-click="delete()">删除</div>
+            		</div>
+            		<div class="clear"></div>
             	</div>
             	<div class="status status{{ data.status }}" ng-bind='data.status | strStatus'></div>
             	<div class="show" ng-hide="canEdit">
+            		<div class="line line1">
+			    		<div class="key inline_block">职位名:</div>
+			    		<div class="value inline_block" ng-bind='data.jobTitle'></div>
+			    	</div>
 			    	<div class="line line2">
 			    		<div class="key inline_block">Email:</div>
 			    		<div class="value inline_block" ng-bind='data.email'></div>
@@ -58,7 +67,7 @@
 			    	</div>
 			    	<div class="line line11">
 			    		<div class="key inline_block">最后更新：</div>
-			    		<div class="value inline_block" ng-bind='data.lastDate'></div>
+			    		<div class="value inline_block" ng-bind="data.lastDate | date:'yyyy-MM-dd'"></div>
 			    	</div>
 			    	<div class="line line12">
 			    		<div class="key inline_block">别人可见：</div>
@@ -71,29 +80,35 @@
 			    		</div>
 			    	</div>
 		    	</div>
-		    	<div class="edit" ng-show="canEdit">
+		    	<form name="myForm" class="edit" ng-show="canEdit">
+		    		<div class="line line1">
+			    		<div class="key inline_block">职位名:</div>
+			    		<div class="value inline_block">
+			    			<input type="text" required="" class="form-control" ng-model='data.jobTitle'>
+			    		</div>
+			    	</div>
 			    	<div class="line line2">
 			    		<div class="key inline_block">Email:</div>
 			    		<div class="value inline_block">
-			    			<input class="flex1 form-control" ng-model='data.email'>
+			    			<input type="email" required=""  class="form-control" ng-model='data.email'>
 			    		</div>
 			    	</div>
 			    	<div class="line line3">
 			    		<div class="key inline_block">姓名:</div>
 			    		<div class="value inline_block">
-			    			<input class="flex1 form-control" ng-model='data.username'>
+			    			<input type="text" required="" class="form-control" ng-model='data.username'>
 			    		</div>
 			    	</div>
 			    	<div class="line line4">
 			    		<div class="key inline_block">qq:</div>
 			    		<div class="value inline_block">
-			    			<input class="flex1 form-control" ng-model='data.qq'>
+			    			<input type="number" required=""  class="form-control" ng-model='data.qq'>
 			    		</div>
 			    	</div>
 			    	<div class="line line5">
 			    		<div class="key inline_block">年龄:</div>
 			    		<div class="value inline_block">
-			    			<input class="flex1 form-control" ng-model='data.age'>
+			    			<input type="number" required="" class="form-control" ng-model='data.age'>
 			    		</div>
 			    	</div>
 			    	<div class="line line6">
@@ -108,13 +123,13 @@
 			    	<div class="line line7">
 			    		<div class="key inline_block">工作年限:</div>
 			    		<div class="value inline_block">
-			    			<input class="flex1 form-control" ng-model='data.yearsOfWorking'>
+			    			<input type="number" required=""  class="form-control" ng-model='data.yearsOfWorking'>
 			    		</div>
 			    	</div>
 			    	<div class="line line8">
 			    		<div class="key inline_block">学校:</div>
 			    		<div class="value inline_block">
-			    			<input class="flex1 form-control" ng-model='data.school'>
+			    			<input type="text" required="" class="form-control" ng-model='data.school'>
 			    		</div>
 			    	</div>
 			    	<div class="line line9">
@@ -141,11 +156,11 @@
 			    	<div class="line text_left">
 			    		<div class="key inline_block"> </div>
 			    		<div class="value inline_block">
-			    			<button class="btn submit_btn" ng-show="isExist" ng-click="submit()">提交</button>
-			    			<button class="btn submit_btn" ng-hide="isExist" ng-click="post()">申请入群</button>
+			    			<button class="btn submit_btn" ng-disabled="myForm.$invalid || !myForm.$dirty" ng-show="isExist" ng-click="submit()">提交</button>
+			    			<button class="btn submit_btn" ng-disabled="myForm.$invalid || !myForm.$dirty" ng-hide="isExist" ng-click="post()">申请入群</button>
 			    		</div>
 			    	</div>
-		    	</div>
+		    	</form>
             </div>
             <div style="width: 100%; height: 1px;"></div>
         </div>

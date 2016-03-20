@@ -20,86 +20,86 @@
                 <div class="show" ng-hide="canEdit">
                     <div class="line line1">
                         <div class="title inline_block">QQ：</div>
-                        <div class="value inline_block" ng-bind="qq"></div>
+                        <div class="value inline_block" ng-bind="user.qq"></div>
                     </div>
                     <div class="line line2">
                         <div class="title inline_block">姓名：</div>
-                        <div class="value inline_block" ng-bind="username"></div>
+                        <div class="value inline_block" ng-bind="user.username"></div>
                     </div>
                     
                     <div class="line line3">
                         <div class="title inline_block">性别：</div>
-                        <div class="value inline_block" ng-bind="sex | strSex"></div>
+                        <div class="value inline_block" ng-bind="user.sex | strSex"></div>
                     </div>
                     <div class="line line4">
                         <div class="title inline_block">年龄：</div>
-                        <div class="value inline_block" ng-bind="age"></div>
+                        <div class="value inline_block" ng-bind="user.age"></div>
                     </div>
                     <div class="line line5">
                         <div class="title inline_block">工作年限：</div>
-                        <div class="value inline_block" ng-bind='yearsOfWorking'></div>
+                        <div class="value inline_block" ng-bind='user.yearsOfWorking'></div>
                     </div>
                     <div class="line line6">
                         <div class="title inline_block">学校：</div>
-                        <div class="value inline_block" ng-bind='school'></div>
+                        <div class="value inline_block" ng-bind='user.school'></div>
                     </div>
                     <div class="line line7">
                         <div class="title inline_block">学历：</div>
-                        <div class="value inline_block" ng-bind='education | strEdu'></div>
+                        <div class="value inline_block" ng-bind='user.education | strEdu'></div>
                     </div>
                 </div>
-                <div class="edit" ng-show="canEdit">
+                <form name="myForm" class="edit" ng-show="canEdit">
                     <div class="line line1">
                         <div class="title inline_block">QQ：</div>
-                        <div class="value inline_block" ng-bind="qq"></div>
+                        <div class="value inline_block" ng-bind="user.qq"></div>
                     </div>
                     <div class="line line2">
                         <div class="title inline_block">姓名：</div>
                         <div class="value inline_block">
-                            <input type="text" class="form-control" ng-model='username'  placeholder="姓名" required="">
+                            <input type="text" class="form-control" ng-model='user.username'  placeholder="姓名" required="">
                         </div>
                     </div>
                     <div class="line line3">
                         <div class="title inline_block">性别：</div>
                         <div class="value inline_block">
                             <select ng-options="option.id as option.name for option in sexOptions"
-                                ng-model="sex">
+                                ng-model="user.sex">
                             </select>
                         </div>
                     </div>
                     <div class="line line4">
                         <div class="title inline_block">年龄：</div>
                         <div class="value inline_block">
-                            <input type="number" class="form-control" ng-model="age"  placeholder="年龄" required="">
+                            <input type="number" class="form-control" ng-model="user.age"  placeholder="年龄" required="">
                         </div>
                     </div>
                     <div class="line line5">
                         <div class="title inline_block">工作年限：</div>
                         <div class="value inline_block">
-                            <input type="number" class="form-control" ng-model="yearsOfWorking"  placeholder="工作年限" required="">
+                            <input type="number" class="form-control" ng-model="user.yearsOfWorking"  placeholder="工作年限" required="">
                         </div>
                     </div>
                     <div class="line line6">
                         <div class="title inline_block">学校：</div>
                         <div class="value inline_block">
-                            <input type="text" class="form-control" ng-model="school"  placeholder="学校" required="">
+                            <input type="text" class="form-control" ng-model="user.school"  placeholder="学校" required="">
                         </div>
                     </div>
                     <div class="line line7">
                         <div class="title inline_block">学历：</div>
                         <div class="value inline_block">
                             <select ng-options="option.id as option.name for option in eduOptions"
-                                ng-model="education">
+                                ng-model="user.education">
                             </select>
                         </div>
                     </div>
                     <div class="line line8">
                         <div class="title inline_block"></div>
                         <div class="value inline_block">
-                            <button class="btn submit_btn" type="submit" ng-click="submit()" ng-disabled="indexForm.$invalid || !canEdit" >提交</button>
+                            <button class="btn submit_btn" type="submit" ng-click="submit()" ng-disabled="myForm.$invalid || !canEdit || !myForm.$dirty" >提交</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div style="width: 100%; height: 1px;"></div>
         </div>

@@ -5,27 +5,40 @@ from api.models import User
 from api.token import new_token
 from api.config import email_address
 from QQJob.settings import BASE_DIR
+from api import config
+from django.forms import (Form, IntegerField, CharField)
+
+class qqForm(Form):
+    qq = CharField(max_length=15)
 
 class Activate(View):
     def get(self, request):
-        qq = request.GET['qq']
+        uf = qqForm(request.GET)
+        if not uf.is_valid():
+            return JsonResponse({
+                "status": "error",
+                "msg": "激活邮件发送失败"
+            })
+
+        qq = uf.cleaned_data["qq"]
         user = User.objects.filter(qq__exact = qq).first()
         if user is None:
             msg = {
                 "status" : 'error',
-                "msg" : 'user not exist'
+                "msg" : '用户不存在'
             }
         else:
             if user.status == 1:
                 msg = {
                     "status" : 'error',
-                    "msg" : 'user already activated'
+                    "msg" : '用户已激活'
                 }
             else:
+
                 with open(BASE_DIR + "/api/mail_template/activate.html", 'rt') as mail_template:
                     template = mail_template.read()
                 token = new_token(user, 'activate').get_token()
-                link = "http://www.qjob.social/api/activate/?token=" + token
+                link = "%s://%s/api/activate/?token=%s" % (config.protocol, config.domain, token)
                 email_content = template % ('user', user.qq, link)
 
 
@@ -38,13 +51,20 @@ class Activate(View):
 
                 msg = {
                     "status" : 'success',
-                    "msg" : 'email is delivered'
+                    "msg" : '邮件已发送,请注意查收'
                 }
         return JsonResponse(msg)
 
 class Recover(View):
     def get(self, request):
-        qq = request.GET['qq']
+        uf = qqForm(request.GET)
+        if not uf.is_valid():
+            return JsonResponse({
+                "status": "success",
+                "msg": "邮件发送失败"
+            })
+
+        qq = uf.cleaned_data["qq"]
         user = User.objects.filter(qq__exact= qq).first()
         if user is None:
             msg = {
@@ -55,7 +75,7 @@ class Recover(View):
             with open(BASE_DIR + "/api/mail_template/recover.html", 'rt') as mail_template:
                 template = mail_template.read()
             token = new_token(user, 'recover').get_token()
-            link = "http://www.qjob.social/api/recover/?token=" + token
+            link = "%s://%s/#/new_pwd/%s" %(config.protocol, config.domain, token)
             email_content = template % ('user', user.qq, link)
 
             start_mail_thread(
@@ -67,7 +87,7 @@ class Recover(View):
 
             msg = {
                 "status" : 'success',
-                "msg" : 'email is delivered'
+                "msg" : '邮件已发送,请注意查收'
             }
         return JsonResponse(msg)
 

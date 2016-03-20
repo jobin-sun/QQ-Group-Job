@@ -18,6 +18,7 @@ class DeleteForm(Form):
     groupId = IntegerField()
 
 class PostForm(Form):
+    jobTitle = CharField(max_length=20)
     email = EmailField(max_length=17)
     groupId = CharField(max_length=15) #所属群
     qq = CharField(max_length=15)
@@ -32,6 +33,7 @@ class PostForm(Form):
 
 class PutForm(Form):
     id = IntegerField()
+    jobTitle = CharField(max_length=20)
     email = EmailField(max_length=15)
     qq = CharField(max_length=15)
     username = CharField(max_length=50)
@@ -41,7 +43,7 @@ class PutForm(Form):
     school = CharField(max_length=40)
     education = IntegerField()
     content = CharField(widget=Textarea, required=False)
-    display = BooleanField()
+    display = BooleanField( required= False)
 
 
 
@@ -67,6 +69,7 @@ class Index(View):
                     'count': 1,
                     'data':{
                         'id': item.id,
+                        'jobTitle': item.jobTitle,
                         'email': item.userEmail,
                         "groupId": item.groupId,
                         "groupName": groupName,
@@ -84,11 +87,20 @@ class Index(View):
                     }
                 })
             else:
+                group = Group.objects.filter(groupId__exact = uf.cleaned_data['groupId']).first()
+                if not group:
+                    return JsonResponse({
+                        "status": 'error',
+                        "msg": '此群未入驻，抓紧推荐给群主吧:)'
+                    })
+
+                groupName = group.groupName
                 return JsonResponse({"status": 'success',
                                  'msg': "Resume not found",
                                  'count': 0,
                                  'data':{
                                      "groupId": uf.cleaned_data['groupId'],
+                                     "groupName": groupName,
                                      "username": check.user.username,
                                      'email': check.user.qq + "@qq.com",
                                      "qq": check.user.qq,
@@ -115,6 +127,7 @@ class Index(View):
         uf = PostForm(check.jsonForm)
         if uf.is_valid():
             resume = Resume(
+                jobTitle= uf.cleaned_data['jobTitle'],
                 userEmail = uf.cleaned_data['email'],
                 groupId = uf.cleaned_data['groupId'],
                 qq = uf.cleaned_data['qq'],
@@ -141,14 +154,37 @@ class Index(View):
                     email_address,
                     ['%s@qq.com' % admin.qq for admin in admins]
                     )
+                group = Group.objects.filter(groupId__exact = resume.groupId).first()
+                groupName = ""
+                if group:
+                    groupName = group.groupName
                 return JsonResponse({
-                    "status" : 'success',
-                    'msg' : "already notifyied admins"
-                    })
+                    "status": 'success',
+                    'msg': 'already notifyied admins',
+                    'count': 1,
+                    'data':{
+                        'id': resume.id,
+                        'jobTitle': resume.jobTitle,
+                        'email': resume.userEmail,
+                        "groupId": resume.groupId,
+                        "groupName": groupName,
+                        "username": resume.username,
+                        "qq": resume.qq,
+                        'sex': resume.sex,
+                        'age': resume.age,
+                        'yearsOfWorking': resume.yearsOfWorking,
+                        'school': resume.school,
+                        'education': resume.education,
+                        "lastDate": resume.lastDate,
+                        "content": resume.content,
+                        'display': resume.display,
+                        "status": resume.status
+                    }
+                })
             else:
                 return JsonResponse({
                     "status" : 'error',
-                    'msg' : "Post error"
+                    'msg' : "Save error"
                     })
         else:
             return JsonResponse({
@@ -166,6 +202,7 @@ class Index(View):
         if uf.is_valid():
             item = Resume.objects.filter(id__exact = uf.cleaned_data['id'], qq__exact = check.user.qq).first()
             if item:
+                item.jobTitle = uf.cleaned_data['jobTitle']
                 item.userEmail = uf.cleaned_data['email']
                 item.qq = uf.cleaned_data['qq']
                 item.username = uf.cleaned_data['username']
@@ -177,6 +214,7 @@ class Index(View):
                 item.content = uf.cleaned_data['content']
                 item.display = uf.cleaned_data['display']
                 item.save()
+                print(uf.cleaned_data['jobTitle'])
                 return JsonResponse({"status": 'success',
                                  'msg': ""
                                  })

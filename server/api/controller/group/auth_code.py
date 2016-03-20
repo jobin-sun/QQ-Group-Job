@@ -69,7 +69,7 @@ import time
 
 from .check_request import CheckRequest
 from .form import AuthCodeForm, DelAuthCodeForm
-from api.models import AuthCode
+from api.models import AuthCode,GroupAdmin
 
 class Index(View):
     def get(self, request):
@@ -81,11 +81,18 @@ class Index(View):
             codes = AuthCode.objects.filter(groupId__exact = check.admin.groupId).values('id', 'qq', 'code', 'times')
         else:
             codes = AuthCode.objects.filter(groupId__exact = check.admin.groupId, qq__exact=check.admin.qq).values('id', 'qq', 'code', 'times')
+
+        admins = GroupAdmin.objects.filter(
+            groupId = check.admin.groupId
+        ).values('nick', 'qq')
         data = {"status" : "success",
                 "msg":"",
-                "data": [] }
-        for item in codes:
-            data["data"].append(item)
+                "data": [
+                    item for item in codes
+                ],
+                "qq2nick":[
+                    item for item in admins
+                ]}
         return JsonResponse(data)
 
     def post(self, request):

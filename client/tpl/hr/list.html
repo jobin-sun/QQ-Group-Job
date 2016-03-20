@@ -1,4 +1,4 @@
-<div class="hr" ng-hide="show">
+<div class="hr hr_login" ng-hide="show">
     <div class="text_center">
         <img src="images/top.png">
     </div>
@@ -19,41 +19,36 @@
         <div class="text_center"></div>
     </form>
 </div>
-<div ng-show="show" class="list">
-    <div class="flex_box">
-        <div class="left">
-            <ul class="list-unstyled">
-                <li ng-repeat="item in items"><a href="javascript:void(0)" ng-click="getInfo(item)" ng-bind="item"></a></li>
-            </ul>
-        </div>
-        <div class="right flex1" style="padding-left:0.5em;">
-            <div class="flex_box">
-                <div class="title">姓名</div>
-                <div class="flex1 {{ class }}" ng-bind="name"></div>
-            </div>
-            <div class="flex_box">
-                <div class="title">QQ</div>
-                <div class="flex1 {{ class }}" ng-bind='qq'></div>
-            </div>
-            <div class="flex_box">
-                <div class="title">Email</div>
-                <div class="flex1" ng-bind="email"></div>
-            </div>
-            <div class="flex_box">
-                <div class="title">最后编辑时间</div>
-                <div class="flex1" ng-bind="editDate"></div>
-            </div>
-            <div class="flex_box">
-                <div class="title">简介</div>
-                <div class="flex1">
-                    <div ng-bind='content' class="content"></div>
-                    <div class="red">
-                        <br>
-                        <br>
-                        联系时请说明,联系信息来自QQ群: Coursera-Python交流(ID:371145284),谢谢
-                    </div>
+<div class="hr" ng-show="show">
+    <div class="top">
+        <div ng-include="'tpl/hr/top.html'"></div>
+    </div>
+    <div class="main">
+        <div class="header">群{{groupId}}简历列表</div>
+        <div class="list" ng-repeat="item in items">
+            <div class="title">
+                <div class="floatL ellipsis_txt">
+                    <span ng-bind='item.username'></span>-<span ng-bind='item.jobTitle'></span>
                 </div>
+                <div class="floatR rank">
+                    群主/管理员评分:
+                    <span ng-bind="item.rank | strRank"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="content">
+                <div class="line line3">QQ：<span ng-bind="item.qq"></span></div>
+                <div class="line line4">工作年限：<span ng-bind="item.yearsOfWorking"></span></div>
+                <div class="line line5">学历：<span ng-bind="item.education | strEdu"></span></div>
+                <div class="line line5">最新更新：<span ng-bind="item.lastDate | date:'yyyy-MM-dd'"></span></div>
+            </div>
+            <div class="footer">
+                <div class="floatR">
+                    <a href="#/hr/resume/{{ item.id }}">查看更多</a>
+                </div>
+                <div class="clear"></div>
             </div>
         </div>
+        <div style="height:1px; width: 100%;"></div>
     </div>
 </div>

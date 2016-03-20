@@ -31,6 +31,7 @@ class Index(View):
                     "msg" :  '',
                     "data" : {
                         "id": resume.id,
+                        "jobTitle": resume.jobTitle,
                         "groupId": resume.groupId,
                         "qq": resume.qq,
                         "email": resume.userEmail,
@@ -40,7 +41,7 @@ class Index(View):
                         "yearsOfWorking": resume.yearsOfWorking,
                         'school': resume.school,
                         'education': resume.education,
-                        "lastDate": resume.lastDate.strftime('%Y-%m-%d'),
+                        "lastDate": resume.lastDate,
                         "content": resume.content,
                         "status": resume.status,
                         "myRank":myRank,
@@ -86,6 +87,7 @@ class Index(View):
                     rank = Rank(
                         resumeId = uf.cleaned_data['resumeId'],
                         qq = check.admin.qq,
+                        groupId= check.admin.groupId,
                         rank= uf.cleaned_data['rank']
 
                     )

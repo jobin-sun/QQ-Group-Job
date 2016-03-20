@@ -61,8 +61,9 @@
                 </div>
                 <div class="line" ng-repeat="item in items" ng-hide="item.hide">
                     <div class="width50 floatL text_left icon">
-                    	<img src="images/icon-default-user.png">
-                    	<span ng-bind="item.qq"></span>
+                    	<img ng-src="http://q4.qlogo.cn/g?b=qq&nk={{item.qq}}&s=2">
+                    	<span ng-bind="item.qq"></span>/
+                    	<span ng-bind="qq2nick[item.qq]"></span>
                     </div>
                     <div class="width20 floatL text_center code" ng-bind="item.code"></div>
                     <div class="width20 floatL text_center times" ng-bind="item.times"></div>

@@ -35,6 +35,7 @@ class JoinForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
     groupName = CharField(label=u'群名称：', max_length=30)
     qq = CharField(label=u'群主QQ：', max_length=15)
+    nick = CharField(max_length=15)
     password = CharField(label=u'密码：', widget=PasswordInput(), max_length=40)
 
 class Index(View):
@@ -50,6 +51,7 @@ class Index(View):
             groupId = uf.cleaned_data['groupId']
             groupName = uf.cleaned_data['groupName']
             qq = uf.cleaned_data['qq']
+            nick = uf.cleaned_data['nick']
             password = uf.cleaned_data['password']
             #检测群是否存在
             checkGroup = Group.objects.filter(groupId__exact = groupId).first()
@@ -86,6 +88,7 @@ class Index(View):
             admin = GroupAdmin(
                 groupId = groupId,
                 qq = qq,
+                nick = nick,
                 password = db_password(password),
                 login_random = new_random(),
                 activate_random = new_random(),
@@ -96,7 +99,14 @@ class Index(View):
             if admin.id:
                 return JsonResponse({
                     "status" : 'success',
-                    'msg' : ""
+                    'msg' : "",
+                    'data':{
+                        'id': admin.id,
+                        'groupId' : admin.groupId,
+                        'qq' : admin.qq,
+                        'nick' : admin.nick,
+                        'userType': admin.userType
+                    }
                 })
             else:
                 return JsonResponse({

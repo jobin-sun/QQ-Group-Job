@@ -70,7 +70,7 @@ class Resume(models.Model):
     )
     groupId = models.CharField(max_length=15)  # 所属群
     qq = models.CharField(max_length=15)
-
+    jobTitle = models.CharField(max_length=20) #职位名
     userEmail = models.EmailField(max_length=17)
     username = models.CharField(max_length=50)
     sex = models.IntegerField(default=0, choices=sexChoices)
@@ -82,7 +82,7 @@ class Resume(models.Model):
     lastDate = models.DateTimeField(auto_now=True)
     content = models.TextField(blank=True, null=True)
     display = models.BooleanField(default=True)
-    # 简历在群中的状态,0:申请中, 1:允许的, 2:拒绝的, 3:拉黑的
+    # 简历在群中的状态,0:申请中, 1:允许的, 2:拒绝的
     status = models.IntegerField(choices=statusChoices, default=0)
 
     class Meta:
@@ -91,6 +91,7 @@ class Resume(models.Model):
 
 class Rank(models.Model):
     resumeId = models.IntegerField()
+    groupId = models.CharField(max_length=15)  # 所属群
     qq = models.CharField(max_length=15)  # 群主QQ号或管理员用户名
     rank = models.IntegerField(default=0)
     comment = models.TextField(blank=True, null=True)  # 管理员评价, 下期做

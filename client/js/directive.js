@@ -1,9 +1,9 @@
-angular.module('myApp').directive('errSrc', function() {
+angular.module('myApp').directive('err', function() {
   return {
     link: function(scope, element, attrs) {
       element.bind('error', function() {
-        if (attrs.src != attrs.errSrc) {
-          attrs.$set('src', attrs.errSrc);
+        if (attrs.src != attrs.err) {
+          attrs.$set('src', attrs.err);
         }
       });
     }

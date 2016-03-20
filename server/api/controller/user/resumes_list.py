@@ -21,16 +21,15 @@ class Index(View):
                 }
         resumes = Resume.objects.filter(qq__exact = check.user.qq)
 
+        groupIds = []
         for item in resumes:
-            group = Group.objects.filter(groupId__exact = item.groupId).first()
-            groupName = ""
-            if group:
-                groupName = group.groupName
+            groupIds.append(item.groupId)
             resume = {
                 "id": item.id,
+                "jobTitle": item.jobTitle,
                 "email": item.userEmail,
                 "groupId": item.groupId,
-                "groupName": groupName,
+                "display": item.display,
                 "username": item.username,
                 "qq": item.qq,
                 'sex': item.sex,
@@ -38,10 +37,12 @@ class Index(View):
                 'yearsOfWorking': item.yearsOfWorking,
                 'school': item.school,
                 'education': item.education,
-                "lastDate": item.lastDate.strftime('%Y-%m-%d'),
+                "lastDate": item.lastDate,
                 #"content": item.content,
                 "status": item.status
             }
             data['data'].append(resume)
+        groups = Group.objects.filter(groupId__in=groupIds).values("groupId","groupName")
+        data["id2name"] = [item for item in groups]
         return JsonResponse(data)
 

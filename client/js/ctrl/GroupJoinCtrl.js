@@ -9,16 +9,35 @@ angular.module('myApp')
 				groupId: $scope.groupId,
 				groupName: $scope.groupName,
 				qq: $scope.qq,
+				nick: $scope.nick,
 				password:$scope.password
 			}).success(function(response){
 				if(response.status == "success"){
-					location.href = "#/group/login"
+					$scope.sendEmail(response.data.id);
+					$scope.showBtn = false;
 				}else{
 					$T.toast(response.msg);
 				}
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
 			})
+		}
+		$scope.sendEmail = function(id){
+			$http.get('/api/group/send_activate_mail/',{
+				params:{
+					id: id
+				}
+			})
+			.success(function(response){
+				if(response.status == "success"){
+					$T.toast("激活邮件已发送，请注意查收");
+				}else{
+					$T.toast(response.msg);
+				}
+			}).error(function(){
+				$T.toast("服务器错误,请联系系统管理员")
+			})
+			
 		}
 	}])
 	

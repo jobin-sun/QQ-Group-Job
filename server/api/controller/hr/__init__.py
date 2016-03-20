@@ -1,2 +1,2 @@
 __author__ = 'jobin'
-from . import (list)
+from . import (list,resume)

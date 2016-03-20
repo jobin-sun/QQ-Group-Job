@@ -1,12 +1,5 @@
 angular.module('myApp')
-	.controller("GroupResumeCtrl",["$scope", "$http", "$cookies", "$routeParams", "getAdmin", function($scope, $http, $cookies, $routeParams, getAdmin){
-		if($cookies.get("admin_logined") != "yes"){
-			location.href = "#/group/login";
-			return;
-		}
-		getAdmin(function(data){
-			$scope.admin = data;
-		})
+	.controller("GroupResumeCtrl",["$scope", "$http", "$routeParams", function($scope, $http, $routeParams){
 		var oldStatus, oldRank;
 		$http.get("/api/group/resume/",{
 			params:{

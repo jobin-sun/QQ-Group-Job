@@ -18,9 +18,9 @@
             <div class="body">
                 <div class="item" ng-repeat="item in items" ng-hide="item.status==2">
                     <div class="title">
-                        <div class="floatL">
-                            <img src="images/icon-qq-group-resume.png" alt="">
-                            <span ng-bind='item.groupName'></span>-<span ng-bind='item.groupId'></span>
+                        <div class="floatL ellipsis_txt">
+                            <img ng-src="http://q4.qlogo.cn/g?b=qq&nk={{item.qq}}&s=2" alt="">
+                            <span ng-bind='item.username'></span>-<span ng-bind='item.jobTitle'></span>
                         </div>
                         <div class="floatR rank">
                             <span>我的评分:</span><span ng-bind="item.myRank | strRank"></span>；
@@ -29,11 +29,11 @@
                         <div class="clear"></div>
                     </div>
                     <div class="content">
-                        <div class="line line1">姓名：<span ng-bind="item.username"></span></div>
-                        <div class="line line2">Email：<span ng-bind="item.email"></span></div>
-                        <div class="line line3">QQ：<span ng-bind="item.qq"></span></div>
-                        <div class="line line4">工作年限：<span ng-bind="item.yearsOfWorking"></span></div>
-                        <div class="line line5">学历：<span ng-bind="item.education | strEdu"></span></div>
+                        <div class="line line1">QQ：<span ng-bind="item.qq"></span></div>
+                        <div class="line line2">工作年限：<span ng-bind="item.yearsOfWorking"></span></div>
+                        <div class="line line3">学历：<span ng-bind="item.education | strEdu"></span></div>
+                        <div class="line line4">年龄：<span ng-bind="item.age"></span></div>
+                        <div class="line line5">更新时间：<span ng-bind="item.lastDate | date:'yyyy-MM-dd'"></span></div>
                     </div>
                     <div class="footer">
                         <div class="floatL">

@@ -1,0 +1,65 @@
+<div class="hr">
+    <div class="top">
+        <div ng-include="'tpl/hr/top.html'"></div>
+    </div>
+    <div class="resume">
+        <div class="header"><a href="#/hr/{{ data.groupId }}">返回</a></div>
+        <div class="body">
+            <div class="title">
+                <div class="floatL ellipsis_txt">
+                    <span ng-bind='data.username'></span>-<span ng-bind='data.jobTitle'></span>
+                </div>
+                <div class="floatR rank">
+                    群主/管理员评分:
+                    <span ng-bind="data.rank | strRank"></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="line line2">
+                <div class="key inline_block">Email:</div>
+                <div class="value inline_block" ng-bind='data.userEmail'></div>
+            </div>
+            <div class="line line3">
+                <div class="key inline_block">姓名:</div>
+                <div class="value inline_block" ng-bind='data.username'></div>
+            </div>
+            <div class="line line4">
+                <div class="key inline_block">qq:</div>
+                <div class="value inline_block" ng-bind='data.qq'></div>
+            </div>
+            <div class="line line5">
+                <div class="key inline_block">年龄:</div>
+                <div class="value inline_block" ng-bind='data.age'></div>
+            </div>
+            <div class="line line6">
+                <div class="key inline_block">性别:</div>
+                <div class="value inline_block" ng-bind='data.sex | strSex'></div>
+            </div>
+            <div class="line line7">
+                <div class="key inline_block">工作年限:</div>
+                <div class="value inline_block" ng-bind='data.yearsOfWorking'></div>
+            </div>
+            <div class="line line8">
+                <div class="key inline_block">学校:</div>
+                <div class="value inline_block" ng-bind='data.school'></div>
+            </div>
+            <div class="line line9">
+                <div class="key inline_block">学历:</div>
+                <div class="value inline_block" ng-bind='data.education | strEdu'></div>
+            </div>
+            <div class="line line11">
+                <div class="key inline_block">更新时间：</div>
+                <div class="value inline_block" ng-bind="data.lastDate | date:'yyyy-MM-dd'"></div>
+            </div>
+            <div class="line13">
+                <div class="key inline_block">其它：</div>
+                <div class="value inline_block">
+                    <pagedown-viewer content="data.content"></pagedown-viewer>
+                </div>
+            </div>
+
+
+        </div>
+        <div style="height:1px; width: 100%;"></div>
+    </div>
+</div>

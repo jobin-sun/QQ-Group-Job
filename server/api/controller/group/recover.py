@@ -12,8 +12,13 @@ class RecoverForm(Form):
 
 
 class Recover(View):
-    def post(self, request):
+    def put(self, request):
         uf = RecoverForm(loads(request.body.decode("utf-8")))
+        if not uf.is_valid():
+            return JsonResponse({
+                "status": "success",
+                "msg": "表单提交有误"
+            })
         token_str = uf.cleaned_data['token']
         token = parse_token(token_str, 'recover')
         if token is None:
@@ -28,17 +33,17 @@ class Recover(View):
                     "msg" : "token is expired"
                 }
             else:
-                owner = GroupAdmin.objects.filter(groupId__exact = token.id, userType__exact = 1).first()
-                if owner is None:
+                admin = GroupAdmin.objects.filter(id__exact = token.id).first()
+                if admin is None:
                     msg = {
                         "status" : "error",
                         "msg" : "group not exsist"
                     }
                 else:
-                    if token.is_user(owner):
+                    if token.is_user(admin):
                         password = db_password(uf.cleaned_data['password'])
-                        owner.password = password
-                        owner.save()
+                        admin.password = password
+                        admin.save()
                         msg = {
                             "status" : "success",
                             "msg" : "authentication is successful"

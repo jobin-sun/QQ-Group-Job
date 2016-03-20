@@ -24,18 +24,30 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/resume/:edit/:groupId', {
 			templateUrl: 'tpl/user/resume.html',
 			controller: 'ResumeCtrl'
+		}).when('/new_pwd/:token', {
+			templateUrl: 'tpl/user/new_pwd.html',
+			controller: 'NewPwdCtrl'
 		
 		}).when('/hr', {
 			templateUrl: 'tpl/hr/list.html',
-			controller: 'ListCtrl'
+			controller: 'HrListCtrl'
+		}).when('/hr/logout', {
+			template: '',
+			controller: 'HrLogoutCtrl'
+		}).when('/hr/resume/:id', {
+			templateUrl: 'tpl/hr/resume.html',
+			controller: 'HrResumeCtrl'
 		}).when('/hr/:groupId', {
 			templateUrl: 'tpl/hr/list.html',
-			controller: 'ListCtrl'
+			controller: 'HrListCtrl'
 
 		}).when('/group/index', {
 			redirectTo: '/group/resume_list/'
 		}).when('/group', {
 			redirectTo: '/group/resume_list/'
+		}).when('/group/new_pwd/:token', {
+			templateUrl: 'tpl/group/new_pwd.html',
+			controller: 'GroupNewPwdCtrl'
 		}).when('/group/join/', {
 			templateUrl: 'tpl/group/join.html',
 			controller: 'GroupJoinCtrl'
@@ -52,6 +64,9 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 			templateUrl: 'tpl/group/resume.html',
 			controller: 'GroupResumeCtrl'
 		}).when('/group/change_pwd', {
+			templateUrl: 'tpl/group/change_pwd.html',
+			controller: 'GroupChangePwdCtrl'
+		}).when('/group/change_pwd/:token', {
 			templateUrl: 'tpl/group/change_pwd.html',
 			controller: 'GroupChangePwdCtrl'
 		}).when('/group/admin_list/', {

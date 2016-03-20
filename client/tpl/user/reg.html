@@ -21,7 +21,16 @@
         <div class="line line5">
             <input type="password" class="form-control password_{{ password == rePassword }}" ng-model="rePassword" placeholder="确认码" required="">
         </div>
-        <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="reg.$invalid || password != rePassword">注册</button>
+        <button class="btn btn_submit" ng-init="showBtn = true" ng-show="showBtn" type="submit" ng-click="submit()" ng-disabled="reg.$invalid || password != rePassword">注册</button>
+        <div class="activate_ctn floatL width100" ng-hide="showBtn">
+            <div class="floatL width40 text_right">
+                <a href="javascript:void(0)" ng-click="sendEmail()">重新发送激活邮件</a>
+            </div>
+            <div class="floatR width40 text_left">
+                <a href="http://mail.qq.com" target="_blank">登录邮箱，完成注册</a>
+            </div>
+        </div>
+        <div class="clear"></div>
     </form>
     <div class="no_user">
         <a href="#/login">返回登录</a>

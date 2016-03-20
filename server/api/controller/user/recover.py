@@ -12,8 +12,14 @@ class RecoverForm(Form):
 
 
 class Recover(View):
-    def post(self, request):
+    def put(self, request):
         uf = RecoverForm(loads(request.body.decode("utf-8")))
+        if not uf.is_valid():
+            return JsonResponse({
+                "status": "error",
+                "msg": "表单格式不正确"
+            })
+
         token_str = uf.cleaned_data['token']
         token = parse_token(token_str, 'recover')
         if token is None:

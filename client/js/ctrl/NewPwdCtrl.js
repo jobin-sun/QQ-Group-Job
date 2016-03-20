@@ -1,12 +1,13 @@
 angular.module('myApp')
-	.controller("GroupChangePwdCtrl",["$scope","$http", function($scope, $http){
+	.controller("NewPwdCtrl",["$scope","$http", "$routeParams", function($scope, $http, $routeParams){
+		var token = $routeParams.token;
 		$scope.submit = function(){
-			$http.put("/api/group/change_pwd/", {
+			$http.put("/api/recover/", {
+				token: token,
 				password: $scope.password
 			}).success(function(response){
 				if(response.status == "success"){
-					$T.toast("密码已修改,请重新登录");
-					location.href = "#/group/logout"
+					$T.toast("密码已生效，您可以登录了");
 				}else{
 					$T.toast(response.msg);
 				}

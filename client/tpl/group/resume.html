@@ -16,9 +16,9 @@
                 简历列表
             </div>
             <div class="body">
-                <div class="title">
-            		<img src="images/icon-qq-group-resume.png" alt="">
-                    <span ng-bind='data.username'></span>-(<span ng-bind='data.qq'></span>)
+                <div class="title ellipsis_txt">
+            		<img ng-src="http://q4.qlogo.cn/g?b=qq&nk={{data.qq}}&s=2" alt="">
+                    <span ng-bind='data.username'></span>-<span ng-bind='data.jobTitle'></span>
             		<a href="#/resume/{{ edit }}{{data.groupId}}" ng-show="isExist" class="edit_btn floatR">编辑</a>
             		<div class="inline_block floatR delete_btn" ng-show="isExist" ng-click="delete()">删除</div>
             	</div>
@@ -27,6 +27,10 @@
                     <span>平均:</span><span ng-bind="data.averageRank | strRank"></span>
             	</div>
             	<form name="myForm" class="show">
+            		<div class="line line1">
+			    		<div class="key inline_block">期望职位:</div>
+			    		<div class="value inline_block" ng-bind='data.jobTitle'></div>
+			    	</div>
 			    	<div class="line line2">
 			    		<div class="key inline_block">Email:</div>
 			    		<div class="value inline_block" ng-bind='data.email'></div>
@@ -61,7 +65,7 @@
 			    	</div>
 			    	<div class="line line11">
 			    		<div class="key inline_block">最后更新：</div>
-			    		<div class="value inline_block" ng-bind='data.lastDate'></div>
+			    		<div class="value inline_block" ng-bind='data.lastDate | date:"yyyy-MM-dd"'></div>
 			    	</div>
 			    	<div class="line line12">
 			    		<div class="key inline_block">我的评分：</div><select

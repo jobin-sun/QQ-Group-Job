@@ -1,11 +1,13 @@
-<div class="floatL logo">
-	<a href="/"><img src="images/user-logo.png" alt=""></a>
-</div>
-<div class="floatR text_right top_right">
-	<div class="inline_block user_picture">
-		<img ng-src="images/icon-default-user.png"alt="">
+<div ng-controller="TopCtrl">
+	<div class="floatL logo">
+		<a href="/"><img src="images/user-logo.png" alt=""></a>
 	</div>
-	<div class="inline_block"><a href="#/index" ng-bind="username"></a></div>
-	<div class="inline_block logout"><a href="#/logout">退出</a></div>
+	<div class="floatR text_right top_right">
+		<div class="inline_block user_picture">
+			<img ng-src="http://q4.qlogo.cn/g?b=qq&nk={{user.qq}}&s=2"alt="">
+		</div>
+		<div class="inline_block"><a href="#/index" ng-bind="user.username"></a></div>
+		<div class="inline_block logout"><a href="#/logout">退出</a></div>
+	</div>
+	<div class="clear"></div>
 </div>
-<div class="clear"></div>

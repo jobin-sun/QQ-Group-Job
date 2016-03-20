@@ -1,15 +1,13 @@
 angular.module('myApp')
-	.controller("GroupAuthCodeCtrl",["$scope","$http", "$cookies", "getAdmin", function($scope, $http, $cookies, getAdmin){
-		if($cookies.get("admin_logined") != "yes"){
-			location.href = "#/group/login";
-			return;
-		}
-		getAdmin(function(data){
-			$scope.admin = data;
-		})
-		$http.get("api/group/auth_code/").success(function(response){
+	.controller("GroupAuthCodeCtrl",["$scope","$http", function($scope, $http){
+		$http.get("/api/group/auth_code/").success(function(response){
 			if(response.status == "success"){
 				$scope.items = response.data
+				$scope.qq2nick = {};
+				for(var i = 0; i < response.qq2nick.length; i++){
+					$scope.qq2nick[response.qq2nick[i].qq] = response.qq2nick[i].nick;
+				}
+
 			}else{
 				$T.toast(response.msg)
 			}	
@@ -17,7 +15,7 @@ angular.module('myApp')
 			$T.toast("服务器错误")
 		})
 		$scope.post = function(){
-			$http.post("api/group/auth_code/", {
+			$http.post("/api/group/auth_code/", {
 				code: $scope.add.code
 			}).success(function(response){
 				if(response.status == "success"){
@@ -32,7 +30,7 @@ angular.module('myApp')
 			})
 		}
 		$scope.delete = function(item){
-			$http.delete("api/group/auth_code/", {
+			$http.delete("/api/group/auth_code/", {
 				params:{
 					id: item.id
 				}

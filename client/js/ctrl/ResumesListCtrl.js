@@ -1,12 +1,5 @@
 angular.module('myApp')
-	.controller("ResumesListCtrl",["$scope","$http","$cookies", "getUser", function($scope, $http, $cookies, getUser){
-		if($cookies.get("logined") != "yes"){
-			location.href = "#/login";
-			return;
-		}
-		getUser(function(data){
-			$scope.username = data.username;
-		})
+	.controller("ResumesListCtrl",["$scope","$http", function($scope, $http){
 		$http.get("/api/resumes_list/").success(function(response){
 			if(response.status == "success"){
 				$scope.items = [];
@@ -14,6 +7,8 @@ angular.module('myApp')
 					var ob = {
 						'id':response.data[i].id,
 						'email':response.data[i].email,
+						'jobTitle': response.data[i].jobTitle,
+						'display': response.data[i].display,
 						'username':response.data[i].username,
 						'qq':response.data[i].qq,
 						'sex':response.data[i].sex,
@@ -28,21 +23,25 @@ angular.module('myApp')
 					};
 					$scope.items.push(ob);
 				}
+				$scope.id2name = {}
+				for(var i = 0; i < response.id2name.length; i++){
+					$scope.id2name[response.id2name[i].groupId] = response.id2name[i].groupName;
+				}
 			}else{
 				$T.toast(response.msg);
 			}
 		}).error(function(){
 			$T.toast("服务器错误,请联系系统管理员")
 		})
-		$scope.delete = function(groupId){
+		$scope.delete = function(item){
 			$http.delete("/api/resume/",{
 				params:{
-					groupId: groupId
+					groupId: item.groupId
 				}
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功");
-					location.reload();
+					item.hide = true;
 				}else{
 					$T.toast(response.msg)
 				}

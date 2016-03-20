@@ -8,7 +8,6 @@ from .controller import user, group, hr
 urlpatterns = [
     url(r'^$', user.index.Index.as_view()),
     url(r'^index/', user.index.Index.as_view()),
-    url(r'^list/', hr.list.List.as_view()),
     url(r'^reg/', user.reg.Reg.as_view()),
     url(r'^login/', user.login.Login.as_view()),
     url(r'^logout/', user.logout.Logout.as_view()),
@@ -36,4 +35,7 @@ urlpatterns = [
     url(r'^group/activate/', group.activate.Activate.as_view()),
     url(r'^group/recover/', group.recover.Recover.as_view()),
     url(r'^group/admin/', group.admin.Index.as_view()),
+
+    url(r'^hr/list/', hr.list.List.as_view()),
+    url(r'^hr/resume/', hr.resume.Index.as_view()),
 ]

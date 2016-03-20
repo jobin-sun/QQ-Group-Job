@@ -5,7 +5,7 @@ angular.module('myApp')
 			return;
 		}
 		getUser(function(data){
-			$scope.username = data.username;
+			$scope.user = data;
 		})
 		$scope.submit = function(){
 			$http.put("/api/change_pwd/", {

@@ -22,13 +22,15 @@
                     <div class="clear"></div>
                 </div>
                 <div class="line" ng-repeat="item in items" ng-hide="item.hide">
-                    <div class="inline_block icon"><img src="images/icon-default-user.png"></div>
+                    <div class="inline_block icon"><img ng-src="http://q4.qlogo.cn/g?b=qq&nk={{item.qq}}&s=2"></div>
                     <div class="inline_block nick">
                         <span class="qq" ng-bind="item.qq"></span>/
                         <span class="nick" ng-bind="item.nick"></span>
                         
                     </div>
                     <div class="inline_block floatR">
+                        <a href="javascript:void(0)" ng-hide="item.status == 1" ng-click="sendEmail(item)" class="red">重新发送激活邮件</a>
+
                         <a href="javascript:void(0)" ng-click="delete(item)">删除</a>
                     </div>
                 </div>
@@ -43,7 +45,7 @@
     <div class="pop admin_add" ng-show="showAdminAdd" ng-click="hide_pop()">
         <div class="body" ng-click="stopPropagation($event)">
             <div class="title">添加管理员</div>
-            <div class="content">
+            <form name="myForm" class="content">
                 <div class="line line1">
                     <div class="name inline_block">用户名：</div>
                     <div class="value inline_block">
@@ -64,7 +66,7 @@
                 <div class="line line3">
                     <div class="name inline_block"></div>
                     <div class="value inline_block">
-                        <button class="btn ok" ng-click="post()">确定</button> 
+                        <button class="btn ok" ng-disabled="myForm.$invalid || !myForm.$dirty" ng-click="post()">确定</button> 
                     </div>
                 </div>
             </div>

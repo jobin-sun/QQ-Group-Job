@@ -1,11 +1,34 @@
-<div class="floatL logo">
-	<a href="/"><img src="images/user-logo.png" alt=""></a>
-</div>
-<div class="floatR text_right top_right">
-	<div class="inline_block user_picture">
-		<img ng-src="images/icon-default-user.png"alt="">
+<div ng-controller="GroupTopCtrl">
+	<div class="floatL logo">
+		<a href="#/group"><img src="images/user-logo.png" alt=""></a>
 	</div>
-	<div class="inline_block"><a href="#/index" ng-bind="admin.nick"></a></div>
-	<div class="inline_block logout"><a href="#/group/logout">退出</a></div>
+	<div class="floatR text_right top_right">
+		<div class="inline_block user_picture">
+			<img ng-src="http://q4.qlogo.cn/g?b=qq&nk={{admin.qq}}&s=3" ng-err="images/icon-default-user.png" alt="">
+		</div>
+		<div class="inline_block"><a href="javascript:void(0)" ng-click="nickEdit=true" ng-bind="admin.nick"></a></div>
+		<div class="inline_block logout"><a href="#/group/logout">退出</a></div>
+	</div>
+	<div class="clear"></div>
+
+
+	<div class="pop admin_nick_edit" ng-click="hide_pop()" ng-show="nickEdit">
+	    <div class="body" ng-click="stopPropagation($event)">
+	        <div class="title">修改昵称</div>
+	        <form name="myForm" class="content">
+	            <div class="line line2">
+	                <div class="name inline_block">昵称：</div>
+	                <div class="value inline_block">
+	                    <input type="text" class="form-control" ng-model="admin.nick" placeholder="昵称" required="">
+	                </div>
+	            </div>
+	            <div class="line line3">
+	                <div class="name inline_block"></div>
+	                <div class="value inline_block">
+	                    <button class="btn ok" ng-disabled="myForm.$invalid || !myForm.$dirty" ng-click="put()">确定</button> 
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+	</div>
 </div>
-<div class="clear"></div>

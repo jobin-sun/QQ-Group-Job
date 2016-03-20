@@ -1,7 +1,8 @@
 from django.views.generic import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from api.models import GroupAdmin
 from api.token import parse_token
+from api.token import new_token
 
 class Activate(View):
     def get(self, request):
@@ -20,26 +21,29 @@ class Activate(View):
                     "msg" : "token is expired"
                 }
             else:
-                owner = GroupAdmin.objects.filter(groupId__exact = token.id, userType__exact = 1).first()
-                if owner is None:
+                admin = GroupAdmin.objects.filter(id__exact = token.id).first()
+                if admin is None:
                     msg = {
                         "status" : "error",
                         "msg" : "group not exsist"
                     }
                 else:
-                    if owner.status == 1:
+                    if admin.status == 1:
                         msg = {
                             "status" : "error",
-                            "msg" : "the group owner already activated"
+                            "msg" : "The admin already activated"
                         }
                     else:
-                        if token.is_user(owner):
-                            owner.status = 1
-                            owner.save()
-                            msg = {
-                                "status" : "success",
-                                "msg" : "activated"
-                            }
+                        if token.is_user(admin):
+                            admin.status = 1
+                            admin.save()
+                            if admin.userType == 0:
+                                token = new_token(admin, 'recover')
+                                token.id = admin.id
+                                token = token.get_token()
+                                return HttpResponseRedirect('/#/group/new_pwd/'+token)
+                            else:
+                                return HttpResponseRedirect('/#/group/login')
                         else:
                             msg = {
                                 "status" : "error",

@@ -3,6 +3,7 @@ __author__ = 'jobin'
 from django.http import JsonResponse
 from django.views.generic import View
 from api.models import AuthCode, Resume, Rank
+from django.db.models import Avg
 
 from django.forms import (Form, IntegerField, CharField)
 
@@ -25,20 +26,21 @@ class List(View):
                         'msg' : '',
                         'data' : []
                         }
-                rst = Resume.objects.filter(groupId__exact = groupId, display__exact = True).values('id', 'userEmail','groupId','username', 'qq', 'addDate', 'content')
+
+
+                rst = Resume.objects.filter(groupId__exact = groupId, status__exact=1, display__exact = True).order_by("-lastDate").values('id','jobTitle', 'userEmail','groupId','username', 'qq', 'sex','age','yearsOfWorking','school','education', 'lastDate', 'content')
+                allRank = Rank.objects.filter(groupId__exact= groupId)
                 for item in rst:
-                    item['addDate'] = item['addDate'].strftime('%Y-%m-%d')
-                    rank = Rank.objects.filter(resumeId__exact = item['id'])
-                    if rank:
-                        item['rank'] = 0
-                        for rankItem in rank:
-                            item['rank'] += rankItem['rank']
-                        item['rank'] /= len(rank)
+                    adminsRank = allRank.filter(resumeId__exact = item["id"])
+                    avgRank = adminsRank.aggregate(Avg('rank'))
+                    item['rank'] = -1
+                    if avgRank:
+                        item['rank'] = avgRank['rank__avg']
                     data['data'].append(item)
                 return JsonResponse(data)
             else:
                 return JsonResponse({"status" : 'error',
-                        'msg' : 'Auth code is error, contact QQ group(Group id:%s) admin for more information' % groupId
+                        'msg' : '授权码无效，请联系群主或管理员(群id:%s)索取正确的授权码' % groupId
                         })
 
         else:

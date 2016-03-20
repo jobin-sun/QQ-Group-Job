@@ -1,32 +1,22 @@
 angular.module('myApp')
-	.controller("IndexCtrl",["$scope","$http","$cookies", "getUser", function($scope, $http, $cookies, getUser){
-		if($cookies.get("logined") != "yes"){
-			location.href = "#/login";
-			return;
-		}
+	.controller("IndexCtrl",["$scope","$http", "getUser", function($scope, $http, getUser){
 		getUser(function(data){
-			$scope.username = data.username;
-			$scope.qq = parseInt(data.qq);
+			$scope.user = data;
 			$scope.sexOptions = $T.sexOptions; 
-    		$scope.sex = data.sex;
-			$scope.age = data.age;
-			$scope.yearsOfWorking = data.yearsOfWorking;
-			$scope.school = data.school;
 			$scope.eduOptions = $T.eduOptions;
-			$scope.education = data.education;
 		})
 		$scope.submit = function(){
 			$http.put("/api/", {
-				username: $scope.username,
-				sex: $scope.sex,
-				age: $scope.age,
-				yearsOfWorking: $scope.yearsOfWorking,
-				school: $scope.school,
-				education: $scope.education
+				username: $scope.user.username,
+				sex: $scope.user.sex,
+				age: $scope.user.age,
+				yearsOfWorking: $scope.user.yearsOfWorking,
+				school: $scope.user.school,
+				education: $scope.user.education
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功");
-					location.reload();
+					$scope.canEdit = false;
 				}else{
 					$T.toast(response.msg)
 				}

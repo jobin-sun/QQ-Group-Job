@@ -16,11 +16,11 @@
                 简历列表
             </div>
             <div class="body">
-                <div class="item" ng-repeat="item in items">
+                <div class="item" ng-repeat="item in items" ng-hide="item.hide">
                     <div class="title">
-                        <div class="floatL">
-                            <img src="images/icon-qq-group-resume.png" alt="">
-                            <span ng-bind='item.groupName'></span>-<span ng-bind='item.groupId'></span>
+                        <div class="floatL ellipsis_txt" title="{{item.groupName}}-{{item.groupId}}">
+                            <img ng-src="http://p.qlogo.cn/gh/{{ item.groupId }}/{{ item.groupId }}/50" alt="">
+                            <span ng-bind='id2name[item.groupId]'></span>-<span ng-bind='item.groupId'></span>
                         </div>
                         <div class="floatR">
                             <span class="status status{{item.status}}" ng-bind="item.status | strStatus"></span>
@@ -28,16 +28,16 @@
                         <div class="clear"></div>
                     </div>
                     <div class="content">
-                        <div class="line line1">姓名：<span ng-bind="item.username"></span></div>
-                        <div class="line line2">Email：<span ng-bind="item.email"></span></div>
+                        <div class="line line1">群ID：<span ng-bind="item.groupId"></span></div>
+                        <div class="line line2">期望职位：<span ng-bind="item.jobTitle"></span></div>
                         <div class="line line3">QQ：<span ng-bind="item.qq"></span></div>
-                        <div class="line line4">工作年限：<span ng-bind="item.yearsOfWorking"></span></div>
-                        <div class="line line5">学历：<span ng-bind="item.education | strEdu"></span></div>
+                        <div class="line line4">更新时间：<span ng-bind="item.lastDate | date:'yyyy-MM-dd'"></span></div>
+                        <div class="line line5">别人可见：<span ng-bind="item.display | strBool"></span></div>
                     </div>
                     <div class="footer">
                         <div class="floatL">
                             <a href="#/resume/edit/{{ item.groupId }}">编辑</a>
-                            <a href="javascript:void(0)" ng-click="delete(item.groupId)">删除</a>
+                            <a href="javascript:void(0)" ng-click="delete(item)">删除</a>
                         </div>
                         <div class="floatR">
                             <a href="#/resume/{{ item.groupId }}">查看更多</a>

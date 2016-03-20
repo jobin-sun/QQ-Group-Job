@@ -1,8 +1,6 @@
 angular.module('myApp')
-	.controller("ResumeCtrl",["$scope","$http","$routeParams","$cookies", "getUser", function($scope, $http, $routeParams, $cookies, getUser){
+	.controller("ResumeCtrl",["$scope","$http","$routeParams","$cookies", function($scope, $http, $routeParams, $cookies){
 		if($cookies.get("logined") != "yes"){
-
-			//location.href = "#/login";
 			$scope.showLogin = true;
 		}
 		$scope.edit = "edit/";
@@ -10,9 +8,6 @@ angular.module('myApp')
 			$scope.canEdit = true;
 			$scope.edit = ""
 		}
-		getUser(function(data){
-			$scope.username = data.username;
-		})
 		$http.get("/api/resume/",{
 			params:{
 				groupId: $routeParams.groupId 
@@ -25,6 +20,7 @@ angular.module('myApp')
 				}else{
 					$scope.isExist = true;
 				}
+				response.data.qq = parseInt(response.data.qq);
 				$scope.data = response.data;
 				$scope.data.sexOptions = $T.sexOptions; 
 				$scope.data.eduOptions = $T.eduOptions;
@@ -53,6 +49,7 @@ angular.module('myApp')
 		$scope.post = function() {
 			$http.post('/api/resume/',{
 				'email':$scope.data.email,
+				'jobTitle': $scope.data.jobTitle,
 				'groupId':$scope.data.groupId,
 				'username':$scope.data.username,
 				'qq':$scope.data.qq,
@@ -66,7 +63,8 @@ angular.module('myApp')
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功")
-					location.reload();
+					location.href = "#/resume/"+$scope.data.groupId
+
 				}else{
 					$T.toast(response.msg)
 				}
@@ -77,6 +75,7 @@ angular.module('myApp')
 		$scope.submit = function(){
 			$http.put("/api/resume/",{
 				id: $scope.data.id,
+				jobTitle: $scope.data.jobTitle,
 				email: $scope.data.email,
 				username:$scope.data.username,
 				qq:$scope.data.qq,
@@ -90,7 +89,7 @@ angular.module('myApp')
 			}).success(function(response){
 				if(response.status == "success"){
 					$T.toast("更新成功")
-					location.reload()
+					$scope.canEdit = false;
 				}else{
 					$T.toast(response.msg)
 				}

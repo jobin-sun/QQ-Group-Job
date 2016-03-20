@@ -19,11 +19,11 @@
             <input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">
         </div>
         <div class="forget_pwd">
-            <a href="javascript:void(0)">忘记密码</a>
+            <a href="javascript:void(0)" ng-click="recover()">忘记密码</a>
         </div>
         <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
         <div class="other">
-            <a class="left" href="#/hr/list">HR登录</a>
+            <a class="left" href="#/hr">HR登录</a>
             <a class="right" href="#/login">普通用户登录</a>
             <div class="clear"></div>
         </div>

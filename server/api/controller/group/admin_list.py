@@ -126,8 +126,9 @@ class Index(View):
             groupId=check.admin.groupId,
             qq=uf.cleaned_data['qq'],
             nick=uf.cleaned_data['nick'],
-            password = db_password(new_random()),
             login_random = new_random(),
+            activate_random = new_random(),
+            recover_random = new_random(),
             userType=0
             )
         admin.save()
