@@ -10,7 +10,9 @@ angular.module('myApp').service('getUser', ['$http', function($http) {
 					user = response.data;
 					fn(response.data);
 				}else{
-					$T.toast(response.msg)
+					if(response.code != 10000){
+						$T.toast(response.msg)
+					}
 				}
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
@@ -28,7 +30,9 @@ angular.module('myApp').service('getUser', ['$http', function($http) {
 					admin = response.data;
 					fn(response.data);
 				}else{
-					$T.toast(response.msg)
+					if(response.code != 20000){
+						$T.toast(response.msg)
+					}
 				}
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")

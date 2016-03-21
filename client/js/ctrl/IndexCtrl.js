@@ -1,10 +1,7 @@
 angular.module('myApp')
-	.controller("IndexCtrl",["$scope","$http", "getUser", function($scope, $http, getUser){
-		getUser(function(data){
-			$scope.user = data;
-			$scope.sexOptions = $T.sexOptions; 
-			$scope.eduOptions = $T.eduOptions;
-		})
+	.controller("IndexCtrl",["$scope", "$http", function($scope, $http){
+		$scope.sexOptions = $T.sexOptions; 
+		$scope.eduOptions = $T.eduOptions;
 		$scope.submit = function(){
 			$http.put("/api/", {
 				username: $scope.user.username,

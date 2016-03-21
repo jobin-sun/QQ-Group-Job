@@ -8,6 +8,7 @@ from django.forms import Form, PasswordInput, CharField
 
 from .check_request import CheckRequest
 from api.token import db_password
+from api.error_code import error_code
 
 class PwdForm(Form):
     password = CharField(label=u'密码：', widget=PasswordInput())
@@ -18,7 +19,8 @@ class ChangePwd(View):
         if not check.user:
             return JsonResponse({
                 "status": "error",
-                "msg": "User not logined"
+                "code":10000,
+                "msg": error_code[10000]
             })
         uf = PwdForm(check.jsonForm)
         if uf.is_valid():

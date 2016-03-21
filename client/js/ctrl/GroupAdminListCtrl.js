@@ -57,9 +57,14 @@ angular.module('myApp')
 			$event.stopPropagation();
 		}
 		$scope.sendEmail = function(item){
+			if(!item.groupId || !item.qq){
+				$T.toast("群ID或管理员QQ号为空，激活邮件无法发送")
+				return;
+			}
 			$http.get('/api/group/send_activate_mail/',{
 				params:{
-					id: item.id
+					qq: item.qq,
+					groupId: item.groupId
 				}
 			})
 			.success(function(response){

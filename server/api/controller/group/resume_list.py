@@ -75,6 +75,7 @@ from django.db.models import Avg
 from .check_request import CheckRequest
 from api.models import Resume, Rank, Group
 from django.db.models import Q
+from api.error_code import error_code
 
 
 
@@ -83,7 +84,8 @@ class Index(View):
         check = CheckRequest(request)
         if not check.admin:
             return JsonResponse({"status": "error",
-                                "msg": "Only admin permitted"})
+                                 "code":20000,
+                                 "msg": error_code[20000]})
         data = {"status" :  "success",
                 "msg" :  '',
                 "data" : []

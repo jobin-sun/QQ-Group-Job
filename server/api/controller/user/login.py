@@ -11,6 +11,7 @@ from api.token import new_token
 from api.models import User
 from api.token import db_password
 from api.config import expiration
+from api.error_code import error_code
 
 class LoginForm(Form):
     password = CharField(label=u'密码：', widget=PasswordInput())
@@ -49,7 +50,11 @@ class Login(View):
                 elif user.status == 0:
                     return JsonResponse({
                         "status" : 'error',
-                        'msg' : "此qq账户已注册,但未激活"
+                        "code": 10002,
+                        "msg": error_code[10002],
+                        "data":{
+
+                        }
                     })
                 else:
                     return JsonResponse({

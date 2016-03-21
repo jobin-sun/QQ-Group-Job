@@ -86,13 +86,15 @@ from .check_request import CheckRequest
 from .form import CheckAdminForm, DelAdminForm, MngResumeForm
 from api.models import GroupAdmin, Resume, User
 from api.token import db_password, new_random
+from api.error_code import error_code
 
 class Index(View):
     def get(self, request):
         check = CheckRequest(request)
         if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
-                                "msg" : "只有群主才有权限"})
+                                 "code":20001,
+                                 "msg": error_code[20001]})
         admins = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
             userType = 0

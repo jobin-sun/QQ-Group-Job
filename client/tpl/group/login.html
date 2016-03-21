@@ -2,7 +2,7 @@
     <div class="text_center  top_img_ctn">
         <img src="images/top.png">
     </div>
-    <form class="form-signin" name="loginForm">
+    <form class="form-signin" name="loginForm" ng-init="showLogin=true" ng-show="showLogin">
         <div class="logo text_center"><img src="images/logo.png" alt=""></div>
         <div class="line line1">
             <input type="number" class="form-control flex1" ng-model="groupId" placeholder="群ID" required="">
@@ -19,13 +19,32 @@
             <input type="password" id="inputPassword" ng-model="password" class="form-control flex1" placeholder="密码" required="">
         </div>
         <div class="forget_pwd">
-            <a href="javascript:void(0)" ng-click="recover()">忘记密码</a>
+            <a href="javascript:void(0)" ng-click="showLogin=false">忘记密码</a>
+            <a href="javascript:void(0)" class="red floatR" ng-show="showActivate" ng-click="reSendActivate()">重新发送激活邮件</a>
         </div>
         <button class="btn btn_submit" type="submit" ng-click="submit()" ng-disabled="loginForm.$invalid">登录</button>
         <div class="other">
             <a class="left" href="#/hr">HR登录</a>
             <a class="right" href="#/login">普通用户登录</a>
             <div class="clear"></div>
+        </div>
+    </form>
+    <form class="form-signin" name="recoverForm" ng-hide="showLogin">
+        <div class="logo text_center"><img src="images/logo.png" alt=""></div>
+        <div class="line line1">
+            <input type="number" class="form-control flex1" ng-model="groupId" placeholder="群ID" required="">
+        </div>
+        <div class="line line2 flex_box" style="margin-bottom: 16px;">
+            <div class="qq flex1">
+                <input type="number" class="form-control" ng-model="qq" placeholder="QQ号" required="">
+            </div>
+            <div class="domain">
+                @qq.com
+            </div>
+        </div>
+        <button class="btn btn_submit" type="submit" ng-click="recover()" ng-disabled="recoverForm.$invalid">发送邮件</button>
+        <div class="other text_center">
+            <a href="javascript:void(0)" ng-click="showLogin=true">返回登录</a>
         </div>
     </form>
     <div class="no_user">

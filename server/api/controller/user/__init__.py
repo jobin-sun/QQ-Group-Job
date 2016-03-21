@@ -5,7 +5,6 @@ from . import (
     logout,
     check_login,
     resumes_list,
-    groups_list,
     resume,
     reg,
     mail,

@@ -4,7 +4,12 @@ angular.module('myApp')
 			location.href = "#/group";
 			return;
 		}
+		var reSendActivate;
 		$scope.submit = function(){
+			reSendActivate = {
+				groupId: $scope.groupId,
+				qq:$scope.qq
+			}
 			$http.post("/api/group/join/", {
 				groupId: $scope.groupId,
 				groupName: $scope.groupName,
@@ -13,19 +18,25 @@ angular.module('myApp')
 				password:$scope.password
 			}).success(function(response){
 				if(response.status == "success"){
-					$scope.sendEmail(response.data.id);
+					$scope.sendEmail();
 					$scope.showBtn = false;
 				}else{
 					$T.toast(response.msg);
 				}
 			}).error(function(){
+				reSendActivate = undefined;
 				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
-		$scope.sendEmail = function(id){
+		$scope.sendEmail = function(){
+			if(!reSendActivate.groupId || !reSendActivate.qq){
+				$T.toast("群ID或管理员QQ号为空，激活邮件无法发送")
+				return;
+			}
 			$http.get('/api/group/send_activate_mail/',{
 				params:{
-					id: id
+					groupId: reSendActivate.groupId,
+					qq: reSendActivate.qq 
 				}
 			})
 			.success(function(response){

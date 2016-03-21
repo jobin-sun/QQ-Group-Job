@@ -28,6 +28,7 @@ from .check_request import CheckRequest
 from api.token import new_token, db_password
 from api.models import GroupAdmin
 from api.config import expiration
+from api.error_code import error_code
 
 class LoginForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
@@ -53,10 +54,11 @@ class Index(View):
             ).first()
 
             if admin:
-                if admin.userType == 1 and admin.status == 0:
+                if admin.status == 0:
                     return JsonResponse({
                         "status": 'error',
-                        "msg": "群主帐号未激活"
+                        "code": 20002,
+                        "msg": error_code[20002]
                     })
                 data = {
                     "status": 'success',

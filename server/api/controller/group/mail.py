@@ -8,24 +8,25 @@ from QQJob.settings import BASE_DIR
 from api import config
 from django.forms import (Form, IntegerField, CharField)
 
-class idForm(Form):
-    id = IntegerField()
-
-class recoverForm(Form):
+class ActivaterForm(Form):
+    groupId = CharField(max_length=15)
+    qq = CharField(max_length=15)
+class RecoverForm(Form):
     groupId = CharField(max_length=15)
     qq = CharField(max_length=15)
 
 class Activate(View):
     def get(self, request):
-        uf = idForm(request.GET)
+        uf = ActivaterForm(request.GET)
         if not uf.is_valid():
             return JsonResponse({
-                "status": "success",
-                "msg": "激活邮件发送失败"
+                "status": "error",
+                "msg": "激活邮件发送失败,表单有误"
             })
 
-        id = uf.cleaned_data["id"]
-        admin = GroupAdmin.objects.filter(id__exact = id).first()
+        groupId = uf.cleaned_data['groupId']
+        qq = uf.cleaned_data['qq']
+        admin = GroupAdmin.objects.filter(groupId__exact = groupId, qq__exact=qq).first()
         if admin is None:
             msg = {
                 "status" : 'error',
@@ -61,10 +62,10 @@ class Activate(View):
 
 class Recover(View):
     def get(self, request):
-        uf = recoverForm(request.GET)
+        uf = RecoverForm(request.GET)
         if not uf.is_valid():
             return JsonResponse({
-                "status": "success",
+                "status": "error",
                 "msg": "邮件发送失败"
             })
 
@@ -74,7 +75,7 @@ class Recover(View):
         if admin is None:
             msg = {
                 "status" : 'error',
-                "msg" : 'group not exist'
+                "msg" : '群ID或管理员QQ不存在'
             }
         else:
             with open(BASE_DIR + "/api/mail_template/recover.html", 'rt') as mail_template:

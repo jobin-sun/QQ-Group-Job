@@ -5,6 +5,7 @@ from django.views.generic import View
 from django.forms import Form, IntegerField, CharField
 
 from .check_request import CheckRequest
+from api.error_code import error_code
 
 
 class UpdateUserForm(Form):
@@ -21,7 +22,8 @@ class Index(View):
         if not check.user:
             return JsonResponse({
                 "status": "error",
-                "msg": "User not logined"
+                "code":10000,
+                "msg": error_code[10000]
             })
         return JsonResponse({"status" :  "success",
                 "msg" :  '',

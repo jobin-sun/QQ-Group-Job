@@ -60,7 +60,7 @@ class Recover(View):
         uf = qqForm(request.GET)
         if not uf.is_valid():
             return JsonResponse({
-                "status": "success",
+                "status": "error",
                 "msg": "邮件发送失败"
             })
 

@@ -6,6 +6,7 @@ from django.views.generic import View
 
 from .check_request import CheckRequest
 from api.models import Resume, Group
+from api.error_code import error_code
 
 class Index(View):
     def get(self, request):
@@ -13,7 +14,8 @@ class Index(View):
         if not check.user:
             return JsonResponse({
                 "status": "error",
-                "msg": "User not logined"
+                "code":10000,
+                "msg": error_code[10000]
             })
         data = {"status" :  "success",
                 "msg" :  '',

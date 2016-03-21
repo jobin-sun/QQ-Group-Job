@@ -11,6 +11,7 @@ from api.send_mail import start_mail_thread
 from api.config import email_address
 from api.token import new_token
 from QQJob.settings import BASE_DIR
+from api.error_code import error_code
 
 class GetForm(Form):
     groupId = IntegerField()
@@ -53,7 +54,8 @@ class Index(View):
         if not check.user:
             return JsonResponse({
                 "status": "error",
-                "msg": "User not logined"
+                "code":10000,
+                "msg": error_code[10000]
             })
         uf = GetForm(check.jsonForm)
         if uf.is_valid():

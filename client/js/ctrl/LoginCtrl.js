@@ -4,7 +4,9 @@ angular.module('myApp')
 			location.href = "#/index";
 			return;
 		}
+		var reSendActivateQQ;
 		$scope.submit = function(){
+			reSendActivateQQ = $scope.qq;
 			$http.post("/api/login/", {
 				qq: $scope.qq,
 				password: $scope.password
@@ -12,9 +14,13 @@ angular.module('myApp')
 				if(response.status == "success"){
 					location.href = "#/index"
 				}else{
+					if(response.code == 10002){
+						$scope.showActivate = true;	
+					}
 					$T.toast(response.msg);
 				}
 			}).error(function(){
+				reSendActivateQQ = undefined;
 				$T.toast("服务器错误,请联系系统管理员")
 			})
 		}
@@ -29,6 +35,23 @@ angular.module('myApp')
 				}else{
 					$T.toast(response.msg);
 				}
+			}).error(function(){
+				$T.toast("服务器错误,请联系系统管理员")
+			})
+		}
+		$scope.reSendActivate = function(){
+			if(!reSendActivateQQ){
+				$T.toast("QQ号为空，无法发送")
+				return;
+			}
+			$http.get("/api/send_activate_mail/?qq="+reSendActivateQQ)
+				.success(function(response){
+					if(response.status == "success"){
+						$T.toast("激活邮件已发送，请注意查收");
+					}else{
+						$T.toast(response.msg);
+					}
+
 			}).error(function(){
 				$T.toast("服务器错误,请联系系统管理员")
 			})
