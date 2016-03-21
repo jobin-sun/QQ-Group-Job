@@ -3,10 +3,10 @@ from django.views.generic import View
 from api.send_mail import start_mail_thread
 from api.models import GroupAdmin
 from api.token import new_token
-from api.config import email_address
+from api.config import email_address, domain, protocol
 from QQJob.settings import BASE_DIR
-from api import config
 from django.forms import (Form, IntegerField, CharField)
+from email.mime.text import MIMEText
 
 class ActivaterForm(Form):
     groupId = CharField(max_length=15)
@@ -39,11 +39,11 @@ class Activate(View):
                     "msg" : 'group owner already activated'
                 }
             else:
-                with open(BASE_DIR + "/api/mail_template/activate.html", 'rt') as mail_template:
+                with open(BASE_DIR + "/api/mail_template/activate.html", 'rt', encoding='utf-8') as mail_template:
                     template = mail_template.read()
                 token = new_token(admin, 'activate')
                 token = token.get_token()
-                link = "%s://%s/api/group/activate/?token=%s" %(config.protocol, config.domain, token)
+                link = "%s://%s/api/group/activate/?token=%s" %(protocol, domain, token)
                 email_content = template % ('owner', admin.qq, link)
 
 
@@ -78,11 +78,11 @@ class Recover(View):
                 "msg" : '群ID或管理员QQ不存在'
             }
         else:
-            with open(BASE_DIR + "/api/mail_template/recover.html", 'rt') as mail_template:
+            with open(BASE_DIR + "/api/mail_template/recover.html", 'rt', encoding='utf-8') as mail_template:
                 template = mail_template.read()
             token = new_token(admin, 'recover')
             token = token.get_token()
-            link = "%s://%s/#/group/new_pwd/%s" %(config.protocol, config.domain, token)
+            link = "%s://%s/#/group/new_pwd/%s" %(protocol, domain, token)
             email_content = template % ('owner', admin.qq, link)
 
             start_mail_thread(
