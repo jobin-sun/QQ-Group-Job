@@ -42,7 +42,7 @@ class Activate(View):
 
 
                 start_mail_thread(
-                    'Qjob account activate',
+                    'Qjob 帐号激活',
                     email_content,
                     email_address,
                     ['%s@qq.com' % user.qq]

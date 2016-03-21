@@ -6,6 +6,7 @@ from api.token import new_token
 from api.config import email_address, domain, protocol
 from QQJob.settings import BASE_DIR
 from django.forms import (Form, IntegerField, CharField)
+from email.mime.text import MIMEText
 
 class idForm(Form):
     id = IntegerField()
