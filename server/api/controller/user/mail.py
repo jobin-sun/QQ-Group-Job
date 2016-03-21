@@ -3,9 +3,8 @@ from django.views.generic import View
 from api.send_mail import start_mail_thread
 from api.models import User
 from api.token import new_token
-from api.config import email_address
+from api.config import email_address, domain, protocol
 from QQJob.settings import BASE_DIR
-from api import config
 from django.forms import (Form, IntegerField, CharField)
 
 class qqForm(Form):
@@ -35,10 +34,10 @@ class Activate(View):
                 }
             else:
 
-                with open(BASE_DIR + "/api/mail_template/activate.html", 'rt') as mail_template:
+                with open(BASE_DIR + "/api/mail_template/activate.html", 'rt', encoding='utf-8') as mail_template:
                     template = mail_template.read()
                 token = new_token(user, 'activate').get_token()
-                link = "%s://%s/api/activate/?token=%s" % (config.protocol, config.domain, token)
+                link = "%s://%s/api/activate/?token=%s" % (protocol, domain, token)
                 email_content = template % ('user', user.qq, link)
 
 
@@ -72,10 +71,10 @@ class Recover(View):
                 "msg" : 'user not exist'
             }
         else:
-            with open(BASE_DIR + "/api/mail_template/recover.html", 'rt') as mail_template:
+            with open(BASE_DIR + "/api/mail_template/recover.html", 'rt', encoding='utf-8') as mail_template:
                 template = mail_template.read()
             token = new_token(user, 'recover').get_token()
-            link = "%s://%s/#/new_pwd/%s" %(config.protocol, config.domain, token)
+            link = "%s://%s/#/new_pwd/%s" %(protocol, domain, token)
             email_content = template % ('user', user.qq, link)
 
             start_mail_thread(

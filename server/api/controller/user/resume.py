@@ -8,7 +8,7 @@ from api.models import Resume, Group, GroupAdmin
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
 
 from api.send_mail import start_mail_thread
-from api.config import email_address
+from api.config import email_address, domain, protocol
 from api.token import new_token
 from QQJob.settings import BASE_DIR
 
@@ -142,14 +142,14 @@ class Index(View):
             )
             resume.save()
             if resume.id:
-                with open(BASE_DIR + "/api/mail_template/remind.html", 'rt') as mail_template:
+                with open(BASE_DIR + "/api/mail_template/remind.html", 'rt', encoding='utf-8') as mail_template:
                     template = mail_template.read()
                 admins = GroupAdmin.objects.filter(groupId = resume.groupId,
                                                     status= 1).all()
-                link = "http://www.qjob.social/api/group/resume_list/"
+                link = "%s://%s/api/group/resume_list/" % (protocol, domain)
                 email_content = template % (resume.qq, link)
-                start_mail_thread(        
-                    'Qjob new resume remind', 
+                start_mail_thread(
+                    'Qjob new resume remind',
                     email_content,
                     email_address,
                     ['%s@qq.com' % admin.qq for admin in admins]
