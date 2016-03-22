@@ -148,7 +148,7 @@ class Index(View):
                     template = mail_template.read()
                 admins = GroupAdmin.objects.filter(groupId = resume.groupId,
                                                     status= 1).all()
-                link = "%s://%s/api/group/resume_list/" % (protocol, domain)
+                link = "%s://%s/api/group/resume/%s" % (protocol, domain, str(resume.id))
                 email_content = template % (resume.qq, link)
                 start_mail_thread(
                     'Qjob new resume remind',
