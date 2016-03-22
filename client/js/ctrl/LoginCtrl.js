@@ -1,5 +1,5 @@
 angular.module('myApp')
-	.controller("LoginCtrl",["$scope","$http", "$cookies",function($scope, $http, $cookies){
+	.controller("LoginCtrl",["$scope","$http", "$cookies", "myHttp", function($scope, $http, $cookies, myHttp){
 		if($cookies.get("logined") == "yes"){
 			location.href = "#/index";
 			return;

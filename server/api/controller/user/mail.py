@@ -16,7 +16,7 @@ class Activate(View):
         if not uf.is_valid():
             return JsonResponse({
                 "status": "error",
-                "msg": "激活邮件发送失败"
+                "msg": "激活邮件发送失败:%s" % uf.errors
             })
 
         qq = uf.cleaned_data["qq"]
