@@ -1,48 +1,27 @@
 angular.module('myApp')
-	.controller("GroupAuthCodeCtrl",["$scope","$http", function($scope, $http){
-		$http.get("/api/group/auth_code/").success(function(response){
-			if(response.status == "success"){
-				$scope.items = response.data
-				$scope.qq2nick = {};
-				for(var i = 0; i < response.qq2nick.length; i++){
-					$scope.qq2nick[response.qq2nick[i].qq] = response.qq2nick[i].nick;
-				}
-
-			}else{
-				$T.toast(response.msg)
-			}	
-		}).error(function(){
-			$T.toast("服务器错误")
+	.controller("GroupAuthCodeCtrl",["$scope","myHttp", function($scope, myHttp){
+		myHttp.get("/api/group/auth_code/").success(function(response){
+			$scope.items = response.data
+			$scope.qq2nick = {};
+			for(var i = 0; i < response.qq2nick.length; i++){
+				$scope.qq2nick[response.qq2nick[i].qq] = response.qq2nick[i].nick;
+			}
 		})
 		$scope.post = function(){
-			$http.post("/api/group/auth_code/", {
+			myHttp.post("/api/group/auth_code/", {
 				code: $scope.add.code
 			}).success(function(response){
-				if(response.status == "success"){
-					$scope.add = undefined;
-					$scope.showCodeAdd = false;
-					$scope.items.push(response.data);
-				}else{
-					$T.toast(response.msg)
-				}	
-			}).error(function(){
-				$T.toast("服务器错误")
+				$scope.add = undefined;
+				$scope.showCodeAdd = false;
+				$scope.items.push(response.data);
 			})
 		}
 		$scope.delete = function(item){
-			$http.delete("/api/group/auth_code/", {
-				params:{
-					id: item.id
-				}
+			myHttp.delete("/api/group/auth_code/", {
+				id: item.id
 			}).success(function(response){
-				if(response.status == "success"){
-					$T.toast("删除成功");
-					item.hide = true;
-				}else{
-					$T.toast(response.msg)
-				}
-			}).error(function(){
-				$T.toast("服务器错误")
+				$T.toast("删除成功");
+				item.hide = true;
 			})
 		}
 		$scope.hide_pop = function(){

@@ -1,11 +1,11 @@
 angular.module('myApp')
-	.controller("RegCtrl",["$scope","$http","$cookies",function($scope, $http, $cookies){
+	.controller("RegCtrl",["$scope","myHttp","$cookies",function($scope, myHttp, $cookies){
 		if($cookies.get("logined") == "yes"){
 			location.href = "#/index";
 			return;
 		}
 		$scope.submit = function(){
-			$http.post("/api/reg/",{
+			myHttp.post("/api/reg/",{
 				username:$scope.username,
 				qq:$scope.qq,
 				password:$scope.password
@@ -16,22 +16,13 @@ angular.module('myApp')
 				}else{
 					$T.toast(response.msg)
 				}
-			}).error(function(){
-				$T.toast("服务器错误,请联系系统管理员")
 			})
 
 		}
 		$scope.sendEmail = function(){
-			$http.get("/api/send_activate_mail/?qq="+$scope.qq)
-				.success(function(response){
-					if(response.status == "success"){
-						$T.toast("激活邮件已发送，请注意查收");
-					}else{
-						$T.toast(response.msg);
-					}
-
-			}).error(function(){
-				$T.toast("服务器错误,请联系系统管理员")
+			myHttp.get("/api/send_activate_mail/?qq="+$scope.qq)
+			.success(function(response){
+				$T.toast("激活邮件已发送，请注意查收");
 			})
 		}
 	}])

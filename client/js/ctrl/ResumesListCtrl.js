@@ -28,19 +28,11 @@ angular.module('myApp')
 			}
 		})
 		$scope.delete = function(item){
-			$http.delete("/api/resume/",{
-				params:{
-					groupId: item.groupId
-				}
+			myHttp.delete("/api/resume/",{
+				groupId: item.groupId
 			}).success(function(response){
-				if(response.status == "success"){
-					$T.toast("更新成功");
-					item.hide = true;
-				}else{
-					$T.toast(response.msg)
-				}
-			}).error(function(){
-				$T.toast("服务器错误,请联系系统管理员")
+				$T.toast("更新成功");
+				item.hide = true;
 			})
 		}
 	}])

@@ -1,26 +1,19 @@
 angular.module('myApp')
-	.controller("GroupTopCtrl",["$scope","$http","$cookies","getAdmin", "$rootScope", function($scope, $http, $cookies, getAdmin, $rootScope){
+	.controller("GroupTopCtrl",["$scope", "myHttp", "$cookies", "$rootScope", function($scope, myHttp, $cookies, $rootScope){
 		if($cookies.get("admin_logined") != "yes"){
 			location.href = "#/group/login";
 			return;
 		}
-		getAdmin(function(data){
-			$rootScope.admin = data;
+		myHttp.get("/api/group/admin/").success(function(response){
+			$rootScope.admin = response.data;
 		})
 		$scope.put = function(){
-			$http.put("/api/group/admin/",{
+			myHttp.put("/api/group/admin/",{
 				nick : $scope.admin.nick
 			}).success(function(response){
-				if (response.status == "success") {
-					$T.toast("修改成功");
-					$scope.admin = response.data;
-					$scope.nickEdit = false;
-				}else{
-					$T.toast(response.msg);
-				}
-
-			}).error(function(){
-				$T.toast("服务器错误,请联系系统管理员")
+				$T.toast("修改成功");
+				$scope.admin = response.data;
+				$scope.nickEdit = false;
 			})
 		}
 		$scope.hide_pop = function(){
