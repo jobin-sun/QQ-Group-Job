@@ -8,6 +8,10 @@ angular.module('myApp')
 		myHttp.get("/api/resume/",{
 			groupId: $routeParams.groupId 
 		}).success(function(response){
+			if(response.code == 30002){
+				location.href = "#/index"
+				return;
+			}
 			if(response.count == 0){
 				$scope.isExist = false;
 				location.href = "#/resume/edit/"+$routeParams.groupId;

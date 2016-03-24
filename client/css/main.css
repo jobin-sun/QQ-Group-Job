@@ -28,7 +28,7 @@ body {
   -ms-flex: 1;
   flex: 1
 }
-.pop{ width: 100%; height: 100%; overflow: hidden; position: fixed; left: 0px; top: 0px; background-color: rgba(0,0,0,0.2); z-index: 99999; }
+.pop{ width: 100%; height: 100%; overflow: hidden; position: fixed; left: 0px; top: 0px; background-color: rgba(0,0,0,0.2); z-index: 9999999; }
 .width10{ width: 10%; }
 .width20{ width: 20%; }
 .width30{ width: 30%; }
@@ -683,3 +683,4 @@ input.ng-dirty.ng-invalid {
     height: 40px;
     line-height: 40px;
 }
+.show_login{ position: absolute; top: 0; left: 0; z-index: 999999; width: 100%; height: 100%; overflow: auto;}

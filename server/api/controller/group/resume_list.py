@@ -73,9 +73,9 @@ from django.views.generic import View
 from django.db.models import Avg
 
 from .check_request import CheckRequest
-from api.models import Resume, Rank, Group
+from api.models import Resume, Rank
 from django.db.models import Q
-from api.error_code import error_code
+from api.response_code import errorCode
 
 
 
@@ -85,7 +85,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status": "error",
                                  "code":20000,
-                                 "msg": error_code[20000]})
+                                 "msg": errorCode[20000]})
         data = {"status" :  "success",
                 "msg" :  '',
                 "data" : []

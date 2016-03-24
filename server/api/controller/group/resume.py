@@ -6,7 +6,7 @@ from .check_request import CheckRequest
 from api.models import Resume, Rank
 from .form import MngResumeForm, DelResumeForm
 from django.forms import (Form, IntegerField)
-from api.error_code import error_code
+from api.response_code import errorCode
 
 
 class Index(View):
@@ -15,7 +15,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status": "error",
                                  "code":20000,
-                                 "msg": error_code[20000]})
+                                 "msg": errorCode[20000]})
         uf = DelResumeForm(check.jsonForm)
         if uf.is_valid():
             resume = Resume.objects.filter(id__exact = uf.cleaned_data["resumeId"], display__exact= True).first()

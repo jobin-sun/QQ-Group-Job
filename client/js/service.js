@@ -1,4 +1,4 @@
-angular.module('myApp').service("myHttp", ['$http', function($http){
+angular.module('myApp').service("myHttp", ['$http', '$rootScope', function($http, $rootScope){
  	return {
  		get:function(url, opt){
  			var successFn = function(){};
@@ -14,6 +14,13 @@ angular.module('myApp').service("myHttp", ['$http', function($http){
  				if(response.status == "success"){
  					successFn(response)
  				}else{
+ 					if(10000 == response.code){
+	 					$rootScope.switchLogin = "user";
+	 					return;
+	 				}else if(20000 == response.code){
+	 					$rootScope.switchLogin = "group";
+	 					return;
+	 				}
  					$T.toast(response.msg)
  				}	
  			})
@@ -30,6 +37,13 @@ angular.module('myApp').service("myHttp", ['$http', function($http){
  				if(response.status == "success"){
  					successFn(response)
  				}else{
+ 					if(10000 == response.code){
+	 					$rootScope.switchLogin = "user";
+	 					return;
+	 				}else if(20000 == response.code){
+	 					$rootScope.switchLogin = "group";
+	 					return;
+	 				}
  					$T.toast(response.msg)
  				}	
  			})
@@ -46,6 +60,13 @@ angular.module('myApp').service("myHttp", ['$http', function($http){
  				if(response.status == "success"){
  					successFn(response)
  				}else{
+ 					if(10000 == response.code){
+	 					$rootScope.switchLogin = "user";
+	 					return;
+	 				}else if(20000 == response.code){
+	 					$rootScope.switchLogin = "group";
+	 					return;
+	 				}
  					$T.toast(response.msg)
  				}	
  			})
@@ -65,6 +86,13 @@ angular.module('myApp').service("myHttp", ['$http', function($http){
  				if(response.status == "success"){
  					successFn(response)
  				}else{
+ 					if(10000 == response.code){
+	 					$rootScope.switchLogin = "user";
+	 					return;
+	 				}else if(20000 == response.code){
+	 					$rootScope.switchLogin = "group";
+	 					return;
+	 				}
  					$T.toast(response.msg)
  				}	
  			})
@@ -84,6 +112,13 @@ angular.module('myApp').service("myHttp", ['$http', function($http){
  				if(response.status == "success"){
  					successFn(response)
  				}else{
+ 					if(10000 == response.code){
+	 					$rootScope.switchLogin = "user";
+	 					return;
+	 				}else if(20000 == response.code){
+	 					$rootScope.switchLogin = "group";
+	 					return;
+	 				}
  					$T.toast(response.msg)
  				}	
  			})

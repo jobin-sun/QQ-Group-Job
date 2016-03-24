@@ -86,7 +86,7 @@ from .check_request import CheckRequest
 from .form import CheckAdminForm, DelAdminForm, MngResumeForm
 from api.models import GroupAdmin, Resume, User
 from api.token import db_password, new_random
-from api.error_code import error_code
+from api.response_code import errorCode
 
 class Index(View):
     def get(self, request):
@@ -94,7 +94,7 @@ class Index(View):
         if not check.admin or check.admin.userType != 1:
             return JsonResponse({"status" : "error",
                                  "code":20001,
-                                 "msg": error_code[20001]})
+                                 "msg": errorCode[20001]})
         admins = GroupAdmin.objects.filter(
             groupId = check.admin.groupId,
             userType = 0

@@ -5,7 +5,7 @@ from django.views.generic import View
 from django.forms import Form, IntegerField, CharField
 
 from .check_request import CheckRequest
-from api.error_code import error_code
+from api.response_code import errorCode
 
 
 class UpdateUserForm(Form):
@@ -23,7 +23,7 @@ class Index(View):
             return JsonResponse({
                 "status": "error",
                 "code":10000,
-                "msg": error_code[10000]
+                "msg": errorCode[10000]
             })
         return JsonResponse({"status" :  "success",
                 "msg" :  '',

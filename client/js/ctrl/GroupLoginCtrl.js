@@ -1,9 +1,13 @@
 angular.module('myApp')
-	.controller("GroupLoginCtrl",["$scope","myHttp", "$cookies","$routeParams", function($scope, myHttp, $cookies, $routeParams){
+	.controller("GroupLoginCtrl",["$scope","myHttp", "$cookies","$routeParams","$rootScope", "$route", function($scope, myHttp, $cookies, $routeParams, $rootScope, $route){
+		if(!location.href.match(/#\/group/)){
+			return;
+		}
 		if($cookies.get("admin_logined") == "yes"){
 			location.href = "#/group";
 			return;
 		}
+		$rootScope.switchLogin = "group";
 		if($routeParams.groupId){
 			$scope.groupId = parseInt($routeParams.groupId);
 		}
@@ -18,7 +22,12 @@ angular.module('myApp')
 				qq: $scope.qq,
 				password:$scope.password
 			}).success(function(response){
-				location.href = "#/group/"
+				$rootScope.switchLogin = "";
+				if(location.href.match(/login/)){
+					location.href = "#/group/"
+				}else{
+					$route.reload();
+				}
 			})
 		}
 		$scope.recover = function(){

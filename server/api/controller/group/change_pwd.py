@@ -27,7 +27,7 @@ from django.views.generic import View
 from .check_request import CheckRequest
 from .form import PwdForm
 from api.token import db_password
-from api.error_code import error_code
+from api.response_code import errorCode
 
 
 class Index(View):
@@ -36,7 +36,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status" : "error",
                                  "code":20000,
-                                 "msg": error_code[20000]})
+                                 "msg": errorCode[20000]})
         uf = PwdForm(check.jsonForm)
         if not uf.is_valid():
             return JsonResponse({"status" : "error",

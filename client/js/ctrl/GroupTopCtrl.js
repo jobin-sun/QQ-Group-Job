@@ -1,7 +1,7 @@
 angular.module('myApp')
 	.controller("GroupTopCtrl",["$scope", "myHttp", "$cookies", "$rootScope", function($scope, myHttp, $cookies, $rootScope){
 		if($cookies.get("admin_logined") != "yes"){
-			location.href = "#/group/login";
+			$rootScope.switchLogin = "group";
 			return;
 		}
 		myHttp.get("/api/group/admin/").success(function(response){

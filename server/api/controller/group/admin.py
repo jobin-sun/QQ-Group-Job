@@ -3,7 +3,7 @@ from django.views.generic import View
 from django.forms import (Form, CharField )
 
 from .check_request import CheckRequest
-from api.error_code import error_code
+from api.response_code import errorCode
 
 class NickForm(Form):
     nick = CharField(max_length=15)
@@ -14,7 +14,7 @@ class Index(View):
         if not check.admin:
             return JsonResponse({"status" : "error",
                                 "code":20000,
-                                "msg": error_code[20000]})
+                                "msg": errorCode[20000]})
 
         return JsonResponse({
             "status": "success",

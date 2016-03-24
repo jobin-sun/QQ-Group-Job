@@ -8,12 +8,15 @@
     <link rel="stylesheet" type="text/css" href="css/angular-pagedown.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <style type="text/css">
-        .rz_toast_ctn{position: fixed;top: 2em; z-index: 99999;width: 100%; display: none; font-size: 12px; }
+        .rz_toast_ctn{position: fixed;top: 2em; z-index: 9999999;width: 100%; display: none; font-size: 12px; }
         .rz_toast_txt{padding: 0.5em 1em;margin: 0 auto;display: table; background-color: rgba(0,0,0,0.6); border-radius: 20px; color: #fff;}
     </style>
 </head>
 <body>
-    <div ng-app="myApp" ng-view class="appContainer">
+    <div ng-app="myApp" class="appContainer">
+        <div ng-view class="appContainer"></div>
+        <div ng-show="switchLogin=='user'" ng-include="'tpl/user/login.html'" class="show_login"></div>
+        <div ng-show="switchLogin=='group'" ng-include="'tpl/group/login.html'" class="show_login"></div>
     </div>
 <div class="rz_toast_ctn">
   <div class="rz_toast_txt">

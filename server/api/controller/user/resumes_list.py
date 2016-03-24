@@ -6,7 +6,7 @@ from django.views.generic import View
 
 from .check_request import CheckRequest
 from api.models import Resume, Group
-from api.error_code import error_code
+from api.response_code import errorCode
 
 class Index(View):
     def get(self, request):
@@ -15,7 +15,7 @@ class Index(View):
             return JsonResponse({
                 "status": "error",
                 "code":10000,
-                "msg": error_code[10000]
+                "msg": errorCode[10000]
             })
         data = {"status" :  "success",
                 "msg" :  '',

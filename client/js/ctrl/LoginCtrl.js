@@ -1,9 +1,13 @@
 angular.module('myApp')
-	.controller("LoginCtrl",["$scope", "$cookies", "myHttp", function($scope, $cookies, myHttp){
+	.controller("LoginCtrl",["$scope", "$cookies", "myHttp", "$rootScope", "$route", function($scope, $cookies, myHttp, $rootScope, $route){
+		if(location.href.match(/#\/group/)){
+			return;
+		}
 		if($cookies.get("logined") == "yes"){
 			location.href = "#/index";
 			return;
 		}
+		$rootScope.switchLogin = "user";
 		var reSendActivateQQ;
 		$scope.submit = function(){
 			reSendActivateQQ = $scope.qq;
@@ -11,7 +15,12 @@ angular.module('myApp')
 				qq: $scope.qq,
 				password: $scope.password
 			}).success(function(response){
-				location.href = "#/index"
+				$rootScope.switchLogin = "";
+				if(location.href.match(/login/)){
+					location.href = "#/index";
+				}else{
+					$route.reload();
+				}
 			})
 		}
 		$scope.recover = function(){

@@ -1,7 +1,7 @@
 angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.when('/login', {
-			templateUrl: 'tpl/user/login.html',
+			template: '',
 			controller: 'LoginCtrl'
 		}).when('/reg', {
 			templateUrl: 'tpl/user/reg.html',
@@ -43,8 +43,6 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 
 		}).when('/group/index', {
 			redirectTo: '/group/resume_list/'
-		}).when('/group', {
-			redirectTo: '/group/resume_list/'
 		}).when('/group/new_pwd/:token', {
 			templateUrl: 'tpl/group/new_pwd.html',
 			controller: 'GroupNewPwdCtrl'
@@ -52,10 +50,10 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 			templateUrl: 'tpl/group/join.html',
 			controller: 'GroupJoinCtrl'
 		}).when('/group/login/', {
-			templateUrl: 'tpl/group/login.html',
+			template: '',
 			controller: 'GroupLoginCtrl'
 		}).when('/group/login/:groupId', {
-			templateUrl: 'tpl/group/login.html',
+			template: '',
 			controller: 'GroupLoginCtrl'
 		}).when('/group/resume_list/', {
 			templateUrl: 'tpl/group/resume_list.html',
@@ -78,5 +76,7 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/group/logout', {
 			template: '',
 			controller: 'GroupLogoutCtrl'
+		}).when('/group', {
+			redirectTo: '/group/resume_list/'
 		}).otherwise({redirectTo: '/index'});
 	}]);

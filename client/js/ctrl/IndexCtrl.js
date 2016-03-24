@@ -1,5 +1,9 @@
 angular.module('myApp')
-	.controller("IndexCtrl",["$scope", "myHttp", function($scope, myHttp){
+	.controller("IndexCtrl",["$scope", "myHttp", "$cookies", "$rootScope", function($scope, myHttp, $cookies, $rootScope){
+		if($cookies.get("logined") != "yes"){
+			//$rootScope.switchLogin = "user";
+			return;
+		}
 		$scope.sexOptions = $T.sexOptions; 
 		$scope.eduOptions = $T.eduOptions;
 		$scope.submit = function(){

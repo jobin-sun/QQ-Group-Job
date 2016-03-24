@@ -9,9 +9,8 @@ from django.forms import (Form, CharField, EmailField, IntegerField, BooleanFiel
 
 from api.send_mail import start_mail_thread
 from api.config import email_address, domain, protocol
-from api.token import new_token
 from QQJob.settings import BASE_DIR
-from api.error_code import error_code
+from api.response_code import errorCode, successCode
 
 class GetForm(Form):
     groupId = IntegerField()
@@ -55,7 +54,7 @@ class Index(View):
             return JsonResponse({
                 "status": "error",
                 "code":10000,
-                "msg": error_code[10000]
+                "msg": errorCode[10000]
             })
         uf = GetForm(check.jsonForm)
         if uf.is_valid():
@@ -92,8 +91,9 @@ class Index(View):
                 group = Group.objects.filter(groupId__exact = uf.cleaned_data['groupId']).first()
                 if not group:
                     return JsonResponse({
-                        "status": 'error',
-                        "msg": '此群未入驻，抓紧推荐给群主吧:)'
+                        "status": 'success',
+                        "code":30002,
+                        "msg": successCode[30002]
                     })
 
                 groupName = group.groupName
@@ -128,6 +128,36 @@ class Index(View):
             })
         uf = PostForm(check.jsonForm)
         if uf.is_valid():
+            group = Group.objects.filter(groupId__exact = uf.cleaned_data['groupId']).first()
+            groupName = ""
+            if group:
+                groupName = group.groupName
+            checkResume = Resume.objects.filter(groupId__exact = uf.cleaned_data['groupId'], qq__exact=uf.cleaned_data['qq']).first()
+            if checkResume:
+                return JsonResponse({
+                    "status": "success",
+                    "code":30003,
+                    "msg": successCode[30003],
+                    'count': 1,
+                    'data':{
+                        'id': checkResume.id,
+                        'jobTitle': checkResume.jobTitle,
+                        'email': checkResume.userEmail,
+                        "groupId": checkResume.groupId,
+                        "groupName": groupName,
+                        "username": checkResume.username,
+                        "qq": checkResume.qq,
+                        'sex': checkResume.sex,
+                        'age': checkResume.age,
+                        'yearsOfWorking': checkResume.yearsOfWorking,
+                        'school': checkResume.school,
+                        'education': checkResume.education,
+                        "lastDate": checkResume.lastDate,
+                        "content": checkResume.content,
+                        'display': checkResume.display,
+                        "status": checkResume.status
+                    }
+                })
             resume = Resume(
                 jobTitle= uf.cleaned_data['jobTitle'],
                 userEmail = uf.cleaned_data['email'],
@@ -144,25 +174,26 @@ class Index(View):
             )
             resume.save()
             if resume.id:
-                with open(BASE_DIR + "/api/mail_template/remind.html", 'rt', encoding='utf-8') as mail_template:
-                    template = mail_template.read()
-                admins = GroupAdmin.objects.filter(groupId = resume.groupId,
-                                                    status= 1).all()
-                link = "%s://%s/api/group/resume/%s" % (protocol, domain, str(resume.id))
-                email_content = template % (resume.qq, link)
-                start_mail_thread(
-                    'Qjob new resume remind',
-                    email_content,
-                    email_address,
-                    ['%s@qq.com' % admin.qq for admin in admins]
-                    )
-                group = Group.objects.filter(groupId__exact = resume.groupId).first()
-                groupName = ""
-                if group:
-                    groupName = group.groupName
+                responseCode = 30000
+                try:
+                    with open(BASE_DIR + "/api/mail_template/remind.html", 'rt', encoding='utf-8') as mail_template:
+                        template = mail_template.read()
+                    admins = GroupAdmin.objects.filter(groupId = resume.groupId,
+                                                        status= 1).all()
+                    link = "%s://%s/api/group/resume/%s" % (protocol, domain, str(resume.id))
+                    email_content = template % (resume.qq, link)
+                    start_mail_thread(
+                        'Qjob new resume remind',
+                        email_content,
+                        email_address,
+                        ['%s@qq.com' % admin.qq for admin in admins]
+                        )
+                except:
+                    responseCode = 30001
                 return JsonResponse({
                     "status": 'success',
-                    'msg': 'already notifyied admins',
+                    'msg': successCode[responseCode],
+                    'code': responseCode,
                     'count': 1,
                     'data':{
                         'id': resume.id,

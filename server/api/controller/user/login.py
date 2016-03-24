@@ -11,7 +11,7 @@ from api.token import new_token
 from api.models import User
 from api.token import db_password
 from api.config import expiration
-from api.error_code import error_code
+from api.response_code import errorCode
 
 class LoginForm(Form):
     password = CharField(label=u'密码：', widget=PasswordInput())
@@ -51,7 +51,7 @@ class Login(View):
                     return JsonResponse({
                         "status" : 'error',
                         "code": 10002,
-                        "msg": error_code[10002],
+                        "msg": errorCode[10002],
                         "data":{
 
                         }
