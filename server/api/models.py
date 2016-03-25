@@ -43,9 +43,9 @@ class User(models.Model):
     school = models.CharField(max_length=40, default='保密')
     education = models.IntegerField(default=2, choices=eduChoices)
 
-    activate_random = models.CharField(max_length=10)
-    recover_random = models.CharField(max_length=10)
-    login_random = models.CharField(max_length=10)
+    activate_random = models.CharField(default='123456', max_length=10)
+    recover_random = models.CharField(default='123456', max_length=10)
+    login_random = models.CharField(default='123456', max_length=10)
 
     addDate = models.DateTimeField(auto_now_add=True)
 
@@ -138,9 +138,9 @@ class GroupAdmin(models.Model):
     qq = models.CharField(max_length=15)
     nick = models.CharField(max_length=15)
 
-    login_random = models.CharField(max_length=10)
-    activate_random = models.CharField(max_length=10)
-    recover_random = models.CharField(max_length=10)
+    login_random = models.CharField(default='123456', max_length=10)
+    activate_random = models.CharField(default='123456', max_length=10)
+    recover_random = models.CharField(default='123456', mmax_length=10)
 
     password = models.CharField(max_length=40)
     status = models.IntegerField(choices=activate, default=0)
