@@ -11,5 +11,6 @@ from . import (resume_list,
     mail,
     activate,
     admin,
+    check_group,
     recover
 )

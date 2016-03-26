@@ -1,0 +1,44 @@
+<style type="text/css">
+    .group .left .line4{ background-position: left bottom;}
+    .group .left .line4 a{ color: #2bbfbd; }
+</style>
+<div class="group">
+	<div class="top" ng-include="'tpl/group/top.html'"></div>
+    <div class="left" ng-include="'tpl/group/left.html'"></div>
+    <div class="right">
+        <div class="banner"><img src="images/banner.png" alt=""></div>
+        <div class="changepwd">
+            <div class="header">
+                管理员必读
+            </div>
+            <div class="body">
+                <p class="red" ng-show="showWarning">
+                    您的群处于未验证状态，我们将人工验证群的合法性，验证内容包括，申请入驻平台的群主必须为QQ群的真实群主，且群主账户已激活。一旦验证失败，我们将会删除群的所有信息，所以在通过之前不要添加大量信息。
+                </p>
+                <p>
+                    欢迎您加入QQ群社交招聘，复制以下信息发部到群公告里吧，让群是烦人的招聘流Say Goodbye :)
+                </p>
+                <p>
+                    群招聘上线，各位求职者及HR,按照以下地址进入招聘系统，不要在群里群发招聘信息，谢谢合作 <br>
+                    求职者：http://www.qjob.me/#/resume/{{admin.groupId}}<br>
+                    HR: http://www.qjob.me/#/hr/{{admin.groupId}}<br>
+                    管理员：http://www.qjob.me/#/group/login/{{admin.groupId}}<br>
+                </p>
+                <p>
+                    为了提高群里的聊天质量，希望各位管理员给那些优秀的成员以公平的评分。
+                </p>
+                <p>
+                    任何问题或建议欢迎联系我们:
+                </p>
+                <p>
+                    Email: admin-support@qjob.me
+                </p>
+                <p>
+                    官方QQ群: 61662549
+                </p>
+
+            </div>
+            <div style="width: 100%; height: 1px;"></div>
+        </div>
+    </div>
+</div>

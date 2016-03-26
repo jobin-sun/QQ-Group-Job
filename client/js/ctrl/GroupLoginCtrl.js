@@ -1,15 +1,14 @@
 angular.module('myApp')
 	.controller("GroupLoginCtrl",["$scope","myHttp", "$cookies","$routeParams","$rootScope", "$route", function($scope, myHttp, $cookies, $routeParams, $rootScope, $route){
-		if(!location.href.match(/#\/group/)){
-			return;
-		}
-		if($cookies.get("admin_logined") == "yes"){
-			location.href = "#/group";
-			return;
-		}
-		$rootScope.switchLogin = "group";
-		if($routeParams.groupId){
-			$scope.groupId = parseInt($routeParams.groupId);
+		if(location.href.match(/#\/group/)){
+			if($cookies.get("admin_logined") == "yes"){
+				location.href = "#/group";
+				return;
+			}
+			$rootScope.switchLogin = "group";
+			if($routeParams.groupId){
+				$scope.groupId = parseInt($routeParams.groupId);
+			}
 		}
 		var reSendActivate = {};
 		$scope.submit = function(){

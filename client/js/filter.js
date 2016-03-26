@@ -40,4 +40,11 @@ angular.module('myApp').filter('strSex',function(){
         else
             return ""
     }
+}).filter('strGroupStatus',function(){
+    return function(v){
+        if($T.groupStatusOptions[v])
+            return $T.groupStatusOptions[v].name;
+        else
+            return ""
+    }
 });

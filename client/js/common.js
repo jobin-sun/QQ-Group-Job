@@ -39,3 +39,9 @@ $T.rankOptions = [
 						{id: 4, name: 4},
 						{id: 5, name: 5}
 					];
+
+$T.groupStatusOptions = [
+						{id: 0, name: '未验证'}, 
+						{id: 1, name: '验证通过'}, 
+						{id: 2, name: '验证不通过'}
+					];

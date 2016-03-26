@@ -15,6 +15,9 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/change_pwd', {
 			templateUrl: 'tpl/user/change_pwd.html',
 			controller: 'ChangePwdCtrl'
+		}).when('/tips', {
+			templateUrl: 'tpl/user/tips.html',
+			controller: 'TipsCtrl'
 		}).when('/resumes_list', {
 			templateUrl: 'tpl/user/resumes_list.html',
 			controller: 'ResumesListCtrl'
@@ -67,6 +70,9 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/group/change_pwd/:token', {
 			templateUrl: 'tpl/group/change_pwd.html',
 			controller: 'GroupChangePwdCtrl'
+		}).when('/group/tips', {
+			templateUrl: 'tpl/group/tips.html',
+			controller: 'GroupTipsCtrl'
 		}).when('/group/admin_list/', {
 			templateUrl: 'tpl/group/admin_list.html',
 			controller: 'GroupAdminListCtrl'

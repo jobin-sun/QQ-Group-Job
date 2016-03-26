@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^group/activate/', group.activate.Activate.as_view()),
     url(r'^group/recover/', group.recover.Recover.as_view()),
     url(r'^group/admin/', group.admin.Index.as_view()),
+    url(r'^group/check_group/', group.check_group.Index.as_view()),
 
     url(r'^hr/list/', hr.list.List.as_view()),
     url(r'^hr/resume/', hr.resume.Index.as_view()),
