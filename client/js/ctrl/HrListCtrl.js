@@ -1,5 +1,6 @@
 angular.module('myApp')
-	.controller("HrListCtrl",["$scope","myHttp", '$routeParams','$cookies',function($scope, myHttp, $routeParams, $cookies){
+	.controller("HrListCtrl",["$scope","myHttp", '$routeParams','$cookies', 'helper', function($scope, myHttp, $routeParams, $cookies, helper){
+		helper.hideLogin();
 		if($routeParams.groupId){
 			$scope.groupId = parseInt($routeParams.groupId);
 			if($scope.groupId == parseInt($cookies.get("auth_groupId"))){
