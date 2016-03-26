@@ -140,7 +140,7 @@ class GroupAdmin(models.Model):
 
     login_random = models.CharField(default='123456', max_length=10)
     activate_random = models.CharField(default='123456', max_length=10)
-    recover_random = models.CharField(default='123456', mmax_length=10)
+    recover_random = models.CharField(default='123456', max_length=10)
 
     password = models.CharField(max_length=40)
     status = models.IntegerField(choices=activate, default=0)

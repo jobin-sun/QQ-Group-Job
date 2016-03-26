@@ -10,9 +10,9 @@ def start_mail_thread(subject, message, sender, receivers):
     c = charset.Charset()
     c.header_encoding = charset.BASE64
     c.body_encoding = charset.BASE64
-    c.input_charset = 'utf-8'
+    # c.input_charset = 'utf-8'
 
-    msg = MIMEText(message, 'html', c)
+    msg = MIMEText(message, 'html', 'utf-8')
     h = Header(subject, c)
     msg['Subject'] = h
     msg['From'] = sender
