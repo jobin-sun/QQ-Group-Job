@@ -125,4 +125,10 @@ angular.module('myApp').service("myHttp", ['$http', '$rootScope', function($http
  			return this;
  		}
  	}
+ }]).service("helper", ['$rootScope', function($rootScope){
+ 	return {
+ 		hideLogin:function(){
+ 			$rootScope.switchLogin = "";
+ 		}
+ 	}
  }]);

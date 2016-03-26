@@ -1,5 +1,6 @@
 angular.module('myApp')
-	.controller("HrResumeCtrl",["$scope","myHttp", '$routeParams','$cookies',function($scope, myHttp, $routeParams, $cookies){
+	.controller("HrResumeCtrl",["$scope","myHttp", '$routeParams','$cookies','helper', function($scope, myHttp, $routeParams, $cookies, helper){
+		helper.hideLogin();
 		var code = $cookies.get("auth_code");
 		var groupId = $cookies.get("auth_groupId");
 		var id = $routeParams.id;

@@ -1,5 +1,6 @@
 angular.module('myApp')
-	.controller("GroupNewPwdCtrl",["$scope","myHttp", "$routeParams", function($scope, myHttp, $routeParams){
+	.controller("GroupNewPwdCtrl",["$scope","myHttp", "$routeParams", 'helper', function($scope, myHttp, $routeParams, helper){
+		helper.hideLogin();
 		var token = $routeParams.token;
 		$scope.submit = function(){
 			myHttp.put("/api/group/recover/", {

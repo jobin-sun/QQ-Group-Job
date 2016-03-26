@@ -1,5 +1,6 @@
 angular.module('myApp')
-	.controller("RegCtrl",["$scope","myHttp","$cookies",function($scope, myHttp, $cookies){
+	.controller("RegCtrl",["$scope","myHttp","$cookies", 'helper', function($scope, myHttp, $cookies, helper){
+		helper.hideLogin();
 		if($cookies.get("logined") == "yes"){
 			location.href = "#/index";
 			return;

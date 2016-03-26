@@ -1,5 +1,6 @@
 angular.module('myApp')
-	.controller("GroupJoinCtrl",["$scope","myHttp", "$cookies",function($scope, myHttp, $cookies){
+	.controller("GroupJoinCtrl",["$scope","myHttp", "$cookies", "helper", function($scope, myHttp, $cookies, helper){
+		helper.hideLogin();
 		if($cookies.get("admin_logined") == "yes"){
 			location.href = "#/group";
 			return;
