@@ -28,7 +28,7 @@ from .check_request import CheckRequest
 from api.token import new_token, db_password
 from api.models import GroupAdmin
 from api.config import expiration
-from api.response_code import errorCode
+from api.response_code import successCode
 
 class LoginForm(Form):
     groupId = CharField(label=u'群ID：', max_length=15)
@@ -56,9 +56,9 @@ class Index(View):
             if admin:
                 if admin.status == 0:
                     return JsonResponse({
-                        "status": 'error',
-                        "code": 20002,
-                        "msg": errorCode[20002]
+                        "status": 'success',
+                        "code": 30005,
+                        "msg": successCode[30005]
                     })
                 data = {
                     "status": 'success',

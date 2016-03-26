@@ -22,11 +22,15 @@ angular.module('myApp')
 				qq: $scope.qq,
 				password:$scope.password
 			}).success(function(response){
-				$rootScope.switchLogin = "";
-				if(location.href.match(/login/)){
-					location.href = "#/group/"
+				if(response.code == 30005){
+					$scope.showActivate = true;
 				}else{
-					$route.reload();
+					$rootScope.switchLogin = "";
+					if(location.href.match(/login/)){
+						location.href = "#/group/"
+					}else{
+						$route.reload();
+					}
 				}
 			})
 		}
@@ -43,7 +47,7 @@ angular.module('myApp')
 				$T.toast("群ID或管理员QQ号为空，激活邮件无法发送")
 				return;
 			}
-			$http.get("/api/group/send_activate_mail/",{
+			myHttp.get("/api/group/send_activate_mail/",{
 				groupId:reSendActivate.groupId,
 				qq: reSendActivate.qq
 			}).success(function(response){

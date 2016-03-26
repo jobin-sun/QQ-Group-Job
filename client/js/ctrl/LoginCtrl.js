@@ -15,11 +15,15 @@ angular.module('myApp')
 				qq: $scope.qq,
 				password: $scope.password
 			}).success(function(response){
-				$rootScope.switchLogin = "";
-				if(location.href.match(/login/)){
-					location.href = "#/index";
+				if(response.code == 30004){
+					$scope.showActivate = true;
 				}else{
-					$route.reload();
+					$rootScope.switchLogin = "";
+					if(location.href.match(/login/)){
+						location.href = "#/index";
+					}else{
+						$route.reload();
+					}
 				}
 			})
 		}
