@@ -7,3 +7,5 @@ build
 *.sublime-project
 
 *.sublime-workspace
+
+server/api/migrations/*
