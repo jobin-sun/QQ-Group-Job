@@ -5,9 +5,11 @@ var concat = require('gulp-concat');
 var templateCache = require('gulp-angular-templatecache');
 var inject = require('gulp-inject');
 var series = require('stream-series');
+var version = require('gulp-version-number');
 
 var src = ".";
 var dst = "./build";
+var t = (new Date()).getTime();
 gulp.task('default', function () {
     var app = gulp.src([
             src + '/js/common.js',
@@ -37,6 +39,14 @@ gulp.task('default', function () {
                 {relative: true, ignorePath: "build"}
             )
         )
+        .pipe(version({
+            'value' : '%DT%',
+            'append' : {
+                'key' : '_v',
+                'cover' : 0,
+                 'to': [ 'css', 'js']
+            }
+        }))
         .pipe(gulp.dest(dst + '/'));
 
     gulp.src(src + '/js_lib/*.js')
