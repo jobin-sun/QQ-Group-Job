@@ -8,7 +8,7 @@ from api.models import Resume, Group, GroupAdmin
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
 
 from api.send_mail import start_mail_thread
-from api.config import email_address, domain, protocol
+from api.config import email_address, domain, protocol, admin_email, admin_group
 from QQJob.settings import BASE_DIR
 from api.response_code import errorCode, successCode
 
@@ -180,10 +180,10 @@ class Index(View):
                         template = mail_template.read()
                     admins = GroupAdmin.objects.filter(groupId = resume.groupId,
                                                         status= 1).all()
-                    link = "%s://%s/api/group/resume/%s" % (protocol, domain, str(resume.id))
-                    email_content = template % (resume.qq, link)
+                    link = "%s://%s/#/group/resume/%s" % (protocol, domain, str(resume.id))
+                    email_content = template % (groupName, resume.username, resume.qq, link, admin_email, admin_group)
                     start_mail_thread(
-                        'Qjob new resume remind',
+                        'Qjob新用户入群',
                         email_content,
                         email_address,
                         ['%s@qq.com' % admin.qq for admin in admins]

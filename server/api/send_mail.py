@@ -15,7 +15,7 @@ def start_mail_thread(subject, message, sender, receivers):
     msg = MIMEText(message, 'html', 'utf-8')
     h = Header(subject, c)
     msg['Subject'] = h
-    msg['From'] = sender
+    msg['From'] = "=?utf-8?b?%s?= <%s>" % (b64encode("QJob社交招聘".encode("utf-8")).decode("utf-8"), sender)
     msg['To'] = ','.join(receivers)
 
     smtp = SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)

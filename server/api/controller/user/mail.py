@@ -3,9 +3,9 @@ from django.views.generic import View
 from api.send_mail import start_mail_thread
 from api.models import User
 from api.token import new_token
-from api.config import email_address, domain, protocol
+from api.config import email_address, domain, protocol, user_email, user_group
 from QQJob.settings import BASE_DIR
-from django.forms import (Form, IntegerField, CharField)
+from django.forms import (Form, CharField)
 
 class qqForm(Form):
     qq = CharField(max_length=15)
@@ -38,11 +38,11 @@ class Activate(View):
                     template = mail_template.read()
                 token = new_token(user, 'activate').get_token()
                 link = "%s://%s/api/activate/?token=%s" % (protocol, domain, token)
-                email_content = template % ('user', user.qq, link)
+                email_content = template % (user.qq, link, user_email, user_group)
 
 
                 start_mail_thread(
-                    'Qjob 帐号激活',
+                    'Qjob账户激活',
                     email_content,
                     email_address,
                     ['%s@qq.com' % user.qq]
@@ -75,10 +75,10 @@ class Recover(View):
                 template = mail_template.read()
             token = new_token(user, 'recover').get_token()
             link = "%s://%s/#/new_pwd/%s" %(protocol, domain, token)
-            email_content = template % ('user', user.qq, link)
+            email_content = template % (user.qq, link, user_email, user_group)
 
             start_mail_thread(
-                'Qjob account recover',
+                'Qjob账户密码重置',
                 email_content,
                 email_address,
                 ['%s@qq.com' % user.qq]

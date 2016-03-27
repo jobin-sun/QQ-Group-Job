@@ -10,5 +10,7 @@ expiration = {
 email_address = 'system@qjob.social'
 domain = "127.0.0.1"
 protocol = "http"
-
-
+user_email = 'user-support@qjob.me' #官方普通用户Email支持
+user_group = '44749506' #官方用户QQ群
+admin_email = 'admin-support@qjob.me' #官方管理员Email支持
+admin_group = '61662549' #官方管理员QQ群

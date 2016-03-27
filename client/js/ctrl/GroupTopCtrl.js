@@ -4,6 +4,7 @@ angular.module('myApp')
 			$rootScope.switchLogin = "group";
 			return;
 		}
+		$rootScope.switchLogin = "";
 		myHttp.get("/api/group/admin/").success(function(response){
 			$rootScope.admin = response.data;
 		})
