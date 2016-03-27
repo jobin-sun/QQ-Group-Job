@@ -67,9 +67,6 @@ angular.module('myApp', ["ngRoute", "ngCookies", "ui.pagedown"])
 		}).when('/group/change_pwd', {
 			templateUrl: 'tpl/group/change_pwd.html',
 			controller: 'GroupChangePwdCtrl'
-		}).when('/group/change_pwd/:token', {
-			templateUrl: 'tpl/group/change_pwd.html',
-			controller: 'GroupChangePwdCtrl'
 		}).when('/group/tips', {
 			templateUrl: 'tpl/group/tips.html',
 			controller: 'GroupTipsCtrl'
