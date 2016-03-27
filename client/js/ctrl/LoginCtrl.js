@@ -1,7 +1,7 @@
 angular.module('myApp')
 	.controller("LoginCtrl",["$scope", "$cookies", "myHttp", "$rootScope", "$route", function($scope, $cookies, myHttp, $rootScope, $route){
 		if(!location.href.match(/#\/group/)){
-			if($cookies.get("logined") == "yes"){
+			if($cookies.get("logined") == "yes" && location.href.match(/login/)){
 				location.href = "#/index";
 				return;
 			}
