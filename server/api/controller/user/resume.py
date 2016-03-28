@@ -34,7 +34,7 @@ class PostForm(Form):
 class PutForm(Form):
     id = IntegerField()
     jobTitle = CharField(max_length=20)
-    email = EmailField(max_length=15)
+    email = EmailField(max_length=17)
     qq = CharField(max_length=15)
     username = CharField(max_length=50)
     sex = IntegerField()
