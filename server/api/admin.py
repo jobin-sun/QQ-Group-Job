@@ -36,7 +36,7 @@ class GroupAdminAdmin(admin.ModelAdmin):
     search_fields = ('id','groupId', 'qq')
 
 class GroupListAdmin(admin.ModelAdmin):
-    actions = ['delete_model']
+    actions = ['delete_selected']
     list_display = ('id','groupName','groupId', 'owner', 'status', 'activate')
     search_fields = ('id','groupName','groupId')
 
@@ -45,30 +45,33 @@ class GroupListAdmin(admin.ModelAdmin):
 #        del actions['delete_selected']
 #        return actions
 
+    def delete_model(self, request, queryset):
+        try:
+            resumes = Resume.objects.filter(groupId__exact = obj.groupId).all()
+            resumes.delete()
+            ranks = Rank.objects.filter(groupId__exact = obj.groupId).all()
+            ranks.delete()
+            authcode = AuthCode.objects.filter(groupId__exact = obj.groupId).all()
+            authcode.delete()
+            receiver = GroupAdmin.objects.get(groupId__exact =obj.groupId, userType__exact=1)
+            admins = GroupAdmin.objects.filter(groupId__exact =obj.groupId).all()
+            admins.delete()
+        except ObjectDoesNotExist:
+            pass
+        with open(BASE_DIR + "/api/mail_template/checkGroupFail.html", 'rt', encoding='utf-8') as mail_template:
+            template = mail_template.read()
+        email_content = template % (obj.groupId, admin_email, admin_group)
+        obj.delete()
+        start_mail_thread(
+            u'Qjob 审核失败',
+            email_content,
+            ['%s@qq.com' % receiver.qq]
+        )
+#    delete_selected.short_description = 'Delete Groups'
+
     def delete_selected(self, request, queryset):
         for obj in queryset:
-            try:
-                resumes = Resume.objects.filter(groupId__exact = obj.groupId).all()
-                resumes.delete()
-                ranks = Rank.objects.filter(groupId__exact = obj.groupId).all()
-                ranks.delete()
-                authcode = AuthCode.objects.filter(groupId__exact = obj.groupId).all()
-                authcode.delete()
-                receiver = GroupAdmin.objects.get(groupId__exact =obj.groupId, userType__exact=1)
-                admins = GroupAdmin.objects.filter(groupId__exact =obj.groupId).all()
-                admins.delete()
-            except ObjectDoesNotExist:
-                pass
-            with open(BASE_DIR + "/api/mail_template/checkGroupFail.html", 'rt', encoding='utf-8') as mail_template:
-                template = mail_template.read()
-            email_content = template % (obj.groupId, admin_email, admin_group)
-            obj.delete()
-            start_mail_thread(
-                u'Qjob 审核失败',
-                email_content,
-                ['%s@qq.com' % receiver.qq]
-            )
-    delete_selected.short_description = 'Delete Groups'
+            self.delete_model(request, obj)
 
     def owner(self, obj):
         try:
