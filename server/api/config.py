@@ -7,7 +7,6 @@ expiration = {
         'activate': 60 * 60,
         'recover' : 60 * 60
         }
-email_address = 'system@qjob.social'
 domain = "127.0.0.1"
 protocol = "http"
 user_email = 'user-support@qjob.me' #官方普通用户Email支持

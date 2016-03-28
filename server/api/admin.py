@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import User, Resume, AuthCode, Group, GroupAdmin, Rank
 from .send_mail import start_mail_thread
-from api.config import email_address, admin_email, admin_group
+from api.config import admin_email, admin_group
 from QQJob.settings import BASE_DIR
 
 class AuthCodeAdmin(admin.ModelAdmin):
@@ -66,7 +66,6 @@ class GroupListAdmin(admin.ModelAdmin):
             start_mail_thread(
                 u'Qjob 审核失败',
                 email_content,
-                email_address,
                 ['%s@qq.com' % receiver.qq]
             )
     delete_selected.short_description = 'Delete Groups'
