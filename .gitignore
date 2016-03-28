@@ -9,3 +9,5 @@ build
 *.sublime-workspace
 
 server/api/migrations/*
+
+nogit

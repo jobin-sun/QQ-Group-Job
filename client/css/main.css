@@ -94,6 +94,7 @@ input.ng-dirty.ng-invalid { border: 1px solid red !important; }
 .user .left .line0 { margin-top: 53px; background-image: url(../images/icon-profile.png); background-repeat: no-repeat; }
 .user .left .line1 { background-image: url(../images/icon-resume-list.png); background-repeat: no-repeat; }
 .user .left .line2 { background-image: url(../images/icon-changepwd.png); background-repeat: no-repeat; }
+.user .left .line3 { background-image: url(../images/user-tips-icon.png); background-repeat: no-repeat; }
 .user .left .line a { color: #707c87; }
 .user_picture img { width: 50px; height: 50px; border-radius: 50%; }
 .top_right { height: 100px; line-height: 100px; padding-right: 25px; }
@@ -154,6 +155,7 @@ input.ng-dirty.ng-invalid { border: 1px solid red !important; }
 .group .left .line1 { background-image: url(../images/icon-left-admin.png); background-repeat: no-repeat; }
 .group .left .line2 { background-image: url(../images/icon-left-auth.png); background-repeat: no-repeat; }
 .group .left .line3 { background-image: url(../images/icon-changepwd.png); background-repeat: no-repeat; }
+.group .left .line4 { background-image: url(../images/group-tips-icon.png); background-repeat: no-repeat; }
 .group .left .line a { color: #707c87; }
 .group .right { padding-left: 260px; width: 100%; overflow-x: hidden; background-color: #121920; }
 .group .resumes_list { background-color: #eeeeee }
