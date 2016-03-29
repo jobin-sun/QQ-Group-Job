@@ -45,7 +45,7 @@ class GroupListAdmin(admin.ModelAdmin):
 #        del actions['delete_selected']
 #        return actions
 
-    def delete_model(self, request, queryset):
+    def delete_model(self, request, obj):
         try:
             resumes = Resume.objects.filter(groupId__exact = obj.groupId).all()
             resumes.delete()
