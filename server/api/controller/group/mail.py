@@ -49,7 +49,7 @@ class Activate(View):
                 token = new_token(admin, 'activate')
                 token = token.get_token()
                 link = "%s://%s/api/group/activate/?token=%s" %(protocol, domain, token)
-                email_content = template % (group.groupName, admin.qq, link, admin_email, admin_group)
+                email_content = template % (group.groupName, groupId, admin.qq, link, admin_email, admin_group)
 
 
                 start_mail_thread(
@@ -93,7 +93,7 @@ class Recover(View):
             token = new_token(admin, 'recover')
             token = token.get_token()
             link = "%s://%s/#/group/new_pwd/%s" %(protocol, domain, token)
-            email_content = template % (group.groupName, admin.qq, link, admin_email, admin_group)
+            email_content = template % (group.groupName, groupId, admin.qq, link, admin_email, admin_group)
 
             start_mail_thread(
                 'Qjob管理员账户密码重置',
