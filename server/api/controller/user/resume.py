@@ -8,7 +8,7 @@ from api.models import Resume, Group, GroupAdmin
 from django.forms import (Form, CharField, EmailField, IntegerField, BooleanField, Textarea)
 
 from api.send_mail import start_mail_thread
-from api.config import email_address, domain, protocol, admin_email, admin_group
+from api.config import domain, protocol, admin_email, admin_group
 from QQJob.settings import BASE_DIR
 from api.response_code import errorCode, successCode
 
@@ -185,7 +185,6 @@ class Index(View):
                     start_mail_thread(
                         'Qjob新用户入群',
                         email_content,
-                        email_address,
                         ['%s@qq.com' % admin.qq for admin in admins]
                         )
                 except:

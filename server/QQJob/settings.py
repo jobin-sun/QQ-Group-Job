@@ -123,7 +123,7 @@ USE_TZ = True
 
 # email setting
 EMAIL_HOST = 'smtp.exmail.qq.com'
-DEFAULT_FROM_EMAIL = 'system@qjob.social'
+DEFAULT_FROM_EMAIL = 'no-reply@system.qjob.social'
 EMAIL_HOST_USER = 'system@qjob.social'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 25

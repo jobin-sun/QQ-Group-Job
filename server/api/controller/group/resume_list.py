@@ -83,9 +83,12 @@ class Index(View):
     def get(self, request):
         check = CheckRequest(request)
         if not check.admin:
-            return JsonResponse({"status": "error",
+            response = JsonResponse({"status": "error",
                                  "code":20000,
                                  "msg": errorCode[20000]})
+            response.delete_cookie("admin_token")
+            response.delete_cookie("admin_logined")
+            return response
         data = {"status" :  "success",
                 "msg" :  '',
                 "data" : []

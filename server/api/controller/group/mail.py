@@ -3,7 +3,7 @@ from django.views.generic import View
 from api.send_mail import start_mail_thread
 from api.models import GroupAdmin, Group
 from api.token import new_token
-from api.config import email_address, domain, protocol, admin_email, admin_group
+from api.config import domain, protocol, admin_email, admin_group
 from QQJob.settings import BASE_DIR
 from django.forms import (Form, CharField)
 
@@ -55,7 +55,6 @@ class Activate(View):
                 start_mail_thread(
                     'Qjob管理员账户激活',
                     email_content,
-                    email_address,
                     ['%s@qq.com' % admin.qq]
                 )
 
@@ -99,7 +98,6 @@ class Recover(View):
             start_mail_thread(
                 'Qjob管理员账户密码重置',
                 email_content,
-                email_address,
                 ['%s@qq.com' % admin.qq]
             )
 
