@@ -246,7 +246,6 @@ class Index(View):
                 item.content = uf.cleaned_data['content']
                 item.display = uf.cleaned_data['display']
                 item.save()
-                print(uf.cleaned_data['jobTitle'])
                 return JsonResponse({"status": 'success',
                                  'msg': ""
                                  })
